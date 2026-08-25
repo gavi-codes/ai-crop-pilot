@@ -1,0 +1,760 @@
+{
+    "Belagavi": [
+        {
+            "month": "January 2024",
+            "price": 1946.42
+        },
+        {
+            "month": "February 2024",
+            "price": 1866.65
+        },
+        {
+            "month": "March 2024",
+            "price": 1701.33
+        },
+        {
+            "month": "April 2024",
+            "price": 1672.07
+        },
+        {
+            "month": "May 2024",
+            "price": 2093.9
+        },
+        {
+            "month": "June 2024",
+            "price": 2939.33
+        },
+        {
+            "month": "July 2024",
+            "price": 3058.23
+        },
+        {
+            "month": "August 2024",
+            "price": 3506.79
+        },
+        {
+            "month": "December 2024",
+            "price": 3512.91
+        }
+    ],
+    "Bengaluru": [
+        {
+            "month": "January 2024",
+            "price": 1503.24
+        },
+        {
+            "month": "February 2024",
+            "price": 1622.38
+        },
+        {
+            "month": "March 2024",
+            "price": 1371.62
+        },
+        {
+            "month": "April 2024",
+            "price": 1397.56
+        },
+        {
+            "month": "May 2024",
+            "price": 1596.76
+        },
+        {
+            "month": "June 2024",
+            "price": 2298.05
+        },
+        {
+            "month": "July 2024",
+            "price": 2692.1
+        },
+        {
+            "month": "August 2024",
+            "price": 3034.95
+        },
+        {
+            "month": "December 2024",
+            "price": 3226.69
+        }
+    ],
+    "Bengaluru Rural": [
+        {
+            "month": "January 2024",
+            "price": 2457.14
+        },
+        {
+            "month": "February 2024",
+            "price": 1583.33
+        },
+        {
+            "month": "March 2024",
+            "price": 1809.09
+        },
+        {
+            "month": "April 2024",
+            "price": 1885.71
+        },
+        {
+            "month": "May 2024",
+            "price": 1969.23
+        },
+        {
+            "month": "June 2024",
+            "price": 2557.89
+        },
+        {
+            "month": "July 2024",
+            "price": 2510.0
+        },
+        {
+            "month": "August 2024",
+            "price": 2533.33
+        },
+        {
+            "month": "December 2024",
+            "price": 4590.91
+        }
+    ],
+    "Bengaluru South": [
+        {
+            "month": "January 2024",
+            "price": 2751.72
+        },
+        {
+            "month": "February 2024",
+            "price": 1980.77
+        },
+        {
+            "month": "March 2024",
+            "price": 2500.0
+        },
+        {
+            "month": "April 2024",
+            "price": 2287.5
+        },
+        {
+            "month": "May 2024",
+            "price": 2133.33
+        },
+        {
+            "month": "June 2024",
+            "price": 3357.14
+        },
+        {
+            "month": "July 2024",
+            "price": 3709.09
+        },
+        {
+            "month": "August 2024",
+            "price": 4237.84
+        },
+        {
+            "month": "December 2024",
+            "price": 5221.74
+        }
+    ],
+    "Chikkaballapur": [
+        {
+            "month": "January 2024",
+            "price": 2177.62
+        },
+        {
+            "month": "February 2024",
+            "price": 1894.42
+        },
+        {
+            "month": "March 2024",
+            "price": 2110.71
+        },
+        {
+            "month": "April 2024",
+            "price": 1913.11
+        },
+        {
+            "month": "May 2024",
+            "price": 2225.13
+        },
+        {
+            "month": "June 2024",
+            "price": 3143.02
+        },
+        {
+            "month": "July 2024",
+            "price": 3900.0
+        },
+        {
+            "month": "August 2024",
+            "price": 3716.67
+        },
+        {
+            "month": "December 2024",
+            "price": 3693.61
+        }
+    ],
+    "Chikkamagaluru": [
+        {
+            "month": "January 2024",
+            "price": 2327.5
+        },
+        {
+            "month": "February 2024",
+            "price": 1833.29
+        },
+        {
+            "month": "March 2024",
+            "price": 1917.78
+        },
+        {
+            "month": "April 2024",
+            "price": 1909.55
+        },
+        {
+            "month": "May 2024",
+            "price": 1950.42
+        },
+        {
+            "month": "June 2024",
+            "price": 2652.17
+        },
+        {
+            "month": "July 2024",
+            "price": 3122.27
+        },
+        {
+            "month": "August 2024",
+            "price": 3326.69
+        },
+        {
+            "month": "December 2024",
+            "price": 4160.0
+        }
+    ],
+    "Dakshina Kannada": [
+        {
+            "month": "January 2024",
+            "price": 1944.64
+        },
+        {
+            "month": "February 2024",
+            "price": 2263.64
+        },
+        {
+            "month": "March 2024",
+            "price": 1855.56
+        }
+    ],
+    "Davangere": [
+        {
+            "month": "January 2024",
+            "price": 2194.99
+        },
+        {
+            "month": "February 2024",
+            "price": 1969.35
+        },
+        {
+            "month": "March 2024",
+            "price": 1478.88
+        },
+        {
+            "month": "April 2024",
+            "price": 1212.22
+        },
+        {
+            "month": "May 2024",
+            "price": 1374.57
+        },
+        {
+            "month": "June 2024",
+            "price": 1812.8
+        },
+        {
+            "month": "July 2024",
+            "price": 2147.39
+        },
+        {
+            "month": "August 2024",
+            "price": 2264.55
+        },
+        {
+            "month": "December 2024",
+            "price": 3462.86
+        }
+    ],
+    "Dharwad": [
+        {
+            "month": "January 2024",
+            "price": 1131.49
+        },
+        {
+            "month": "February 2024",
+            "price": 862.15
+        },
+        {
+            "month": "March 2024",
+            "price": 863.96
+        },
+        {
+            "month": "April 2024",
+            "price": 818.64
+        },
+        {
+            "month": "May 2024",
+            "price": 1015.97
+        },
+        {
+            "month": "June 2024",
+            "price": 1452.51
+        },
+        {
+            "month": "July 2024",
+            "price": 1618.98
+        },
+        {
+            "month": "August 2024",
+            "price": 2140.06
+        },
+        {
+            "month": "December 2024",
+            "price": 1898.09
+        }
+    ],
+    "Hassan": [
+        {
+            "month": "January 2024",
+            "price": 1509.32
+        },
+        {
+            "month": "February 2024",
+            "price": 1266.83
+        },
+        {
+            "month": "March 2024",
+            "price": 906.17
+        },
+        {
+            "month": "April 2024",
+            "price": 1390.28
+        },
+        {
+            "month": "May 2024",
+            "price": 1313.48
+        },
+        {
+            "month": "June 2024",
+            "price": 1638.74
+        },
+        {
+            "month": "July 2024",
+            "price": 1943.69
+        },
+        {
+            "month": "August 2024",
+            "price": 1892.27
+        },
+        {
+            "month": "December 2024",
+            "price": 2397.62
+        }
+    ],
+    "Kalaburagi": [
+        {
+            "month": "January 2024",
+            "price": 946.34
+        },
+        {
+            "month": "February 2024",
+            "price": 892.31
+        },
+        {
+            "month": "March 2024",
+            "price": 1013.73
+        },
+        {
+            "month": "April 2024",
+            "price": 950.0
+        },
+        {
+            "month": "May 2024",
+            "price": 1037.5
+        },
+        {
+            "month": "June 2024",
+            "price": 1615.39
+        },
+        {
+            "month": "July 2024",
+            "price": 2022.12
+        },
+        {
+            "month": "August 2024",
+            "price": 2259.24
+        },
+        {
+            "month": "December 2024",
+            "price": 2327.97
+        }
+    ],
+    "Kolar": [
+        {
+            "month": "January 2024",
+            "price": 1546.37
+        },
+        {
+            "month": "February 2024",
+            "price": 2363.83
+        },
+        {
+            "month": "March 2024",
+            "price": 2111.01
+        },
+        {
+            "month": "April 2024",
+            "price": 1831.05
+        },
+        {
+            "month": "May 2024",
+            "price": 2315.38
+        },
+        {
+            "month": "June 2024",
+            "price": 2971.48
+        },
+        {
+            "month": "July 2024",
+            "price": 3204.72
+        },
+        {
+            "month": "August 2024",
+            "price": 3571.04
+        },
+        {
+            "month": "December 2024",
+            "price": 4975.77
+        }
+    ],
+    "Koppal": [
+        {
+            "month": "January 2024",
+            "price": 2493.33
+        }
+    ],
+    "Mandya": [
+        {
+            "month": "January 2024",
+            "price": 2875.0
+        },
+        {
+            "month": "February 2024",
+            "price": 1575.0
+        },
+        {
+            "month": "March 2024",
+            "price": 1000.0
+        },
+        {
+            "month": "April 2024",
+            "price": 1500.0
+        },
+        {
+            "month": "May 2024",
+            "price": 1200.0
+        },
+        {
+            "month": "June 2024",
+            "price": 900.0
+        },
+        {
+            "month": "July 2024",
+            "price": 2500.0
+        },
+        {
+            "month": "December 2024",
+            "price": 3000.0
+        }
+    ],
+    "Mysuru": [
+        {
+            "month": "January 2024",
+            "price": 1792.24
+        },
+        {
+            "month": "February 2024",
+            "price": 1542.01
+        },
+        {
+            "month": "March 2024",
+            "price": 1732.49
+        },
+        {
+            "month": "April 2024",
+            "price": 1459.13
+        },
+        {
+            "month": "May 2024",
+            "price": 1689.38
+        },
+        {
+            "month": "June 2024",
+            "price": 2737.85
+        },
+        {
+            "month": "July 2024",
+            "price": 2812.25
+        },
+        {
+            "month": "August 2024",
+            "price": 3219.77
+        },
+        {
+            "month": "December 2024",
+            "price": 4385.32
+        }
+    ],
+    "Raichur": [
+        {
+            "month": "January 2024",
+            "price": 1371.85
+        },
+        {
+            "month": "February 2024",
+            "price": 1145.92
+        },
+        {
+            "month": "March 2024",
+            "price": 1120.79
+        },
+        {
+            "month": "April 2024",
+            "price": 1054.33
+        },
+        {
+            "month": "May 2024",
+            "price": 1152.21
+        },
+        {
+            "month": "June 2024",
+            "price": 2149.88
+        },
+        {
+            "month": "July 2024",
+            "price": 2561.27
+        },
+        {
+            "month": "August 2024",
+            "price": 2814.97
+        }
+    ],
+    "Shivamogga": [
+        {
+            "month": "January 2024",
+            "price": 2390.95
+        },
+        {
+            "month": "February 2024",
+            "price": 1987.69
+        },
+        {
+            "month": "March 2024",
+            "price": 1667.86
+        },
+        {
+            "month": "April 2024",
+            "price": 1182.03
+        },
+        {
+            "month": "May 2024",
+            "price": 2147.93
+        },
+        {
+            "month": "June 2024",
+            "price": 3115.73
+        },
+        {
+            "month": "July 2024",
+            "price": 3477.84
+        },
+        {
+            "month": "August 2024",
+            "price": 4006.21
+        },
+        {
+            "month": "December 2024",
+            "price": 4485.88
+        }
+    ],
+    "Tumakuru": [
+        {
+            "month": "January 2024",
+            "price": 2210.91
+        },
+        {
+            "month": "February 2024",
+            "price": 2021.58
+        },
+        {
+            "month": "March 2024",
+            "price": 2004.84
+        },
+        {
+            "month": "May 2024",
+            "price": 11250.0
+        },
+        {
+            "month": "June 2024",
+            "price": 3012.5
+        },
+        {
+            "month": "July 2024",
+            "price": 3250.0
+        }
+    ],
+    "Udupi": [
+        {
+            "month": "January 2024",
+            "price": 2534.62
+        },
+        {
+            "month": "February 2024",
+            "price": 1951.55
+        },
+        {
+            "month": "March 2024",
+            "price": 2309.42
+        },
+        {
+            "month": "April 2024",
+            "price": 2202.44
+        },
+        {
+            "month": "May 2024",
+            "price": 2524.0
+        },
+        {
+            "month": "June 2024",
+            "price": 3241.12
+        },
+        {
+            "month": "July 2024",
+            "price": 3594.59
+        },
+        {
+            "month": "August 2024",
+            "price": 4578.68
+        },
+        {
+            "month": "December 2024",
+            "price": 4277.66
+        }
+    ],
+    "Vijayanagara": [
+        {
+            "month": "January 2024",
+            "price": 1736.59
+        }
+    ],
+    "Vijayapura": [
+        {
+            "month": "January 2024",
+            "price": 1331.22
+        },
+        {
+            "month": "February 2024",
+            "price": 981.74
+        },
+        {
+            "month": "March 2024",
+            "price": 1255.37
+        },
+        {
+            "month": "April 2024",
+            "price": 1139.37
+        },
+        {
+            "month": "May 2024",
+            "price": 1115.35
+        },
+        {
+            "month": "June 2024",
+            "price": 1912.86
+        },
+        {
+            "month": "July 2024",
+            "price": 1946.17
+        },
+        {
+            "month": "August 2024",
+            "price": 2020.82
+        },
+        {
+            "month": "December 2024",
+            "price": 3192.71
+        }
+    ],
+    "Bagalkot": [
+        {
+            "month": "February 2024",
+            "price": 800.0
+        },
+        {
+            "month": "April 2024",
+            "price": 1060.0
+        },
+        {
+            "month": "May 2024",
+            "price": 1593.04
+        },
+        {
+            "month": "June 2024",
+            "price": 2536.46
+        },
+        {
+            "month": "July 2024",
+            "price": 2191.64
+        },
+        {
+            "month": "August 2024",
+            "price": 3097.98
+        },
+        {
+            "month": "December 2024",
+            "price": 2831.88
+        }
+    ],
+    "Bidar": [
+        {
+            "month": "February 2024",
+            "price": 1200.0
+        }
+    ],
+    "Chamarajanagar": [
+        {
+            "month": "February 2024",
+            "price": 1450.0
+        },
+        {
+            "month": "March 2024",
+            "price": 2000.0
+        },
+        {
+            "month": "April 2024",
+            "price": 2550.0
+        },
+        {
+            "month": "June 2024",
+            "price": 3340.0
+        },
+        {
+            "month": "July 2024",
+            "price": 1963.37
+        },
+        {
+            "month": "August 2024",
+            "price": 1725.64
+        }
+    ],
+    "Gadag": [
+        {
+            "month": "December 2024",
+            "price": 3037.91
+        }
+    ]
+}

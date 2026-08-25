@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+@theme {
+  --color-field-light: #eef2f3;
+  --color-field-dark: #1e293b;
+  --color-field-accent: #10b981;
+  --color-field-ledger: #f8fafc;
+  --color-field-text: #334155;
+}
+
+body {
+  @apply bg-field-light text-field-text;
+  font-family: 'Outfit', sans-serif;
+}
+
+@keyframes laserScan {
+  0% {
+    top: 0%;
+  }
+  50% {
+    top: 100%;
+  }
+  100% {
+    top: 0%;
+  }
+}
+
+.scanner-laser {
+  position: absolute;
+  height: 4px;
+  width: 100%;
+  background: linear-gradient(to right, transparent, #10b981, transparent);
+  box-shadow: 0 0 10px #10b981, 0 0 20px #10b981;
+  animation: laserScan 2s linear infinite;
+}

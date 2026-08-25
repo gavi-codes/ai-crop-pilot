@@ -1,0 +1,40 @@
+from extensions import db
+from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import datetime
+
+class User(db.Model):
+    __tablename__ = 'users'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    mobile = db.Column(db.String(15), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=True)
+    password_hash = db.Column(db.String(256), nullable=False)
+    district = db.Column(db.String(50), nullable=True)
+    village = db.Column(db.String(50), nullable=True)
+    farmer_type = db.Column(db.String(50), nullable=True)
+    land_size = db.Column(db.Float, nullable=True) # in acres
+    soil_type = db.Column(db.String(50), nullable=True)
+    preferred_language = db.Column(db.String(20), default='English')
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'mobile': self.mobile,
+            'email': self.email,
+            'district': self.district,
+            'village': self.village,
+            'farmer_type': self.farmer_type,
+            'land_size': self.land_size,
+            'soil_type': self.soil_type,
+            'preferred_language': self.preferred_language,
+            'created_at': self.created_at.isoformat() if self.created_at else None
+        }
