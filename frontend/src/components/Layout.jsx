@@ -14,7 +14,9 @@ import {
   User as UserIcon,
   Leaf,
   MessageSquare,
-  Award
+  Award,
+  PhoneCall,
+  Clock
 } from 'lucide-react';
 import { authService } from '../api/authService';
 
@@ -35,6 +37,7 @@ const Layout = ({ children }) => {
     { name: 'Soil Analysis', path: '/soil', icon: Sprout },
     { name: 'Fertilizers', path: '/fertilizer', icon: Droplet },
     { name: 'Crop Health Scan', path: '/disease', icon: Scan },
+    { name: 'Harvest Maturity', path: '/maturity', icon: Clock },
     { name: 'Market Intelligence', path: '/price', icon: TrendingUp },
     { name: 'Weather Advisor', path: '/weather', icon: CloudSun },
     { name: 'Agri-bot Assistant', path: '/chat', icon: MessageSquare },
@@ -156,6 +159,16 @@ const Layout = ({ children }) => {
         </nav>
 
         <div className="p-4 border-t border-slate-800">
+          <a href="tel:18001801551" className="flex items-center gap-3 p-3 bg-rose-500/10 border border-rose-500/20 rounded-xl mb-3 active:bg-rose-500/20 transition-colors">
+            <div className="h-9 w-9 rounded-lg bg-rose-500/20 flex items-center justify-center text-rose-400">
+              <PhoneCall className="h-4 w-4" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-[10px] font-bold text-rose-400 uppercase tracking-wider">Kisan Helpline</p>
+              <p className="text-sm font-bold text-white">1800-180-1551</p>
+            </div>
+          </a>
+
           <div className="flex items-center gap-3 p-3 bg-slate-800/40 rounded-xl mb-3">
             <div className="h-9 w-9 rounded-full bg-emerald-500 flex items-center justify-center font-bold text-white">
               {user.name ? user.name.charAt(0).toUpperCase() : 'F'}
@@ -190,6 +203,19 @@ const Layout = ({ children }) => {
           </div>
 
           <div className="flex items-center gap-4">
+            {/* Helpline (Visible on Desktop) */}
+            <a href="tel:18001801551" className="hidden lg:flex items-center gap-3 px-4 py-2 bg-rose-50 border border-rose-100 rounded-xl transition-all hover:bg-rose-100 group shadow-sm shadow-rose-100/50">
+              <div className="bg-rose-500 p-2 rounded-lg shadow-sm shadow-rose-500/30 group-hover:animate-pulse">
+                <PhoneCall className="h-4 w-4 text-white" />
+              </div>
+              <div className="text-left">
+                <span className="text-[10px] font-bold text-rose-500 uppercase tracking-wider block leading-none mb-1">Kisan Helpline</span>
+                <span className="text-sm font-extrabold text-slate-800 leading-none">1800-180-1551</span>
+              </div>
+            </a>
+            
+            <div className="h-10 w-px bg-slate-100 hidden lg:block" />
+
             {/* Quick Stats Summary (Hidden on Mobile) */}
             <div className="hidden md:flex items-center gap-3 text-right">
               <div>

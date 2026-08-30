@@ -14,8 +14,16 @@ const Register = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     setError('');
+    
+    // Clean up inputs to prevent accidental spaces
+    const cleanData = {
+      ...formData,
+      mobile: formData.mobile.trim(),
+      password: formData.password.trim()
+    };
+
     try {
-      const result = await authService.register(formData);
+      const result = await authService.register(cleanData);
       if (result.success) {
         navigate('/login');
       } else {

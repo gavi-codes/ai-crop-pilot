@@ -7,6 +7,7 @@ import SoilForm from './pages/SoilAnalysis/SoilForm';
 import FertilizerForm from './pages/Fertilizer/FertilizerForm';
 import WeatherDashboard from './pages/Weather/WeatherDashboard';
 import DiseaseForm from './pages/DiseaseDetection/DiseaseForm';
+import MaturityScanner from './pages/Maturity/MaturityScanner';
 import PriceDashboard from './pages/PricePrediction/PriceDashboard';
 import AgriBot from './pages/Chat/AgriBot';
 import SchemesDashboard from './pages/Schemes/SchemesDashboard';
@@ -44,6 +45,10 @@ function App() {
         <Route 
           path="/disease" 
           element={<PrivateRoute><DiseaseForm /></PrivateRoute>} 
+        />
+        <Route 
+          path="/maturity" 
+          element={<PrivateRoute><MaturityScanner /></PrivateRoute>} 
         />
         <Route 
           path="/price" 

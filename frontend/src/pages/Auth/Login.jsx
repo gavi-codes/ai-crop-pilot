@@ -12,7 +12,10 @@ const Login = () => {
     e.preventDefault();
     setError('');
     try {
-      const result = await authService.login({ mobile, password });
+      const result = await authService.login({ 
+        mobile: mobile.trim(), 
+        password: password.trim() 
+      });
       if (result.success) {
         localStorage.setItem('access_token', result.data.access_token);
         localStorage.setItem('user', JSON.stringify(result.data.user));
