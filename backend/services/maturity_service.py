@@ -6,8 +6,8 @@ class MaturityService:
     @staticmethod
     def analyze_image(user_id, file):
         try:
-            upload_dir = os.path.join(os.path.dirname(__file__), '..', 'uploads')
-            os.makedirs(upload_dir, exist_ok=True)
+            import tempfile
+            upload_dir = tempfile.gettempdir()
             
             filename = f"maturity_{uuid.uuid4()}_{file.filename}"
             file_path = os.path.join(upload_dir, filename)

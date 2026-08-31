@@ -8,9 +8,8 @@ class DiseaseService:
     @staticmethod
     def analyze_image(user_id, file):
         try:
-            # 1. Save the file temporarily (or permanently in an upload folder)
-            upload_dir = os.path.join(os.path.dirname(__file__), '..', 'uploads')
-            os.makedirs(upload_dir, exist_ok=True)
+            import tempfile
+            upload_dir = tempfile.gettempdir()
             
             filename = f"{uuid.uuid4()}_{file.filename}"
             file_path = os.path.join(upload_dir, filename)
