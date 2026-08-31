@@ -7,7 +7,8 @@ import {
   Languages, 
   CalendarDays,
   AlertCircle,
-  HelpCircle
+  HelpCircle,
+  ArrowLeft
 } from 'lucide-react';
 
 const MaturityScanner = () => {
@@ -66,11 +67,19 @@ const MaturityScanner = () => {
   return (
     <div className="p-6 lg:p-8 max-w-4xl mx-auto space-y-8">
       {/* Header */}
-      <div>
-        <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">AI Harvest Maturity Scanner</h1>
-        <p className="text-sm text-slate-500 mt-2">
-          Upload an image of your crop to instantly detect if it is unripe, ripening, ready to harvest, or overripe using Computer Vision.
-        </p>
+      <div className="flex items-center gap-4 mb-8">
+        <button 
+          onClick={() => window.history.back()}
+          className="p-2 hover:bg-slate-200 rounded-lg transition-colors text-slate-600"
+        >
+          <ArrowLeft className="h-5 w-5" />
+        </button>
+        <div>
+          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">AI Harvest Maturity Scanner</h1>
+          <p className="text-sm text-slate-500 mt-2">
+            Upload an image of your crop to instantly detect if it is unripe, ripening, ready to harvest, or overripe using Computer Vision.
+          </p>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
