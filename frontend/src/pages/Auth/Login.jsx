@@ -24,7 +24,9 @@ const Login = () => {
         setError(result.message);
       }
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed');
+      const errorMsg = err.response?.data?.message || 
+                       `Dev Error: ${err.message}. Status: ${err.response?.status}. URL: ${err.config?.baseURL}${err.config?.url}`;
+      setError(errorMsg);
     }
   };
 
