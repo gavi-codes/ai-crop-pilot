@@ -11,6 +11,7 @@ import MaturityScanner from './pages/Maturity/MaturityScanner';
 import PriceDashboard from './pages/PricePrediction/PriceDashboard';
 import AgriBot from './pages/Chat/AgriBot';
 import SchemesDashboard from './pages/Schemes/SchemesDashboard';
+import AdminDashboard from './pages/Admin/AdminDashboard';
 
 import Layout from './components/Layout';
 
@@ -61,6 +62,10 @@ function App() {
         <Route 
           path="/schemes" 
           element={<PrivateRoute><SchemesDashboard /></PrivateRoute>} 
+        />
+        <Route 
+          path="/admin" 
+          element={<PrivateRoute><AdminDashboard /></PrivateRoute>} 
         />
       </Routes>
     </Router>

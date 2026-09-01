@@ -25,6 +25,7 @@ def create_app(config_class=Config):
     from routes.chatbot import chatbot_bp
     from routes.scheme import scheme_bp
     from routes.maturity import maturity_bp
+    from routes.admin import admin_bp
     
     app.register_blueprint(auth_bp, url_prefix='/api/v1/auth')
     app.register_blueprint(soil_bp, url_prefix='/api/v1/soil')
@@ -36,6 +37,7 @@ def create_app(config_class=Config):
     app.register_blueprint(chatbot_bp, url_prefix='/api/v1/chatbot')
     app.register_blueprint(scheme_bp, url_prefix='/api/v1/schemes')
     app.register_blueprint(maturity_bp, url_prefix='/api/v1/maturity')
+    app.register_blueprint(admin_bp, url_prefix='/api/v1/admin')
 
     @app.route('/api/health')
     def health_check():

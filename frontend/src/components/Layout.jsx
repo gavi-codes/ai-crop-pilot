@@ -16,7 +16,8 @@ import {
   MessageSquare,
   Award,
   PhoneCall,
-  Clock
+  Clock,
+  Shield
 } from 'lucide-react';
 import { authService } from '../api/authService';
 
@@ -42,6 +43,7 @@ const Layout = ({ children }) => {
     { name: 'Weather Advisor', path: '/weather', icon: CloudSun },
     { name: 'Agri-bot Assistant', path: '/chat', icon: MessageSquare },
     { name: 'Government Schemes', path: '/schemes', icon: Award },
+    { name: 'Admin Dashboard', path: '/admin', icon: Shield },
   ];
 
   // Helper to find page title based on active path
