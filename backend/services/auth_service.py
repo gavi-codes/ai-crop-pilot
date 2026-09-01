@@ -46,16 +46,18 @@ class AuthService:
         if not mobile or not password:
             return {'success': False, 'message': 'Mobile and password required'}
 
-        user = User.query.filter_by(mobile=mobile).first()
-        if user and user.check_password(password):
-            access_token = create_access_token(identity=str(user.id), expires_delta=datetime.timedelta(days=7))
-            return {
-                'success': True,
-                'message': 'Login successful',
-                'data': {
-                    'access_token': access_token,
-                    'user': user.to_dict()
+        try:
+            user = User.query.filter_by(mobile=mobile).first()
+            if user and user.check_password(password):
+                access_token = create_access_token(identity=str(user.id), expires_delta=datetime.timedelta(days=7))
+                return {
+                    'success': True,
+                    'message': 'Login successful',
+                    'data': {
+                        'access_token': access_token,
+                        'user': user.to_dict()
+                    }
                 }
-            }
-        
-        return {'success': False, 'message': 'Invalid credentials'}
+            return {'success': False, 'message': 'Invalid credentials'}
+        except Exception as e:
+            return {'success': False, 'message': f"Database Error: {str(e)}"}
