@@ -30,7 +30,9 @@ const Register = () => {
         setError(result.message);
       }
     } catch (err) {
-      setError(err.response?.data?.message || 'Registration failed');
+      const errorMsg = err.response?.data?.message || 
+                       `Dev Error: Request failed with status code ${err.response?.status}. URL: ${err.config?.baseURL}${err.config?.url}`;
+      setError(errorMsg);
     }
   };
 
