@@ -8,6 +8,8 @@ class Config:
     
     # Handle Supabase URLs (convert postgres:// to postgresql:// for SQLAlchemy)
     database_url = os.environ.get('DATABASE_URL', 'sqlite:///crop_pilot.db')
+    if isinstance(database_url, str):
+        database_url = database_url.strip()
     if database_url.startswith('postgres://'):
         database_url = database_url.replace('postgres://', 'postgresql://', 1)
         
