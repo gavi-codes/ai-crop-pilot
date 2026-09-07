@@ -57,7 +57,7 @@ def predict_disease(image_path):
         }
 
         response = client.models.generate_content(
-            model='gemini-3.6-flash',
+            model='gemini-2.5-flash',
             contents=[
                 image, 
                 "You are an expert agricultural botanist. Identify the crop and the disease from this image. If healthy, state 'Healthy [Crop Name]'. Provide treatment and recovery fertilizer recommendations."
