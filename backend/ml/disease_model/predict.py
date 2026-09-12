@@ -3,6 +3,7 @@ import json
 from google import genai
 from google.genai import types
 from PIL import Image
+import time
 
 def predict_disease(image_path):
     api_key = os.environ.get("GEMINI_API_KEY")
@@ -56,18 +57,27 @@ def predict_disease(image_path):
             "required": ["disease_name", "confidence", "prevention", "description_json", "treatment_json", "recovery_fertilizer_json"]
         }
 
-        response = client.models.generate_content(
-            model='gemini-1.5-flash',
-            contents=[
-                image, 
-                "You are an expert agricultural botanist. Identify the crop and the disease from this image. If healthy, state 'Healthy [Crop Name]'. Provide treatment and recovery fertilizer recommendations."
-            ],
-            config=types.GenerateContentConfig(
-                response_mime_type="application/json",
-                response_schema=response_schema,
-                temperature=0.2,
-            ),
-        )
+        response = None
+        for attempt in range(3):
+            try:
+                response = client.models.generate_content(
+                    model='gemini-2.5-flash',
+                    contents=[
+                        image, 
+                        "You are an expert agricultural botanist. Identify the crop and the disease from this image. If healthy, state 'Healthy [Crop Name]'. Provide treatment and recovery fertilizer recommendations."
+                    ],
+                    config=types.GenerateContentConfig(
+                        response_mime_type="application/json",
+                        response_schema=response_schema,
+                        temperature=0.2,
+                    ),
+                )
+                break
+            except Exception as e:
+                if '503' in str(e) and attempt < 2:
+                    time.sleep(2)
+                    continue
+                raise e
         
         result = json.loads(response.text)
         

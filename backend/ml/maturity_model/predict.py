@@ -3,6 +3,7 @@ import json
 from google import genai
 from google.genai import types
 from PIL import Image
+import time
 
 def predict_maturity(image_path):
     api_key = os.environ.get("GEMINI_API_KEY")
@@ -14,11 +15,8 @@ def predict_maturity(image_path):
         
     try:
         client = genai.Client()
-        
-        # Open the image using PIL
         image = Image.open(image_path)
         
-        # Create a strict JSON schema for the response
         response_schema = {
             "type": "OBJECT",
             "properties": {
@@ -56,24 +54,30 @@ def predict_maturity(image_path):
             "required": ["stage", "confidence", "estimated_days", "analysis_json", "actionable_advice_json"]
         }
 
-        # Call Gemini Model
-        response = client.models.generate_content(
-            model='gemini-1.5-flash',
-            contents=[
-                image, 
-                "You are an expert agricultural botanist and computer vision AI. Identify the specific crop in this image and analyze its maturity stage. Look at color breakdown, firmness, and size. Make sure your analysis and advice explicitly mention the identified crop name. Output strictly in the requested JSON schema."
-            ],
-            config=types.GenerateContentConfig(
-                response_mime_type="application/json",
-                response_schema=response_schema,
-                temperature=0.2,
-            ),
-        )
+        response = None
+        for attempt in range(3):
+            try:
+                response = client.models.generate_content(
+                    model='gemini-2.5-flash',
+                    contents=[
+                        image, 
+                        "You are an expert agricultural botanist and computer vision AI. Identify the specific crop in this image and analyze its maturity stage. Look at color breakdown, firmness, and size. Make sure your analysis and advice explicitly mention the identified crop name. Output strictly in the requested JSON schema."
+                    ],
+                    config=types.GenerateContentConfig(
+                        response_mime_type="application/json",
+                        response_schema=response_schema,
+                        temperature=0.2,
+                    ),
+                )
+                break
+            except Exception as e:
+                if '503' in str(e) and attempt < 2:
+                    time.sleep(2)
+                    continue
+                raise e
         
-        # Parse the JSON response
         result = json.loads(response.text)
         
-        # Format strings for the frontend
         return {
             "success": True,
             "stage": result["stage"],
