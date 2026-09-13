@@ -58,7 +58,7 @@ def predict_maturity(image_path):
         for attempt in range(3):
             try:
                 response = client.models.generate_content(
-                    model='gemini-2.5-flash',
+                    model='gemini-3.6-flash',
                     contents=[
                         image, 
                         "You are an expert agricultural botanist and computer vision AI. Identify the specific crop in this image and analyze its maturity stage. Look at color breakdown, firmness, and size. Make sure your analysis and advice explicitly mention the identified crop name. Output strictly in the requested JSON schema."

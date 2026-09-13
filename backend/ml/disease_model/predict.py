@@ -61,7 +61,7 @@ def predict_disease(image_path):
         for attempt in range(3):
             try:
                 response = client.models.generate_content(
-                    model='gemini-2.5-flash',
+                    model='gemini-3.6-flash',
                     contents=[
                         image, 
                         "You are an expert agricultural botanist. Identify the crop and the disease from this image. If healthy, state 'Healthy [Crop Name]'. Provide treatment and recovery fertilizer recommendations."
