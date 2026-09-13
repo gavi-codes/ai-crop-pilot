@@ -17,7 +17,8 @@ import {
   Award,
   PhoneCall,
   Clock,
-  Shield
+  Shield,
+  Calendar
 } from 'lucide-react';
 import { authService } from '../api/authService';
 
@@ -39,6 +40,7 @@ const Layout = ({ children }) => {
     { name: 'Fertilizers', path: '/fertilizer', icon: Droplet },
     { name: 'Crop Health Scan', path: '/disease', icon: Scan },
     { name: 'Harvest Maturity', path: '/maturity', icon: Clock },
+    { name: 'Crop Calendar', path: '/calendar', icon: Calendar },
     { name: 'Market Intelligence', path: '/price', icon: TrendingUp },
     { name: 'Weather Advisor', path: '/weather', icon: CloudSun },
     { name: 'Agri-bot Assistant', path: '/chat', icon: MessageSquare },

@@ -12,6 +12,7 @@ import PriceDashboard from './pages/PricePrediction/PriceDashboard';
 import AgriBot from './pages/Chat/AgriBot';
 import SchemesDashboard from './pages/Schemes/SchemesDashboard';
 import AdminDashboard from './pages/Admin/AdminDashboard';
+import CropCalendar from './pages/Calendar/CropCalendar';
 
 import Layout from './components/Layout';
 
@@ -66,6 +67,10 @@ function App() {
         <Route 
           path="/admin" 
           element={<PrivateRoute><AdminDashboard /></PrivateRoute>} 
+        />
+        <Route 
+          path="/calendar" 
+          element={<PrivateRoute><CropCalendar /></PrivateRoute>} 
         />
       </Routes>
     </Router>
