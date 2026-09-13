@@ -93,13 +93,13 @@ def predict_disease(image_path):
         result = json.loads(response.text)
         
         return {
-            "disease_name": result["disease_name"],
-            "confidence": result["confidence"],
-            "description_json": json.dumps(result["description_json"]),
-            "treatment_json": json.dumps(result["treatment_json"]),
-            "recovery_fertilizer_json": json.dumps(result["recovery_fertilizer_json"]),
-            "prevention": result["prevention"],
-            "medicine": json.dumps(result["medicine"])
+            "disease_name": result.get("disease_name", "Unknown"),
+            "confidence": result.get("confidence", 0),
+            "description_json": json.dumps(result.get("description_json", {})),
+            "treatment_json": json.dumps(result.get("treatment_json", {})),
+            "recovery_fertilizer_json": json.dumps(result.get("recovery_fertilizer_json", {})),
+            "prevention": result.get("prevention", ""),
+            "medicine": json.dumps(result.get("medicine", {}))
         }
         
     except Exception as e:
