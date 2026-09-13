@@ -14,6 +14,13 @@ def create_app(config_class=Config):
 
     import models  # Important for Alembic to detect models
 
+    # Fail-safe to create tables if they don't exist
+    with app.app_context():
+        try:
+            db.create_all()
+        except Exception:
+            pass
+
     # Register blueprints
     from routes.auth import auth_bp
     from routes.soil import soil_bp
