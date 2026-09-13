@@ -80,11 +80,11 @@ def predict_maturity(image_path):
         
         return {
             "success": True,
-            "stage": result["stage"],
-            "confidence": result["confidence"],
-            "estimated_days": result["estimated_days"],
-            "analysis_json": json.dumps(result["analysis_json"]),
-            "actionable_advice_json": json.dumps(result["actionable_advice_json"])
+            "stage": result.get("stage", "Unknown"),
+            "confidence": result.get("confidence", 0),
+            "estimated_days": result.get("estimated_days", "Unknown"),
+            "analysis_json": json.dumps(result.get("analysis_json", {})),
+            "actionable_advice_json": json.dumps(result.get("actionable_advice_json", {}))
         }
         
     except Exception as e:
