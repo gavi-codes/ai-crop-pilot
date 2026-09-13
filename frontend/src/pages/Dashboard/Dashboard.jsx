@@ -323,36 +323,67 @@ const Dashboard = () => {
       </section>
 
       {/* Navigation Control Modules */}
-      <div>
-        <h2 className="text-lg font-bold text-slate-900 mb-5">Manual Control Modules</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {modules.map((mod, idx) => {
-            const Icon = mod.icon;
-            return (
-              <div 
-                key={idx}
-                onClick={() => navigate(mod.path)}
-                className={`group bg-gradient-to-br ${mod.lightColor} hover:from-slate-950 hover:to-slate-850 border ${mod.borderColor} hover:border-slate-800 hover:text-white shadow-sm hover:shadow-2xl ${mod.hoverShadow} hover:-translate-y-1.5 transition-all duration-300 cursor-pointer p-6 rounded-3xl flex flex-col justify-between h-48`}
-              >
-                <div className="flex justify-between items-start gap-4">
-                  <div className={`p-3 bg-gradient-to-tr ${mod.color} rounded-xl text-white shadow-lg shadow-slate-900/5 group-hover:scale-110 transition-transform`}>
-                    <Icon className="h-6 w-6" />
+      <div className="relative mt-8">
+        <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/5 via-transparent to-indigo-500/5 rounded-3xl -mx-6 -my-4 z-0"></div>
+        <div className="relative z-10">
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <h2 className="text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2">
+                <span className="w-2 h-8 bg-gradient-to-b from-emerald-400 to-teal-500 rounded-full inline-block"></span>
+                Operations Command
+              </h2>
+              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1 ml-4">Select module to initiate</p>
+            </div>
+            <div className="hidden sm:flex gap-1">
+              <span className="h-2 w-2 rounded-full bg-slate-200 animate-pulse"></span>
+              <span className="h-2 w-2 rounded-full bg-slate-300 animate-pulse delay-75"></span>
+              <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse delay-150"></span>
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {modules.map((mod, idx) => {
+              const Icon = mod.icon;
+              return (
+                <div 
+                  key={idx}
+                  onClick={() => navigate(mod.path)}
+                  className={`group relative cursor-pointer overflow-hidden rounded-3xl bg-white border border-slate-100 hover:border-transparent transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)]`}
+                >
+                  {/* Extreme Hover Background Overlay */}
+                  <div className={`absolute inset-0 bg-gradient-to-br ${mod.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0`}></div>
+                  
+                  {/* Glowing blur orb */}
+                  <div className={`absolute -right-8 -top-8 w-32 h-32 bg-gradient-to-br ${mod.color} rounded-full blur-3xl opacity-20 group-hover:opacity-0 transition-opacity duration-500`}></div>
+                  
+                  <div className="relative z-10 p-6 flex flex-col h-full min-h-[200px]">
+                    <div className="flex justify-between items-start mb-auto">
+                      <div className={`h-14 w-14 rounded-2xl flex items-center justify-center bg-slate-50 border border-slate-100 group-hover:bg-white/20 group-hover:border-white/30 group-hover:backdrop-blur-md transition-all duration-500 group-hover:scale-110 shadow-sm`}>
+                        <Icon className={`h-6 w-6 ${mod.textColor} group-hover:text-white transition-colors duration-500`} />
+                      </div>
+                      <div className="h-8 w-8 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-white/20 transition-all duration-500 group-hover:rotate-45">
+                        <ChevronRight className="h-4 w-4 text-slate-400 group-hover:text-white transition-colors" />
+                      </div>
+                    </div>
+                    
+                    <div className="mt-6">
+                      <h3 className={`text-xl font-black text-slate-900 group-hover:text-white transition-colors duration-500 tracking-tight`}>
+                        {mod.title}
+                      </h3>
+                      <p className={`text-sm font-medium text-slate-500 group-hover:text-white/80 transition-colors duration-500 mt-2 leading-relaxed`}>
+                        {mod.desc}
+                      </p>
+                    </div>
+
+                    {/* Progress/Accent Bar */}
+                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-slate-100 group-hover:bg-white/20 overflow-hidden">
+                       <div className={`h-full w-0 bg-gradient-to-r ${mod.color} group-hover:bg-white group-hover:w-full transition-all duration-700 ease-out`}></div>
+                    </div>
                   </div>
-                  <span className="p-1 rounded-lg bg-white/60 group-hover:bg-white/10 text-slate-400 group-hover:text-white transition-colors border border-white/20">
-                    <ChevronRight className="h-4 w-4" />
-                  </span>
                 </div>
-                <div>
-                  <h3 className="font-extrabold text-slate-950 group-hover:text-emerald-400 transition-colors text-base">
-                    {mod.title}
-                  </h3>
-                  <p className="text-xs text-slate-500 group-hover:text-slate-300 mt-1 leading-relaxed font-semibold">
-                    {mod.desc}
-                  </p>
-                </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </div>
 
