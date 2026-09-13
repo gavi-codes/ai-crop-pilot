@@ -11,7 +11,9 @@ import {
   FlaskConical,
   Sprout,
   ShieldCheck,
-  ArrowLeft
+  ArrowLeft,
+  Pill,
+  Tag
 } from 'lucide-react';
 
 const DiseaseForm = () => {
@@ -244,7 +246,41 @@ const DiseaseForm = () => {
                   </p>
                 </div>
 
-                {/* 4. Prevention */}
+                {/* 4. Recommended Medicine */}
+                {result.medicine && (
+                  <div className="mt-6 border-t border-slate-100 pt-6">
+                    <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+                      <Pill className="h-4 w-4 text-rose-500" />
+                      Recommended Medicine / Pesticide
+                    </h3>
+                    
+                    <div className="flex flex-col sm:flex-row gap-4 bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+                      <div className="w-full sm:w-1/3 bg-slate-50 border-r border-slate-100 relative min-h-[140px]">
+                        <img 
+                          src={result.medicine.photo_url || 'https://images.unsplash.com/photo-1585421514738-01798e348b17?w=500&q=80'} 
+                          alt="Medicine" 
+                          className="absolute inset-0 w-full h-full object-cover"
+                          onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1585421514738-01798e348b17?w=500&q=80' }}
+                        />
+                      </div>
+                      <div className="p-4 sm:w-2/3 flex flex-col justify-center">
+                        <h4 className="text-lg font-black text-slate-900 mb-1">{result.medicine.name}</h4>
+                        <div className="flex items-center gap-3 mt-2 text-sm">
+                          <div className="flex items-center gap-1.5 text-emerald-700 bg-emerald-50 px-2 py-1 rounded-lg font-bold">
+                            <Tag className="h-3.5 w-3.5" />
+                            {result.medicine.price_estimate}
+                          </div>
+                          <div className="text-slate-600 font-medium">
+                            <span className="text-xs text-slate-400 uppercase font-bold mr-1 block">Dosage</span>
+                            {result.medicine.quantity}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* 5. Prevention */}
                 <div className="pt-4 border-t border-slate-100 flex gap-2.5 items-start">
                   <ShieldCheck className="h-5 w-5 text-slate-400 shrink-0 mt-0.5" />
                   <div>

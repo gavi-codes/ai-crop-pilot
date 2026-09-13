@@ -33,10 +33,17 @@ class DiseaseService:
             db.session.add(report)
             db.session.commit()
             
+            data = report.to_dict()
+            import json
+            try:
+                data['medicine'] = json.loads(prediction.get('medicine', '{}'))
+            except Exception:
+                data['medicine'] = None
+                
             return {
                 'success': True, 
                 'message': 'Disease analysis complete',
-                'data': report.to_dict()
+                'data': data
             }
             
         except Exception as e:

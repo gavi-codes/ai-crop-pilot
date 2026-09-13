@@ -52,9 +52,20 @@ def predict_disease(image_path):
                         "Kannada": {"type": "STRING"},
                         "Hindi": {"type": "STRING"}
                     }
+                },
+                "medicine": {
+                    "type": "OBJECT",
+                    "description": "Details of the recommended chemical medicine or pesticide.",
+                    "properties": {
+                        "name": {"type": "STRING", "description": "Exact commercial name of the medicine (e.g., 'Bavistin', 'Mancozeb 75% WP')"},
+                        "price_estimate": {"type": "STRING", "description": "Estimated price in INR, e.g., '₹ 450 per 500g'"},
+                        "quantity": {"type": "STRING", "description": "Dosage to apply (e.g., '2 grams per liter of water')"},
+                        "photo_url": {"type": "STRING", "description": "URL of the medicine photo. Use 'https://images.unsplash.com/photo-1585421514738-01798e348b17?w=500&q=80' as a generic pesticide bottle image."}
+                    },
+                    "required": ["name", "price_estimate", "quantity", "photo_url"]
                 }
             },
-            "required": ["disease_name", "confidence", "prevention", "description_json", "treatment_json", "recovery_fertilizer_json"]
+            "required": ["disease_name", "confidence", "prevention", "description_json", "treatment_json", "recovery_fertilizer_json", "medicine"]
         }
 
         response = None
@@ -64,7 +75,7 @@ def predict_disease(image_path):
                     model='gemini-3.6-flash',
                     contents=[
                         image, 
-                        "You are an expert agricultural botanist. Identify the crop and the disease from this image. If healthy, state 'Healthy [Crop Name]'. Provide treatment and recovery fertilizer recommendations."
+                        "You are an expert agricultural botanist. Identify the crop and the disease from this image. If healthy, state 'Healthy [Crop Name]'. Provide treatment, recovery fertilizer, and specific chemical medicine recommendations with price and quantity."
                     ],
                     config=types.GenerateContentConfig(
                         response_mime_type="application/json",
@@ -87,7 +98,8 @@ def predict_disease(image_path):
             "description_json": json.dumps(result["description_json"]),
             "treatment_json": json.dumps(result["treatment_json"]),
             "recovery_fertilizer_json": json.dumps(result["recovery_fertilizer_json"]),
-            "prevention": result["prevention"]
+            "prevention": result["prevention"],
+            "medicine": json.dumps(result["medicine"])
         }
         
     except Exception as e:
