@@ -55,10 +55,10 @@ const Layout = ({ children }) => {
   };
 
   return (
-    <div className="min-h-screen flex bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-emerald-50/30 via-slate-50 to-teal-50/15 text-slate-800 font-sans">
+    <div className="min-h-screen flex bg-[#F7FAF8] text-[#17221D] font-sans">
       
       {/* Sidebar - Desktop view */}
-      <aside className="hidden lg:flex flex-col w-72 bg-slate-900 text-white border-r border-slate-800 shrink-0">
+      <aside className="hidden lg:flex flex-col w-72 bg-[#0B3D2E] text-white border-r border-[#16A34A]/20 shrink-0">
         {/* Brand Header */}
         <div className="h-20 flex items-center px-6 gap-3 border-b border-slate-800">
           <div className="p-2 bg-emerald-500 rounded-xl shadow-lg shadow-emerald-500/20">
@@ -83,8 +83,8 @@ const Layout = ({ children }) => {
                 className={({ isActive }) => `
                   flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-300 font-medium text-sm group
                   ${isActive 
-                    ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-md shadow-emerald-500/10' 
-                    : 'text-slate-400 hover:bg-slate-800 hover:text-white'
+                    ? 'bg-[#16A34A] text-white shadow-md shadow-[#16A34A]/20' 
+                    : 'text-[#DCFCE7]/70 hover:bg-white/10 hover:text-white'
                   }
                 `}
               >
@@ -96,9 +96,9 @@ const Layout = ({ children }) => {
         </nav>
 
         {/* Farmer Info Footer */}
-        <div className="p-4 border-t border-slate-800 bg-slate-950/40">
-          <div className="flex items-center gap-3 p-3 bg-slate-800/40 rounded-xl">
-            <div className="h-10 w-10 rounded-full bg-gradient-to-tr from-emerald-500 to-teal-500 flex items-center justify-center font-bold text-white shadow-inner">
+        <div className="p-4 border-t border-slate-800 bg-black/20">
+          <div className="flex items-center gap-3 p-3 bg-white/5 rounded-xl">
+            <div className="h-10 w-10 rounded-full bg-[#16A34A] flex items-center justify-center font-bold text-white shadow-inner">
               {user.name ? user.name.charAt(0).toUpperCase() : 'F'}
             </div>
             <div className="flex-1 min-w-0">
@@ -125,8 +125,7 @@ const Layout = ({ children }) => {
       )}
 
       {/* Mobile Sidebar */}
-      <aside className={`
-        fixed top-0 bottom-0 left-0 z-50 flex flex-col w-72 bg-slate-900 text-white border-r border-slate-850 transition-transform duration-300 lg:hidden
+      <aside className={`\n        fixed top-0 bottom-0 left-0 z-50 flex flex-col w-72 bg-[#0B3D2E] text-white border-r border-[#16A34A]/20 transition-transform duration-300 lg:hidden
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
         <div className="h-20 flex items-center justify-between px-6 border-b border-slate-800">
@@ -150,8 +149,8 @@ const Layout = ({ children }) => {
                 className={({ isActive }) => `
                   flex items-center gap-4 px-4 py-3 rounded-xl font-medium text-sm
                   ${isActive 
-                    ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-md' 
-                    : 'text-slate-400 hover:bg-slate-800 hover:text-white'
+                    ? 'bg-[#16A34A] text-white shadow-md' 
+                    : 'text-[#DCFCE7]/70 hover:bg-white/10 hover:text-white'
                   }
                 `}
               >
@@ -173,7 +172,7 @@ const Layout = ({ children }) => {
             </div>
           </a>
 
-          <div className="flex items-center gap-3 p-3 bg-slate-800/40 rounded-xl mb-3">
+          <div className="flex items-center gap-3 p-3 bg-white/5 rounded-xl mb-3">
             <div className="h-9 w-9 rounded-full bg-emerald-500 flex items-center justify-center font-bold text-white">
               {user.name ? user.name.charAt(0).toUpperCase() : 'F'}
             </div>
@@ -195,7 +194,7 @@ const Layout = ({ children }) => {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Top Navbar */}
-        <header className="h-20 bg-white border-b border-slate-100 flex items-center justify-between px-6 lg:px-8 shrink-0 z-30 shadow-sm shadow-slate-100/50">
+        <header className="h-20 bg-white border-b border-slate-100 shadow-sm flex items-center justify-between px-6 lg:px-8 shrink-0 z-30 shadow-sm shadow-slate-100/50">
           <div className="flex items-center gap-4">
             <button 
               onClick={() => setSidebarOpen(true)}
@@ -214,7 +213,7 @@ const Layout = ({ children }) => {
               </div>
               <div className="text-left">
                 <span className="text-[10px] font-bold text-rose-500 uppercase tracking-wider block leading-none mb-1">Kisan Helpline</span>
-                <span className="text-sm font-extrabold text-slate-800 leading-none">1800-180-1551</span>
+                <span className="text-sm font-extrabold text-[#17221D] leading-none">1800-180-1551</span>
               </div>
             </a>
             
@@ -249,7 +248,7 @@ const Layout = ({ children }) => {
         </header>
 
         {/* Dynamic Page content */}
-        <main className="flex-1 overflow-y-auto bg-slate-50">
+        <main className="flex-1 overflow-y-auto bg-[#F7FAF8]">
           {children}
         </main>
       </div>
@@ -258,3 +257,4 @@ const Layout = ({ children }) => {
 };
 
 export default Layout;
+
