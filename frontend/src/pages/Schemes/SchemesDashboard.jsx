@@ -69,39 +69,39 @@ const SchemesDashboard = () => {
     <div className="p-6 lg:p-8 space-y-8 max-w-5xl mx-auto">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-3">
-          <Award className="h-8 w-8 text-emerald-500" />
+        <h1 className="text-3xl font-extrabold text-[#17221D] tracking-tight flex items-center gap-3">
+          <Award className="h-8 w-8 text-[#16A34A]" />
           Government Schemes & Subsidies
         </h1>
-        <p className="text-sm text-slate-500 mt-2">
+        <p className="text-sm text-[#64748B] mt-2">
           Verify your eligibility and submit online subsidy requests directly to Central and State agricultural departments.
         </p>
       </div>
 
       {loading ? (
         <div className="flex flex-col items-center justify-center py-20 gap-3">
-          <div className="h-10 w-10 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin" />
-          <p className="text-sm font-semibold text-slate-500">Matching criteria against government APIs...</p>
+          <div className="h-10 w-10 border-4 border-[#16A34A] border-t-transparent rounded-full animate-spin" />
+          <p className="text-sm font-semibold text-[#64748B]">Matching criteria against government APIs...</p>
         </div>
       ) : error ? (
-        <div className="p-4 bg-rose-50 text-rose-600 rounded-3xl text-center text-sm border border-rose-100 font-bold">
+        <div className="p-4 bg-rose-50 text-rose-600 rounded-2xl text-center text-sm border border-rose-100 font-bold">
           {error}
         </div>
       ) : data && (
         <div className="space-y-8">
           
           {/* Farmer Profile Matching Panel */}
-          <div className="bg-white/95 border border-slate-100 shadow-xl shadow-slate-200/50 rounded-3xl p-6 border-t-4 border-t-emerald-500 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+          <div className="bg-white/95 border border-slate-100 shadow-sm border border-slate-200 rounded-2xl p-6 border-t-4 border-t-[#16A34A] flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
             <div className="space-y-1">
               <span className="text-[10px] uppercase font-bold text-slate-400">Match Registry</span>
-              <h2 className="text-xl font-bold text-slate-800">
-                Hi {data.farmer.name || 'Farmer'}, you qualify for <span className="text-emerald-600 font-extrabold">{data.schemes.length} active programs</span>
+              <h2 className="text-xl font-bold text-[#17221D]">
+                Hi {data.farmer.name || 'Farmer'}, you qualify for <span className="text-[#0B3D2E] font-extrabold">{data.schemes.length} active programs</span>
               </h2>
-              <p className="text-xs text-slate-500">Criteria evaluated using your registered farming telemetry.</p>
+              <p className="text-xs text-[#64748B]">Criteria evaluated using your registered farming telemetry.</p>
             </div>
             
             <div className="flex flex-wrap gap-3">
-              <div className="bg-slate-50 border border-slate-100 px-4 py-2.5 rounded-xl flex items-center gap-2">
+              <div className="bg-[#F7FAF8] border border-slate-100 px-4 py-2.5 rounded-xl flex items-center gap-2">
                 <MapPin className="h-4.5 w-4.5 text-sky-500" />
                 <div>
                   <span className="text-[9px] font-bold text-slate-400 block uppercase">District</span>
@@ -109,7 +109,7 @@ const SchemesDashboard = () => {
                 </div>
               </div>
 
-              <div className="bg-slate-50 border border-slate-100 px-4 py-2.5 rounded-xl flex items-center gap-2">
+              <div className="bg-[#F7FAF8] border border-slate-100 px-4 py-2.5 rounded-xl flex items-center gap-2">
                 <Layers className="h-4.5 w-4.5 text-indigo-500" />
                 <div>
                   <span className="text-[9px] font-bold text-slate-400 block uppercase">Land Size</span>
@@ -117,7 +117,7 @@ const SchemesDashboard = () => {
                 </div>
               </div>
 
-              <div className="bg-slate-50 border border-slate-100 px-4 py-2.5 rounded-xl flex items-center gap-2">
+              <div className="bg-[#F7FAF8] border border-slate-100 px-4 py-2.5 rounded-xl flex items-center gap-2">
                 <Scale className="h-4.5 w-4.5 text-amber-500" />
                 <div>
                   <span className="text-[9px] font-bold text-slate-400 block uppercase">Soil Type</span>
@@ -135,8 +135,8 @@ const SchemesDashboard = () => {
                 onClick={() => setActiveTab(tab)}
                 className={`py-3.5 px-6 font-bold text-sm border-b-2 transition-all relative top-[2px] ${
                   activeTab === tab
-                    ? 'border-emerald-500 text-emerald-600'
-                    : 'border-transparent text-slate-400 hover:text-slate-600'
+                    ? 'border-[#16A34A] text-[#0B3D2E]'
+                    : 'border-transparent text-slate-400 hover:text-[#64748B]'
                 }`}
               >
                 {tab === 'All' ? 'Show All Schemes' : tab === 'Central' ? 'Central Government' : 'Karnataka State Subsidies'}
@@ -151,7 +151,7 @@ const SchemesDashboard = () => {
               return (
                 <div 
                   key={scheme.id}
-                  className="bg-white border border-slate-100 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 rounded-3xl p-6 flex flex-col justify-between"
+                  className="bg-white border border-slate-100 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 rounded-2xl p-6 flex flex-col justify-between"
                 >
                   <div className="space-y-4">
                     {/* Header */}
@@ -159,34 +159,34 @@ const SchemesDashboard = () => {
                       <span className={`px-2.5 py-0.5 rounded-lg text-[9px] font-black uppercase tracking-wider ${
                         scheme.category === 'Central' 
                           ? 'bg-orange-50 text-orange-600 border border-orange-100' 
-                          : 'bg-emerald-50 text-emerald-600 border border-emerald-100'
+                          : 'bg-[#DCFCE7] text-[#0B3D2E] border border-emerald-100'
                       }`}>
                         {scheme.category === 'Central' ? 'GoI Central' : 'Karnataka State'}
                       </span>
                       
-                      <span className="text-sm font-black text-emerald-600 bg-emerald-50/50 px-2.5 py-1 rounded-xl shadow-inner">
+                      <span className="text-sm font-black text-[#0B3D2E] bg-[#DCFCE7]/50 px-2.5 py-1 rounded-xl shadow-inner">
                         {scheme.subsidy_amount}
                       </span>
                     </div>
 
                     {/* Title */}
                     <div>
-                      <h3 className="text-lg font-extrabold text-slate-900">{scheme.name}</h3>
-                      <p className="text-xs text-slate-500 mt-1.5 leading-relaxed font-medium">
+                      <h3 className="text-lg font-extrabold text-[#17221D]">{scheme.name}</h3>
+                      <p className="text-xs text-[#64748B] mt-1.5 leading-relaxed font-medium">
                         {scheme.description}
                       </p>
                     </div>
 
                     {/* Match reason alert box */}
-                    <div className="bg-slate-50/50 p-3 rounded-xl border border-slate-100 flex gap-2 items-start text-xs text-slate-500 font-semibold">
-                      <CheckCircle className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" />
+                    <div className="bg-[#F7FAF8]/50 p-3 rounded-xl border border-slate-100 flex gap-2 items-start text-xs text-[#64748B] font-semibold">
+                      <CheckCircle className="h-4 w-4 text-[#16A34A] shrink-0 mt-0.5" />
                       <span>{scheme.match_reason}</span>
                     </div>
 
                     {/* Application Steps */}
                     <div className="space-y-2">
                       <span className="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">Application Steps</span>
-                      <p className="text-[11px] text-slate-650 leading-relaxed font-semibold bg-slate-50 p-3 rounded-xl border border-slate-100 whitespace-pre-line">
+                      <p className="text-[11px] text-slate-650 leading-relaxed font-semibold bg-[#F7FAF8] p-3 rounded-xl border border-slate-100 whitespace-pre-line">
                         {scheme.steps}
                       </p>
                     </div>
@@ -195,7 +195,7 @@ const SchemesDashboard = () => {
                   {/* Apply action button */}
                   <div className="pt-6 mt-6 border-t border-slate-100">
                     {status === 'Success' ? (
-                      <div className="w-full bg-emerald-50 border border-emerald-100 text-emerald-700 py-3 rounded-2xl font-bold flex items-center justify-center gap-2">
+                      <div className="w-full bg-[#DCFCE7] border border-emerald-100 text-emerald-700 py-3 rounded-2xl font-bold flex items-center justify-center gap-2">
                         <CheckCircle className="h-5 w-5" />
                         <span>Application Submitted (Pending Dept. Review)</span>
                       </div>

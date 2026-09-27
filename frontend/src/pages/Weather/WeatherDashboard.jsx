@@ -42,15 +42,15 @@ const WeatherDashboard = () => {
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-3">
-        <div className="h-10 w-10 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin" />
-        <p className="text-sm font-semibold text-slate-500 animate-pulse">Syncing climate telemetry...</p>
+        <div className="h-10 w-10 border-4 border-[#16A34A] border-t-transparent rounded-full animate-spin" />
+        <p className="text-sm font-semibold text-[#64748B] animate-pulse">Syncing climate telemetry...</p>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="p-4 bg-rose-50 text-rose-600 rounded-3xl text-center text-sm border border-rose-100 max-w-md mx-auto mt-10">
+      <div className="p-4 bg-rose-50 text-rose-600 rounded-2xl text-center text-sm border border-rose-100 max-w-md mx-auto mt-10">
         {error}
       </div>
     );
@@ -63,14 +63,14 @@ const WeatherDashboard = () => {
     <div className="p-6 lg:p-8 max-w-5xl mx-auto space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Weather Advisor</h1>
-        <p className="text-sm text-slate-500 mt-2">
+        <h1 className="text-3xl font-extrabold text-[#17221D] tracking-tight">Weather Advisor</h1>
+        <p className="text-sm text-[#64748B] mt-2">
           Monitor real-time microclimate indicators and view specialized agricultural field advisories.
         </p>
       </div>
 
       {/* Main Glassmorphic Climate Header */}
-      <div className={`relative overflow-hidden rounded-3xl shadow-2xl text-white p-8 ${
+      <div className={`relative overflow-hidden rounded-2xl shadow-2xl text-white p-8 ${
         isRainy 
           ? 'bg-gradient-to-br from-indigo-500 via-sky-600 to-indigo-800 shadow-indigo-500/20' 
           : 'bg-gradient-to-br from-amber-500 via-orange-500 to-emerald-600 shadow-orange-500/20'
@@ -103,15 +103,15 @@ const WeatherDashboard = () => {
       </div>
 
       {/* Advisory Banner Panel */}
-      <div className={`p-6 rounded-3xl shadow-xl shadow-slate-200/50 flex gap-4 items-start border ${
+      <div className={`p-6 rounded-2xl shadow-sm border border-slate-200 flex gap-4 items-start border ${
         weatherData.advisory.includes('avoid') || weatherData.advisory.includes('High') 
           ? 'bg-amber-50 border-amber-200 text-amber-900 shadow-amber-500/5' 
-          : 'bg-emerald-50 border-emerald-200 text-emerald-950 shadow-emerald-500/5'
+          : 'bg-[#DCFCE7] border-[#16A34A]/20 text-emerald-950 shadow-emerald-500/5'
       }`}>
         <div className={`p-3 rounded-2xl shrink-0 ${
           weatherData.advisory.includes('avoid') || weatherData.advisory.includes('High') 
             ? 'bg-amber-100 text-amber-700' 
-            : 'bg-emerald-100 text-emerald-700'
+            : 'bg-[#DCFCE7] text-emerald-700'
         }`}>
           <AlertTriangle className="h-6 w-6" />
         </div>
@@ -125,7 +125,7 @@ const WeatherDashboard = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         
         {/* Metric 1 */}
-        <div className="bg-white/95 border border-slate-100 shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:shadow-sky-500/10 hover:-translate-y-1.5 transition-all duration-300 rounded-3xl p-6 flex flex-col justify-between border-t-4 border-t-sky-500">
+        <div className="bg-white/95 border border-slate-100 shadow-sm border border-slate-200 hover:shadow-2xl hover:shadow-sky-500/10 hover:-translate-y-1.5 transition-all duration-300 rounded-2xl p-6 flex flex-col justify-between border-t-4 border-t-sky-500">
           <div className="flex justify-between items-start mb-4">
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Dry/Wet</span>
             <div className="p-2 bg-sky-50 text-sky-600 rounded-xl">
@@ -133,13 +133,13 @@ const WeatherDashboard = () => {
             </div>
           </div>
           <div>
-            <span className="text-2xl font-black text-slate-900 block">{current.temperature}°C</span>
+            <span className="text-2xl font-black text-[#17221D] block">{current.temperature}°C</span>
             <span className="text-xs font-semibold text-slate-450 mt-1 block">Temperature</span>
           </div>
         </div>
 
         {/* Metric 2 */}
-        <div className="bg-white/95 border border-slate-100 shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:shadow-blue-500/10 hover:-translate-y-1.5 transition-all duration-300 rounded-3xl p-6 flex flex-col justify-between border-t-4 border-t-blue-500">
+        <div className="bg-white/95 border border-slate-100 shadow-sm border border-slate-200 hover:shadow-2xl hover:shadow-blue-500/10 hover:-translate-y-1.5 transition-all duration-300 rounded-2xl p-6 flex flex-col justify-between border-t-4 border-t-blue-500">
           <div className="flex justify-between items-start mb-4">
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Moisture</span>
             <div className="p-2 bg-blue-50 text-blue-600 rounded-xl">
@@ -153,7 +153,7 @@ const WeatherDashboard = () => {
         </div>
 
         {/* Metric 3 */}
-        <div className="bg-white/95 border border-slate-100 shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:shadow-teal-500/10 hover:-translate-y-1.5 transition-all duration-300 rounded-3xl p-6 flex flex-col justify-between border-t-4 border-t-teal-500">
+        <div className="bg-white/95 border border-slate-100 shadow-sm border border-slate-200 hover:shadow-2xl hover:shadow-teal-500/10 hover:-translate-y-1.5 transition-all duration-300 rounded-2xl p-6 flex flex-col justify-between border-t-4 border-t-teal-500">
           <div className="flex justify-between items-start mb-4">
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Humidity</span>
             <div className="p-2 bg-teal-50 text-teal-600 rounded-xl">
@@ -167,7 +167,7 @@ const WeatherDashboard = () => {
         </div>
 
         {/* Metric 4 */}
-        <div className="bg-white/95 border border-slate-100 shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:shadow-slate-400/10 hover:-translate-y-1.5 transition-all duration-300 rounded-3xl p-6 flex flex-col justify-between border-t-4 border-t-slate-500">
+        <div className="bg-white/95 border border-slate-100 shadow-sm border border-slate-200 hover:shadow-2xl hover:shadow-slate-400/10 hover:-translate-y-1.5 transition-all duration-300 rounded-2xl p-6 flex flex-col justify-between border-t-4 border-t-slate-500">
           <div className="flex justify-between items-start mb-4">
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Wind</span>
             <div className="p-2 bg-slate-100 text-slate-650 rounded-xl">
@@ -175,7 +175,7 @@ const WeatherDashboard = () => {
             </div>
           </div>
           <div>
-            <span className="text-2xl font-black text-slate-800 block">{current.wind_speed} km/h</span>
+            <span className="text-2xl font-black text-[#17221D] block">{current.wind_speed} km/h</span>
             <span className="text-xs font-semibold text-slate-450 mt-1 block">Velocity & Vectors</span>
           </div>
         </div>

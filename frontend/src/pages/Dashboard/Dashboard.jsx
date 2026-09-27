@@ -106,7 +106,7 @@ const Dashboard = () => {
     <div className="p-6 lg:p-8 space-y-8 max-w-7xl mx-auto font-sans">
       
       {/* Pilot Welcome Banner */}
-      <div className="relative overflow-hidden rounded-3xl p-6 md:p-8 shadow-md border border-black/5" style={{ background: 'linear-gradient(to right, #0B3D2E, #16A34A)' }}>
+      <div className="relative overflow-hidden rounded-2xl p-6 md:p-8 shadow-md border border-black/5" style={{ background: 'linear-gradient(to right, #0B3D2E, #16A34A)' }}>
         <div className="absolute -top-16 -right-16 w-64 h-64 bg-white/5 rounded-full blur-2xl" />
         <div className="absolute -bottom-24 -left-24 w-80 h-80 bg-black/10 rounded-full blur-3xl" />
         <div className="relative flex flex-col md:flex-row md:items-center justify-between gap-6">

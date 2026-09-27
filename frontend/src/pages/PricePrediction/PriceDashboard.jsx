@@ -78,8 +78,8 @@ const PriceDashboard = () => {
     
     return {
       status: isBullish ? 'HOLD' : 'SELL NOW',
-      color: isBullish ? 'bg-emerald-50 text-emerald-600 border-emerald-200' : 'bg-rose-50 text-rose-600 border-rose-200',
-      badgeColor: isBullish ? 'bg-emerald-500 text-white' : 'bg-rose-500 text-white',
+      color: isBullish ? 'bg-[#DCFCE7] text-[#0B3D2E] border-[#16A34A]/20' : 'bg-rose-50 text-rose-600 border-rose-200',
+      badgeColor: isBullish ? 'bg-[#16A34A] text-white' : 'bg-rose-500 text-white',
       advisory: isBullish 
         ? `Prices are predicted to rise by ${percentage}% next month. Holding your crop will optimize your revenue.`
         : `Prices are predicted to fall by ${Math.abs(percentage)}% next month. Sell immediately to maximize profit.`,
@@ -95,21 +95,21 @@ const PriceDashboard = () => {
     <div className="p-6 lg:p-8 space-y-8 max-w-7xl mx-auto">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Market Intelligence Hub</h1>
-        <p className="text-sm text-slate-500 mt-2">
+        <h1 className="text-3xl font-extrabold text-[#17221D] tracking-tight">Market Intelligence Hub</h1>
+        <p className="text-sm text-[#64748B] mt-2">
           Compare local mandis, analyze price trends, and execute smart selling decisions using your trained Random Forest model.
         </p>
       </div>
 
       {/* Select Crop Bar */}
-      <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+      <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
         <div className="flex flex-col md:flex-row gap-4 items-end">
           <div className="flex-1">
-            <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Select Target Crop</label>
+            <label className="block text-xs font-bold text-[#64748B] uppercase tracking-wider mb-2">Select Target Crop</label>
             <select 
               value={selectedCrop}
               onChange={(e) => setSelectedCrop(e.target.value)}
-              className="w-full p-3.5 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none font-semibold text-slate-800"
+              className="w-full p-3.5 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-[#16A34A] outline-none font-semibold text-[#17221D]"
             >
               <option value="Cotton">Cotton (Trained Model)</option>
               <option value="Paddy">Paddy (Rice - Trained Model)</option>
@@ -138,11 +138,11 @@ const PriceDashboard = () => {
 
       {loading ? (
         <div className="flex flex-col items-center justify-center py-20 gap-3">
-          <div className="h-10 w-10 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin" />
-          <p className="text-sm font-semibold text-slate-500">Querying regional mandi prices...</p>
+          <div className="h-10 w-10 border-4 border-[#16A34A] border-t-transparent rounded-full animate-spin" />
+          <p className="text-sm font-semibold text-[#64748B]">Querying regional mandi prices...</p>
         </div>
       ) : error ? (
-        <div className="p-4 bg-rose-50 text-rose-600 rounded-3xl text-center text-sm border border-rose-100">
+        <div className="p-4 bg-rose-50 text-rose-600 rounded-2xl text-center text-sm border border-rose-100">
           {error}
         </div>
       ) : data && (
@@ -153,11 +153,11 @@ const PriceDashboard = () => {
             
             {/* Left side: AI Selling Advisor Panel (Module 4) */}
             <div className="lg:col-span-1 space-y-6">
-              <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex flex-col justify-between h-full">
+              <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between h-full">
                 <div>
                   <div className="flex items-center gap-2 pb-4 border-b border-slate-100 mb-6">
-                    <Sparkles className="h-5 w-5 text-emerald-500" />
-                    <h2 className="font-extrabold text-slate-900 text-lg">AI Selling Advisor</h2>
+                    <Sparkles className="h-5 w-5 text-[#16A34A]" />
+                    <h2 className="font-extrabold text-[#17221D] text-lg">AI Selling Advisor</h2>
                   </div>
 
                   {advice && (
@@ -172,8 +172,8 @@ const PriceDashboard = () => {
 
                       {/* Advisory details */}
                       <div className="space-y-4">
-                        <div className="bg-slate-50 p-4 rounded-xl border border-slate-100 flex gap-3 items-start">
-                          <Info className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" />
+                        <div className="bg-[#F7FAF8] p-4 rounded-xl border border-slate-100 flex gap-3 items-start">
+                          <Info className="h-4 w-4 text-[#16A34A] shrink-0 mt-0.5" />
                           <p className="text-xs text-slate-650 leading-relaxed font-semibold">{advice.advisory}</p>
                         </div>
 
@@ -197,11 +197,11 @@ const PriceDashboard = () => {
             </div>
 
             {/* Right side: Trend Chart */}
-            <div className="lg:col-span-2 bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+            <div className="lg:col-span-2 bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
               <div className="flex items-center gap-2 pb-4 border-b border-slate-100 mb-6 justify-between">
                 <div className="flex items-center gap-2">
-                  <TrendingUp className="h-5 w-5 text-emerald-500" />
-                  <h2 className="font-extrabold text-slate-900 text-lg">Wholesale Price Trend</h2>
+                  <TrendingUp className="h-5 w-5 text-[#16A34A]" />
+                  <h2 className="font-extrabold text-[#17221D] text-lg">Wholesale Price Trend</h2>
                 </div>
                 <span className="text-[10px] font-bold text-slate-400 bg-slate-100 px-2.5 py-1 rounded-full uppercase">₹ / Quintal</span>
               </div>
@@ -225,21 +225,21 @@ const PriceDashboard = () => {
           </div>
 
           {/* Module 3: Best Market Mandi Recommendation */}
-          <section className="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 lg:p-8">
+          <section className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 lg:p-8">
             <div className="pb-4 border-b border-slate-100 mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
-                <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-                  <MapPin className="h-5 w-5 text-emerald-500" />
+                <h2 className="text-xl font-bold text-[#17221D] flex items-center gap-2">
+                  <MapPin className="h-5 w-5 text-[#16A34A]" />
                   Best Market Recommendation (Mandi Analytics)
                 </h2>
-                <p className="text-xs text-slate-500 mt-1">Predictions calculated across 11 major Karnataka mandis after subtracting logistics expenses</p>
+                <p className="text-xs text-[#64748B] mt-1">Predictions calculated across 11 major Karnataka mandis after subtracting logistics expenses</p>
               </div>
               
               {data.best_mandi && (
-                <div className="flex items-center gap-3 bg-emerald-50 border border-emerald-100 px-4 py-2.5 rounded-2xl text-emerald-800">
-                  <Truck className="h-5 w-5 shrink-0 text-emerald-600" />
+                <div className="flex items-center gap-3 bg-[#DCFCE7] border border-emerald-100 px-4 py-2.5 rounded-2xl text-emerald-800">
+                  <Truck className="h-5 w-5 shrink-0 text-[#0B3D2E]" />
                   <div>
-                    <span className="text-[10px] font-bold uppercase tracking-wider block text-emerald-600">Top Rated Location</span>
+                    <span className="text-[10px] font-bold uppercase tracking-wider block text-[#0B3D2E]">Top Rated Location</span>
                     <span className="font-black text-sm">{data.best_mandi.location} Mandi</span>
                   </div>
                 </div>
@@ -250,13 +250,13 @@ const PriceDashboard = () => {
             <div className="overflow-x-auto rounded-2xl border border-slate-100">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="bg-slate-50 border-b border-slate-150">
-                    <th className="p-4 text-xs font-bold uppercase tracking-wider text-slate-500">Mandi Location</th>
-                    <th className="p-4 text-xs font-bold uppercase tracking-wider text-slate-500">Model predicted Price</th>
-                    <th className="p-4 text-xs font-bold uppercase tracking-wider text-slate-500">Distance</th>
-                    <th className="p-4 text-xs font-bold uppercase tracking-wider text-slate-500">Logistics Cost</th>
-                    <th className="p-4 text-xs font-bold uppercase tracking-wider text-slate-500">Net Profitability</th>
-                    <th className="p-4 text-xs font-bold uppercase tracking-wider text-slate-500 text-center">Status</th>
+                  <tr className="bg-[#F7FAF8] border-b border-slate-150">
+                    <th className="p-4 text-xs font-bold uppercase tracking-wider text-[#64748B]">Mandi Location</th>
+                    <th className="p-4 text-xs font-bold uppercase tracking-wider text-[#64748B]">Model predicted Price</th>
+                    <th className="p-4 text-xs font-bold uppercase tracking-wider text-[#64748B]">Distance</th>
+                    <th className="p-4 text-xs font-bold uppercase tracking-wider text-[#64748B]">Logistics Cost</th>
+                    <th className="p-4 text-xs font-bold uppercase tracking-wider text-[#64748B]">Net Profitability</th>
+                    <th className="p-4 text-xs font-bold uppercase tracking-wider text-[#64748B] text-center">Status</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
@@ -265,23 +265,23 @@ const PriceDashboard = () => {
                     return (
                       <tr 
                         key={idx} 
-                        className={`hover:bg-slate-50 transition-colors ${
-                          isBest ? 'bg-emerald-50/20 font-semibold' : ''
+                        className={`hover:bg-[#F7FAF8] transition-colors ${
+                          isBest ? 'bg-[#DCFCE7]/20 font-semibold' : ''
                         }`}
                       >
-                        <td className="p-4 text-sm font-bold text-slate-800 flex items-center gap-2">
-                          <MapPin className={`h-4 w-4 ${isBest ? 'text-emerald-500' : 'text-slate-400'}`} />
+                        <td className="p-4 text-sm font-bold text-[#17221D] flex items-center gap-2">
+                          <MapPin className={`h-4 w-4 ${isBest ? 'text-[#16A34A]' : 'text-slate-400'}`} />
                           <span>{mandi.location}</span>
                         </td>
                         <td className="p-4 text-sm text-slate-650 font-bold">₹{mandi.price}</td>
-                        <td className="p-4 text-sm text-slate-500 font-semibold">{mandi.distance} km</td>
+                        <td className="p-4 text-sm text-[#64748B] font-semibold">{mandi.distance} km</td>
                         <td className="p-4 text-sm text-rose-500 font-semibold">₹{mandi.transport_cost}</td>
-                        <td className={`p-4 text-sm font-extrabold ${isBest ? 'text-emerald-600' : 'text-slate-800'}`}>
+                        <td className={`p-4 text-sm font-extrabold ${isBest ? 'text-[#0B3D2E]' : 'text-[#17221D]'}`}>
                           ₹{mandi.net_profitability}
                         </td>
                         <td className="p-4 text-center">
                           {isBest ? (
-                            <span className="text-[10px] font-black uppercase tracking-wider bg-emerald-500 text-white px-2 py-0.5 rounded-lg shadow-sm">
+                            <span className="text-[10px] font-black uppercase tracking-wider bg-[#16A34A] text-white px-2 py-0.5 rounded-lg shadow-sm">
                               Best Option
                             </span>
                           ) : (

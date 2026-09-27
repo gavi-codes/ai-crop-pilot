@@ -35,7 +35,7 @@ const Login = () => {
     <section className="bg-gray-50 dark:bg-gray-900 min-h-screen">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
           <Link to="/" className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-              <div className="p-1.5 bg-emerald-500 rounded-lg mr-3 shadow-lg shadow-emerald-500/20">
+              <div className="p-1.5 bg-[#16A34A] rounded-lg mr-3 shadow-lg shadow-[#16A34A]/20">
                 <Leaf className="w-6 h-6 text-white" />
               </div>
               AI CropPilot    
@@ -61,7 +61,7 @@ const Login = () => {
                             id="mobile" 
                             value={mobile}
                             onChange={(e) => setMobile(e.target.value)}
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-emerald-600 focus:border-emerald-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-emerald-500 dark:focus:border-emerald-500" 
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-emerald-600 focus:border-emerald-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-[#16A34A] dark:focus:border-[#16A34A]" 
                             placeholder="Enter 10-digit mobile" 
                             required 
                           />
@@ -75,7 +75,7 @@ const Login = () => {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             placeholder="••••••••" 
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-emerald-600 focus:border-emerald-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-emerald-500 dark:focus:border-emerald-500" 
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-emerald-600 focus:border-emerald-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-[#16A34A] dark:focus:border-[#16A34A]" 
                             required 
                           />
                       </div>
@@ -88,11 +88,11 @@ const Login = () => {
                                 <label htmlFor="remember" className="text-gray-500 dark:text-gray-300">Remember me</label>
                               </div>
                           </div>
-                          <a href="#" className="text-sm font-medium text-emerald-600 hover:underline dark:text-emerald-500">Forgot password?</a>
+                          <a href="#" className="text-sm font-medium text-[#0B3D2E] hover:underline dark:text-[#16A34A]">Forgot password?</a>
                       </div>
-                      <button type="submit" className="w-full text-white bg-emerald-600 hover:bg-emerald-700 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800 transition-colors">Sign in</button>
+                      <button type="submit" className="w-full text-white bg-[#0B3D2E] hover:bg-emerald-700 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-[#0B3D2E] dark:hover:bg-emerald-700 dark:focus:ring-emerald-800 transition-colors">Sign in</button>
                       <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                          Don't have an account yet? <Link to="/register" className="font-medium text-emerald-600 hover:underline dark:text-emerald-500">Register here</Link>
+                          Don't have an account yet? <Link to="/register" className="font-medium text-[#0B3D2E] hover:underline dark:text-[#16A34A]">Register here</Link>
                       </p>
                   </form>
               </div>

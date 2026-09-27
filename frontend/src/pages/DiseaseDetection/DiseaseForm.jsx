@@ -76,13 +76,13 @@ const DiseaseForm = () => {
       <div className="flex items-center gap-4 mb-8">
         <button 
           onClick={() => window.history.back()}
-          className="p-2 hover:bg-slate-200 rounded-lg transition-colors text-slate-600"
+          className="p-2 hover:bg-slate-200 rounded-lg transition-colors text-[#64748B]"
         >
           <ArrowLeft className="h-5 w-5" />
         </button>
         <div>
-          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">AI Crop Disease Scan</h1>
-          <p className="text-sm text-slate-500 mt-2">
+          <h1 className="text-3xl font-extrabold text-[#17221D] tracking-tight">AI Crop Disease Scan</h1>
+          <p className="text-sm text-[#64748B] mt-2">
             Upload a clear photo of your affected crop leaves to analyze symptoms and get localized remedies in multiple languages.
           </p>
         </div>
@@ -92,11 +92,11 @@ const DiseaseForm = () => {
         
         {/* Left Column: Upload Console */}
         <div className="lg:col-span-2 space-y-6">
-          <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex flex-col justify-between h-full">
+          <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between h-full">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div 
                 className={`relative border-2 border-dashed rounded-2xl p-6 text-center cursor-pointer transition-all ${
-                  preview ? 'border-emerald-500 bg-emerald-50/20' : 'border-slate-200 hover:bg-slate-50/50'
+                  preview ? 'border-[#16A34A] bg-[#DCFCE7]/20' : 'border-slate-200 hover:bg-[#F7FAF8]/50'
                 }`}
                 onDragOver={(e) => e.preventDefault()}
                 onDrop={handleDrop}
@@ -118,14 +118,14 @@ const DiseaseForm = () => {
                     {/* Pulsating Laser Line (Holographic Scanner) */}
                     {loading && <div className="scanner-laser"></div>}
                     
-                    <p className="text-xs text-emerald-600 font-bold mt-3 hover:underline">Change Leaf Photo</p>
+                    <p className="text-xs text-[#0B3D2E] font-bold mt-3 hover:underline">Change Leaf Photo</p>
                   </div>
                 ) : (
                   <div className="py-10 flex flex-col items-center">
-                    <div className="p-3.5 bg-slate-50 rounded-2xl text-slate-400 group-hover:scale-110 transition-transform mb-3 border border-slate-100">
+                    <div className="p-3.5 bg-[#F7FAF8] rounded-2xl text-slate-400 group-hover:scale-110 transition-transform mb-3 border border-slate-100">
                       <ImageIcon className="h-6 w-6 text-slate-400" />
                     </div>
-                    <p className="text-sm font-bold text-slate-800">Drag and drop photo here</p>
+                    <p className="text-sm font-bold text-[#17221D]">Drag and drop photo here</p>
                     <p className="text-[10px] text-slate-400 font-medium mt-1">or browse files / take photo</p>
                   </div>
                 )}
@@ -137,8 +137,8 @@ const DiseaseForm = () => {
                 className={`w-full py-3.5 rounded-2xl font-bold transition-all flex items-center justify-center gap-2 ${
                   !file ? 'bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-100' : 
                   loading 
-                    ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white opacity-80 cursor-wait shadow-lg shadow-emerald-500/20' 
-                    : 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white hover:scale-[1.01] active:scale-[0.99] hover:shadow-lg hover:shadow-emerald-500/20'
+                    ? 'bg-[#16A34A] text-white opacity-80 cursor-wait shadow-lg shadow-[#16A34A]/20' 
+                    : 'bg-[#16A34A] text-white hover:scale-[1.01] active:scale-[0.99] hover:shadow-lg hover:shadow-[#16A34A]/20'
                 }`}
               >
                 {loading ? (
@@ -166,7 +166,7 @@ const DiseaseForm = () => {
         {/* Right Column: Diagnostic Console (Results) */}
         <div className="lg:col-span-3">
           {result ? (
-            <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden animate-fadeIn">
+            <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden animate-fadeIn">
               
               {/* Language Switcher header bar */}
               <div className="p-4 bg-slate-900 text-white flex items-center justify-between gap-4 border-b border-slate-800">
@@ -182,7 +182,7 @@ const DiseaseForm = () => {
                       onClick={() => setActiveLanguage(lang)}
                       className={`px-3 py-1 rounded-xl text-xs font-bold transition-all ${
                         activeLanguage === lang 
-                          ? 'bg-emerald-500 text-white shadow shadow-emerald-500/30' 
+                          ? 'bg-[#16A34A] text-white shadow shadow-[#16A34A]/30' 
                           : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white'
                       }`}
                     >
@@ -193,7 +193,7 @@ const DiseaseForm = () => {
               </div>
 
               {/* Status Header */}
-              <div className="p-6 bg-slate-50 border-b border-slate-100">
+              <div className="p-6 bg-[#F7FAF8] border-b border-slate-100">
                 <div className="flex items-start justify-between gap-4">
                   <div>
                     <span className="text-[10px] uppercase font-bold text-slate-400">Diagnosis Diagnosis</span>
@@ -201,7 +201,7 @@ const DiseaseForm = () => {
                   </div>
                   <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold shadow-sm border ${
                     result.confidence > 70 
-                      ? 'bg-emerald-50 text-emerald-600 border-emerald-100' 
+                      ? 'bg-[#DCFCE7] text-[#0B3D2E] border-emerald-100' 
                       : 'bg-amber-50 text-amber-600 border-amber-100'
                   }`}>
                     <Sparkles className="h-4 w-4 animate-spin-slow" />
@@ -219,7 +219,7 @@ const DiseaseForm = () => {
                     <HelpCircle className="h-4 w-4 text-slate-400" />
                     What is this Disease?
                   </h3>
-                  <p className="text-sm text-slate-650 leading-relaxed font-medium bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                  <p className="text-sm text-slate-650 leading-relaxed font-medium bg-[#F7FAF8] p-4 rounded-2xl border border-slate-100">
                     {result.description_json[activeLanguage] || result.description_json['English']}
                   </p>
                 </div>
@@ -227,10 +227,10 @@ const DiseaseForm = () => {
                 {/* 2. Treatment Solution */}
                 <div>
                   <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2.5 flex items-center gap-2">
-                    <FlaskConical className="h-4 w-4 text-emerald-500" />
+                    <FlaskConical className="h-4 w-4 text-[#16A34A]" />
                     Recommended Treatment Solution
                   </h3>
-                  <p className="text-sm text-slate-800 leading-relaxed font-semibold bg-emerald-50/20 p-4 rounded-2xl border border-emerald-100/50">
+                  <p className="text-sm text-[#17221D] leading-relaxed font-semibold bg-[#DCFCE7]/20 p-4 rounded-2xl border border-emerald-100/50">
                     {result.treatment_json[activeLanguage] || result.treatment_json['English']}
                   </p>
                 </div>
@@ -255,7 +255,7 @@ const DiseaseForm = () => {
                     </h3>
                     
                     <div className="flex flex-col sm:flex-row gap-4 bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
-                      <div className="w-full sm:w-1/3 bg-slate-50 border-r border-slate-100 relative min-h-[140px]">
+                      <div className="w-full sm:w-1/3 bg-[#F7FAF8] border-r border-slate-100 relative min-h-[140px]">
                         <img 
                           src={result.medicine.photo_url || 'https://images.unsplash.com/photo-1585421514738-01798e348b17?w=500&q=80'} 
                           alt="Medicine" 
@@ -264,13 +264,13 @@ const DiseaseForm = () => {
                         />
                       </div>
                       <div className="p-4 sm:w-2/3 flex flex-col justify-center">
-                        <h4 className="text-lg font-black text-slate-900 mb-1">{result.medicine.name}</h4>
+                        <h4 className="text-lg font-black text-[#17221D] mb-1">{result.medicine.name}</h4>
                         <div className="flex items-center gap-3 mt-2 text-sm">
-                          <div className="flex items-center gap-1.5 text-emerald-700 bg-emerald-50 px-2 py-1 rounded-lg font-bold">
+                          <div className="flex items-center gap-1.5 text-emerald-700 bg-[#DCFCE7] px-2 py-1 rounded-lg font-bold">
                             <Tag className="h-3.5 w-3.5" />
                             {result.medicine.price_estimate}
                           </div>
-                          <div className="text-slate-600 font-medium">
+                          <div className="text-[#64748B] font-medium">
                             <span className="text-xs text-slate-400 uppercase font-bold mr-1 block">Dosage</span>
                             {result.medicine.quantity}
                           </div>
@@ -285,16 +285,16 @@ const DiseaseForm = () => {
                   <ShieldCheck className="h-5 w-5 text-slate-400 shrink-0 mt-0.5" />
                   <div>
                     <span className="text-[10px] uppercase font-bold text-slate-400 block mb-0.5">Prevention Tip</span>
-                    <p className="text-xs text-slate-500 leading-relaxed font-semibold">{result.prevention}</p>
+                    <p className="text-xs text-[#64748B] leading-relaxed font-semibold">{result.prevention}</p>
                   </div>
                 </div>
 
               </div>
             </div>
           ) : (
-            <div className="h-full bg-slate-50 border border-dashed border-slate-200 rounded-3xl flex flex-col items-center justify-center text-center p-12 text-slate-400">
+            <div className="h-full bg-[#F7FAF8] border border-dashed border-slate-200 rounded-2xl flex flex-col items-center justify-center text-center p-12 text-slate-400">
               <Scan className="h-12 w-12 text-slate-300 mb-3 animate-pulse" />
-              <p className="font-bold text-slate-500 text-sm">Waiting for Scan Telemetry</p>
+              <p className="font-bold text-[#64748B] text-sm">Waiting for Scan Telemetry</p>
               <p className="text-[10px] text-slate-400 font-medium max-w-xs mt-1 leading-relaxed">
                 Upload or drag a photo of the leaf on the left panel, then run diagnostic scans to display results here.
               </p>

@@ -70,13 +70,13 @@ const MaturityScanner = () => {
       <div className="flex items-center gap-4 mb-8">
         <button 
           onClick={() => window.history.back()}
-          className="p-2 hover:bg-slate-200 rounded-lg transition-colors text-slate-600"
+          className="p-2 hover:bg-slate-200 rounded-lg transition-colors text-[#64748B]"
         >
           <ArrowLeft className="h-5 w-5" />
         </button>
         <div>
-          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">AI Harvest Maturity Scanner</h1>
-          <p className="text-sm text-slate-500 mt-2">
+          <h1 className="text-3xl font-extrabold text-[#17221D] tracking-tight">AI Harvest Maturity Scanner</h1>
+          <p className="text-sm text-[#64748B] mt-2">
             Upload an image of your crop to instantly detect if it is unripe, ripening, ready to harvest, or overripe using Computer Vision.
           </p>
         </div>
@@ -86,11 +86,11 @@ const MaturityScanner = () => {
         
         {/* Left Column: Upload */}
         <div className="lg:col-span-2 space-y-6">
-          <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex flex-col justify-between h-full">
+          <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between h-full">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div 
                 className={`relative border-2 border-dashed rounded-2xl p-6 text-center cursor-pointer transition-all ${
-                  preview ? 'border-amber-500 bg-amber-50/20' : 'border-slate-200 hover:bg-slate-50/50'
+                  preview ? 'border-amber-500 bg-amber-50/20' : 'border-slate-200 hover:bg-[#F7FAF8]/50'
                 }`}
                 onDragOver={(e) => e.preventDefault()}
                 onDrop={handleDrop}
@@ -113,10 +113,10 @@ const MaturityScanner = () => {
                   </div>
                 ) : (
                   <div className="py-10 flex flex-col items-center">
-                    <div className="p-3.5 bg-slate-50 rounded-2xl text-slate-400 group-hover:scale-110 transition-transform mb-3 border border-slate-100">
+                    <div className="p-3.5 bg-[#F7FAF8] rounded-2xl text-slate-400 group-hover:scale-110 transition-transform mb-3 border border-slate-100">
                       <ImageIcon className="h-6 w-6 text-slate-400" />
                     </div>
-                    <p className="text-sm font-bold text-slate-800">Drop crop photo here</p>
+                    <p className="text-sm font-bold text-[#17221D]">Drop crop photo here</p>
                     <p className="text-[10px] text-slate-400 font-medium mt-1">or browse files / camera</p>
                   </div>
                 )}
@@ -157,7 +157,7 @@ const MaturityScanner = () => {
         {/* Right Column: Results */}
         <div className="lg:col-span-3">
           {result ? (
-            <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden animate-fadeIn">
+            <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden animate-fadeIn">
               
               {/* Language Switcher header bar */}
               <div className="p-4 bg-slate-900 text-white flex items-center justify-between gap-4 border-b border-slate-800">
@@ -184,7 +184,7 @@ const MaturityScanner = () => {
               </div>
 
               {/* Status Header */}
-              <div className="p-6 bg-slate-50 border-b border-slate-100">
+              <div className="p-6 bg-[#F7FAF8] border-b border-slate-100">
                 <div className="flex items-start justify-between gap-4">
                   <div>
                     <span className="text-[10px] uppercase font-bold text-slate-400">Detected Stage</span>
@@ -209,7 +209,7 @@ const MaturityScanner = () => {
                   </div>
                   <div>
                     <p className="text-[10px] font-bold text-orange-400 uppercase tracking-wider">Estimated Time to Harvest</p>
-                    <p className="text-lg font-black text-slate-800">{result.estimated_days}</p>
+                    <p className="text-lg font-black text-[#17221D]">{result.estimated_days}</p>
                   </div>
                 </div>
 
@@ -219,7 +219,7 @@ const MaturityScanner = () => {
                     <HelpCircle className="h-4 w-4 text-slate-400" />
                     Visual Analysis
                   </h3>
-                  <p className="text-sm text-slate-650 leading-relaxed font-medium bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                  <p className="text-sm text-slate-650 leading-relaxed font-medium bg-[#F7FAF8] p-4 rounded-2xl border border-slate-100">
                     {(() => {
                       try {
                         const parsed = JSON.parse(result.analysis_json || '{}');
@@ -248,9 +248,9 @@ const MaturityScanner = () => {
               </div>
             </div>
           ) : (
-            <div className="h-full bg-slate-50 border border-dashed border-slate-200 rounded-3xl flex flex-col items-center justify-center text-center p-12 text-slate-400">
+            <div className="h-full bg-[#F7FAF8] border border-dashed border-slate-200 rounded-2xl flex flex-col items-center justify-center text-center p-12 text-slate-400">
               <Scan className="h-12 w-12 text-slate-300 mb-3 animate-pulse" />
-              <p className="font-bold text-slate-500 text-sm">Waiting for Scan Telemetry</p>
+              <p className="font-bold text-[#64748B] text-sm">Waiting for Scan Telemetry</p>
               <p className="text-[10px] text-slate-400 font-medium max-w-xs mt-1 leading-relaxed">
                 Upload or drag a photo of your crop on the left panel to detect its exact maturity and harvest readiness.
               </p>

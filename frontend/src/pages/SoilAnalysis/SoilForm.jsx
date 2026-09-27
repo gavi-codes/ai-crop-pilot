@@ -106,7 +106,7 @@ const SoilForm = () => {
     const ph = parseFloat(phVal);
     if (ph < 6.0) return { label: 'Acidic Soil', color: 'bg-rose-50 text-rose-600 border-rose-100', barColor: 'bg-rose-500' };
     if (ph > 7.2) return { label: 'Alkaline Soil', color: 'bg-indigo-50 text-indigo-600 border-indigo-100', barColor: 'bg-indigo-500' };
-    return { label: 'Neutral/Ideal Soil', color: 'bg-emerald-50 text-emerald-600 border-emerald-100', barColor: 'bg-emerald-500' };
+    return { label: 'Neutral/Ideal Soil', color: 'bg-[#DCFCE7] text-[#0B3D2E] border-emerald-100', barColor: 'bg-[#16A34A]' };
   };
 
   const phVerdict = result ? getPhVerdict(result.ph) : null;
@@ -115,8 +115,8 @@ const SoilForm = () => {
     <div className="p-6 lg:p-8 max-w-4xl mx-auto space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Soil Diagnostics Console</h1>
-        <p className="text-sm text-slate-500 mt-2">
+        <h1 className="text-3xl font-extrabold text-[#17221D] tracking-tight">Soil Diagnostics Console</h1>
+        <p className="text-sm text-[#64748B] mt-2">
           Verify critical nutrient indexes, trace pH balance, and calculate optimal plant compatibility levels.
         </p>
       </div>
@@ -125,12 +125,12 @@ const SoilForm = () => {
         
         {/* Left Column: Diagnostics Input Setup */}
         <div className="lg:col-span-2">
-          <div className="bg-white p-6 rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 border-t-4 border-t-emerald-500 flex flex-col justify-between h-full">
+          <div className="bg-white p-6 rounded-2xl shadow-md shadow-slate-200/50 border border-slate-300 border-t-4 border-t-[#16A34A] flex flex-col justify-between h-full">
             <div>
-              <div className="flex items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-100">
+              <div className="flex items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-300">
                 <div className="flex items-center gap-2">
-                  <Sliders className="h-5 w-5 text-emerald-500 animate-pulse" />
-                  <h2 className="font-bold text-slate-900 text-base">Telemetry Input</h2>
+                  <Sliders className="h-5 w-5 text-[#16A34A] animate-pulse" />
+                  <h2 className="font-bold text-[#17221D] text-base">Telemetry Input</h2>
                 </div>
                 
                 <button 
@@ -138,8 +138,8 @@ const SoilForm = () => {
                   onClick={toggleMode}
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider transition-all border ${
                     advancedMode 
-                      ? 'bg-emerald-50 text-emerald-600 border-emerald-200' 
-                      : 'bg-slate-50 text-slate-500 border-slate-200 hover:bg-slate-100'
+                      ? 'bg-[#DCFCE7] text-[#0B3D2E] border-[#16A34A]/20' 
+                      : 'bg-[#F7FAF8] text-[#64748B] border-slate-300 hover:bg-slate-100'
                   }`}
                 >
                   <Settings className="h-3.5 w-3.5" />
@@ -150,12 +150,12 @@ const SoilForm = () => {
               <form onSubmit={handleSubmit} className="space-y-6">
                 {!advancedMode ? (
                   /* Quick Mode Dropdown */
-                  <div className="p-4.5 bg-slate-50/50 rounded-2xl border border-slate-100 space-y-3">
-                    <label className="block text-xs font-black uppercase tracking-wider text-slate-500">Soil Type Selector</label>
+                  <div className="p-4.5 bg-[#F7FAF8]/50 rounded-2xl border border-slate-300 space-y-3">
+                    <label className="block text-xs font-black uppercase tracking-wider text-[#64748B]">Soil Type Selector</label>
                     <select 
                       value={selectedSoilType}
                       onChange={handleSoilTypeChange}
-                      className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none transition-all font-bold text-sm text-slate-800"
+                      className="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl focus:ring-2 focus:ring-[#16A34A] outline-none transition-all font-bold text-sm text-[#17221D]"
                     >
                       <option value="Red Soil">Red Soil (Pre-filled from profile)</option>
                       <option value="Black Soil">Black Soil</option>
@@ -173,24 +173,24 @@ const SoilForm = () => {
                     <div className="grid grid-cols-1 gap-4">
                       <div>
                         <label className="block text-[10px] font-black text-slate-450 uppercase tracking-wider mb-1">Nitrogen (N ppm)</label>
-                        <input type="number" name="nitrogen" value={formData.nitrogen} onChange={handleChange} className="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none font-bold text-slate-700 bg-slate-50/50" required />
+                        <input type="number" name="nitrogen" value={formData.nitrogen} onChange={handleChange} className="w-full px-4 py-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-[#16A34A] outline-none font-bold text-slate-700 bg-[#F7FAF8]/50" required />
                       </div>
                       <div>
                         <label className="block text-[10px] font-black text-slate-450 uppercase tracking-wider mb-1">Phosphorus (P ppm)</label>
-                        <input type="number" name="phosphorus" value={formData.phosphorus} onChange={handleChange} className="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none font-bold text-slate-700 bg-slate-50/50" required />
+                        <input type="number" name="phosphorus" value={formData.phosphorus} onChange={handleChange} className="w-full px-4 py-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-[#16A34A] outline-none font-bold text-slate-700 bg-[#F7FAF8]/50" required />
                       </div>
                       <div>
                         <label className="block text-[10px] font-black text-slate-450 uppercase tracking-wider mb-1">Potassium (K ppm)</label>
-                        <input type="number" name="potassium" value={formData.potassium} onChange={handleChange} className="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none font-bold text-slate-700 bg-slate-50/50" required />
+                        <input type="number" name="potassium" value={formData.potassium} onChange={handleChange} className="w-full px-4 py-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-[#16A34A] outline-none font-bold text-slate-700 bg-[#F7FAF8]/50" required />
                       </div>
                       <div className="grid grid-cols-2 gap-4">
                         <div>
                           <label className="block text-[10px] font-black text-slate-450 uppercase tracking-wider mb-1">pH level</label>
-                          <input type="number" step="0.1" name="ph" value={formData.ph} onChange={handleChange} className="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none font-bold text-slate-700 bg-slate-50/50" required />
+                          <input type="number" step="0.1" name="ph" value={formData.ph} onChange={handleChange} className="w-full px-4 py-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-[#16A34A] outline-none font-bold text-slate-700 bg-[#F7FAF8]/50" required />
                         </div>
                         <div>
                           <label className="block text-[10px] font-black text-slate-450 uppercase tracking-wider mb-1">Moisture (%)</label>
-                          <input type="number" name="moisture" value={formData.moisture} onChange={handleChange} className="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none font-bold text-slate-700 bg-slate-50/50" required />
+                          <input type="number" name="moisture" value={formData.moisture} onChange={handleChange} className="w-full px-4 py-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-[#16A34A] outline-none font-bold text-slate-700 bg-[#F7FAF8]/50" required />
                         </div>
                       </div>
                     </div>
@@ -200,7 +200,7 @@ const SoilForm = () => {
                 <button 
                   type="submit" 
                   disabled={loading}
-                  className="w-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white py-3.5 rounded-2xl font-bold hover:shadow-lg hover:shadow-emerald-500/20 active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                  className="w-full bg-[#16A34A] text-white py-3.5 rounded-2xl font-bold hover:shadow-lg hover:shadow-[#16A34A]/20 active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                 >
                   {loading ? (
                     <>
@@ -228,15 +228,15 @@ const SoilForm = () => {
         {/* Right Column: Lab Diagnostic Results Panel */}
         <div className="lg:col-span-3">
           {result ? (
-            <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-xl shadow-slate-200/50 space-y-6 animate-fadeIn">
+            <div className="bg-white rounded-2xl p-6 border border-slate-300 shadow-md shadow-slate-200/50 space-y-6 animate-fadeIn">
               
               {/* Header Status */}
-              <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+              <div className="flex items-center justify-between pb-4 border-b border-slate-300">
                 <div>
                   <span className="text-[10px] uppercase font-bold text-slate-400">Diagnosis Registry</span>
-                  <h2 className="text-xl font-bold text-slate-900 mt-0.5">Lab Diagnostic Report</h2>
+                  <h2 className="text-xl font-bold text-[#17221D] mt-0.5">Lab Diagnostic Report</h2>
                 </div>
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-600 text-xs font-bold">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#DCFCE7] border border-emerald-100 text-[#0B3D2E] text-xs font-bold">
                   <CheckCircle2 className="h-4.5 w-4.5" />
                   Verified Status
                 </span>
@@ -248,10 +248,10 @@ const SoilForm = () => {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   
                   {/* Nitrogen (N) */}
-                  <div className="bg-slate-50 border border-slate-100 p-4 rounded-2xl space-y-2">
+                  <div className="bg-[#F7FAF8] border border-slate-300 p-4 rounded-2xl space-y-2">
                     <div className="flex justify-between items-center text-xs font-bold">
                       <span className="text-blue-600 uppercase">Nitrogen (N)</span>
-                      <span className="text-slate-900">{result.nitrogen} ppm</span>
+                      <span className="text-[#17221D]">{result.nitrogen} ppm</span>
                     </div>
                     <div className="w-full bg-slate-200 rounded-full h-2">
                       <div className="bg-blue-500 h-2 rounded-full" style={{ width: `${Math.min(100, (result.nitrogen/70)*100)}%` }} />
@@ -260,10 +260,10 @@ const SoilForm = () => {
                   </div>
 
                   {/* Phosphorus (P) */}
-                  <div className="bg-slate-50 border border-slate-100 p-4 rounded-2xl space-y-2">
+                  <div className="bg-[#F7FAF8] border border-slate-300 p-4 rounded-2xl space-y-2">
                     <div className="flex justify-between items-center text-xs font-bold">
                       <span className="text-rose-600 uppercase">Phosphorus (P)</span>
-                      <span className="text-slate-900">{result.phosphorus} ppm</span>
+                      <span className="text-[#17221D]">{result.phosphorus} ppm</span>
                     </div>
                     <div className="w-full bg-slate-200 rounded-full h-2">
                       <div className="bg-rose-500 h-2 rounded-full" style={{ width: `${Math.min(100, (result.phosphorus/40)*100)}%` }} />
@@ -272,10 +272,10 @@ const SoilForm = () => {
                   </div>
 
                   {/* Potassium (K) */}
-                  <div className="bg-slate-50 border border-slate-100 p-4 rounded-2xl space-y-2">
+                  <div className="bg-[#F7FAF8] border border-slate-300 p-4 rounded-2xl space-y-2">
                     <div className="flex justify-between items-center text-xs font-bold">
                       <span className="text-purple-600 uppercase">Potassium (K)</span>
-                      <span className="text-slate-900">{result.potassium} ppm</span>
+                      <span className="text-[#17221D]">{result.potassium} ppm</span>
                     </div>
                     <div className="w-full bg-slate-200 rounded-full h-2">
                       <div className="bg-purple-500 h-2 rounded-full" style={{ width: `${Math.min(100, (result.potassium/40)*100)}%` }} />
@@ -314,9 +314,9 @@ const SoilForm = () => {
                   {result.suitable_crops.map(crop => (
                     <span 
                       key={crop} 
-                      className="bg-emerald-50 text-emerald-700 border border-emerald-100 font-extrabold px-3.5 py-1.5 rounded-2xl text-xs flex items-center gap-1.5 shadow-sm hover:scale-105 active:scale-95 transition-all select-none"
+                      className="bg-[#DCFCE7] text-emerald-700 border border-emerald-100 font-extrabold px-3.5 py-1.5 rounded-2xl text-xs flex items-center gap-1.5 shadow-sm hover:scale-105 active:scale-95 transition-all select-none"
                     >
-                      <Sprout className="h-3.5 w-3.5 text-emerald-500" />
+                      <Sprout className="h-3.5 w-3.5 text-[#16A34A]" />
                       {crop}
                     </span>
                   ))}
@@ -333,9 +333,9 @@ const SoilForm = () => {
 
             </div>
           ) : (
-            <div className="h-full bg-slate-50 border border-dashed border-slate-200 rounded-3xl flex flex-col items-center justify-center text-center p-12 text-slate-400">
+            <div className="h-full bg-[#F7FAF8] border border-dashed border-slate-300 rounded-2xl flex flex-col items-center justify-center text-center p-12 text-slate-400">
               <FlaskConical className="h-12 w-12 text-slate-300 mb-3 animate-pulse" />
-              <p className="font-bold text-slate-500 text-sm">Waiting for Analysis Input</p>
+              <p className="font-bold text-[#64748B] text-sm">Waiting for Analysis Input</p>
               <p className="text-[10px] text-slate-400 font-medium max-w-xs mt-1 leading-relaxed">
                 Choose a soil category or input lab telemetry coordinates on the left panel to execute diagnostic checks.
               </p>

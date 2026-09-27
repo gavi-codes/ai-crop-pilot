@@ -36,14 +36,14 @@ const Register = () => {
     }
   };
 
-  const inputClass = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-emerald-600 focus:border-emerald-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-emerald-500 dark:focus:border-emerald-500";
+  const inputClass = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-emerald-600 focus:border-emerald-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-[#16A34A] dark:focus:border-[#16A34A]";
   const labelClass = "block mb-2 text-sm font-medium text-gray-900 dark:text-white";
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900 min-h-screen py-10">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
           <Link to="/" className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-              <div className="p-1.5 bg-emerald-500 rounded-lg mr-3 shadow-lg shadow-emerald-500/20">
+              <div className="p-1.5 bg-[#16A34A] rounded-lg mr-3 shadow-lg shadow-[#16A34A]/20">
                 <Leaf className="w-6 h-6 text-white" />
               </div>
               AI CropPilot    
@@ -115,15 +115,15 @@ const Register = () => {
                           </div>
                           <div className="ml-3 text-sm">
                             <label htmlFor="terms" className="font-light text-gray-500 dark:text-gray-300">
-                              I accept the <a className="font-medium text-emerald-600 hover:underline dark:text-emerald-500" href="#">Terms and Conditions</a>
+                              I accept the <a className="font-medium text-[#0B3D2E] hover:underline dark:text-[#16A34A]" href="#">Terms and Conditions</a>
                             </label>
                           </div>
                       </div>
-                      <button type="submit" className="w-full text-white bg-emerald-600 hover:bg-emerald-700 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800 transition-colors">
+                      <button type="submit" className="w-full text-white bg-[#0B3D2E] hover:bg-emerald-700 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-[#0B3D2E] dark:hover:bg-emerald-700 dark:focus:ring-emerald-800 transition-colors">
                         Create an account
                       </button>
                       <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                          Already have an account? <Link to="/login" className="font-medium text-emerald-600 hover:underline dark:text-emerald-500">Login here</Link>
+                          Already have an account? <Link to="/login" className="font-medium text-[#0B3D2E] hover:underline dark:text-[#16A34A]">Login here</Link>
                       </p>
                   </form>
               </div>

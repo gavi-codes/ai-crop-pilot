@@ -195,11 +195,11 @@ const AgriBot = () => {
       {/* Header with Voice Configuration */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-3">
-            <Bot className="h-8 w-8 text-emerald-500" />
+          <h1 className="text-3xl font-extrabold text-[#17221D] tracking-tight flex items-center gap-3">
+            <Bot className="h-8 w-8 text-[#16A34A]" />
             Agri-bot Voice Assistant
           </h1>
-          <p className="text-sm text-slate-500 mt-2">
+          <p className="text-sm text-[#64748B] mt-2">
             Speak or type to receive smart market suggestions and weather alerts dynamically read aloud.
           </p>
         </div>
@@ -212,13 +212,13 @@ const AgriBot = () => {
           }}
           className={`flex items-center gap-2 px-4 py-2 rounded-2xl text-xs font-bold transition-all shadow-sm border ${
             voiceEnabled 
-              ? 'bg-emerald-50 border-emerald-100 text-emerald-700' 
-              : 'bg-slate-100 border-slate-200 text-slate-500'
+              ? 'bg-[#DCFCE7] border-emerald-100 text-emerald-700' 
+              : 'bg-slate-100 border-slate-200 text-[#64748B]'
           }`}
         >
           {voiceEnabled ? (
             <>
-              <Volume2 className="h-4.5 w-4.5 text-emerald-600 animate-pulse" />
+              <Volume2 className="h-4.5 w-4.5 text-[#0B3D2E] animate-pulse" />
               <span>Auto Readout: ON</span>
             </>
           ) : (
@@ -231,7 +231,7 @@ const AgriBot = () => {
       </div>
 
       {/* Main Conversational Window */}
-      <div className="flex-1 bg-white/95 border border-slate-100 shadow-xl shadow-slate-200/50 rounded-3xl p-6 flex flex-col overflow-hidden justify-between border-t-4 border-t-emerald-500">
+      <div className="flex-1 bg-white/95 border border-slate-100 shadow-sm border border-slate-200 rounded-2xl p-6 flex flex-col overflow-hidden justify-between border-t-4 border-t-[#16A34A]">
         
         {/* Messages transcript */}
         <div className="flex-1 overflow-y-auto space-y-4 pr-2 mb-6 scrollbar-thin scrollbar-thumb-slate-200">
@@ -245,7 +245,7 @@ const AgriBot = () => {
                 {/* Avatar */}
                 <div className={`h-8.5 w-8.5 rounded-xl flex items-center justify-center shrink-0 shadow-sm border ${
                   isBot 
-                    ? 'bg-emerald-50 border-emerald-100 text-emerald-600' 
+                    ? 'bg-[#DCFCE7] border-emerald-100 text-[#0B3D2E]' 
                     : 'bg-indigo-50 border-indigo-100 text-indigo-600'
                 }`}>
                   {isBot ? <Bot className="h-4.5 w-4.5" /> : <UserIcon className="h-4.5 w-4.5" />}
@@ -254,13 +254,13 @@ const AgriBot = () => {
                 {/* Bubble */}
                 <div className={`relative p-4 rounded-2xl leading-relaxed text-sm ${
                   isBot 
-                    ? 'bg-slate-50 text-slate-800 rounded-tl-none border border-slate-100 font-medium' 
-                    : 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-tr-none font-bold shadow-md shadow-emerald-500/10'
+                    ? 'bg-[#F7FAF8] text-[#17221D] rounded-tl-none border border-slate-100 font-medium' 
+                    : 'bg-[#16A34A] text-white rounded-tr-none font-bold shadow-md shadow-emerald-500/10'
                 }`}>
                   {isBot && (
                     <button 
                       onClick={() => speakResponse(msg.text, msg.language)}
-                      className="absolute -right-3 -top-3 p-1.5 bg-white border border-slate-100 rounded-lg shadow-sm text-slate-400 hover:text-emerald-500 active:scale-95 transition-all"
+                      className="absolute -right-3 -top-3 p-1.5 bg-white border border-slate-100 rounded-lg shadow-sm text-slate-400 hover:text-[#16A34A] active:scale-95 transition-all"
                       title="Read Message Aloud"
                     >
                       <Volume1 className="h-3.5 w-3.5" />
@@ -277,13 +277,13 @@ const AgriBot = () => {
 
           {loading && (
             <div className="flex gap-3 max-w-[80%] self-start">
-              <div className="h-8.5 w-8.5 rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-600 flex items-center justify-center shrink-0">
+              <div className="h-8.5 w-8.5 rounded-xl bg-[#DCFCE7] border border-emerald-100 text-[#0B3D2E] flex items-center justify-center shrink-0">
                 <Bot className="h-4.5 w-4.5" />
               </div>
-              <div className="bg-slate-50 border border-slate-100 p-4 rounded-2xl rounded-tl-none flex items-center gap-2">
-                <span className="h-2 w-2 bg-emerald-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                <span className="h-2 w-2 bg-emerald-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                <span className="h-2 w-2 bg-emerald-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+              <div className="bg-[#F7FAF8] border border-slate-100 p-4 rounded-2xl rounded-tl-none flex items-center gap-2">
+                <span className="h-2 w-2 bg-[#16A34A] rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                <span className="h-2 w-2 bg-[#16A34A] rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                <span className="h-2 w-2 bg-[#16A34A] rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
               </div>
             </div>
           )}
@@ -310,7 +310,7 @@ const AgriBot = () => {
                   key={idx}
                   onClick={() => handleSend(preset.text)}
                   disabled={loading}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 border border-slate-100 rounded-xl text-xs font-bold text-slate-650 hover:bg-emerald-50 hover:text-emerald-600 hover:border-emerald-200 transition-all cursor-pointer select-none"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#F7FAF8] border border-slate-100 rounded-xl text-xs font-bold text-slate-650 hover:bg-[#DCFCE7] hover:text-[#0B3D2E] hover:border-[#16A34A]/20 transition-all cursor-pointer select-none"
                 >
                   <Icon className="h-3.5 w-3.5" />
                   <span>{preset.label}</span>
@@ -335,7 +335,7 @@ const AgriBot = () => {
                 className={`p-3.5 rounded-2xl border transition-all flex items-center justify-center ${
                   isListening 
                     ? 'bg-rose-500 text-white border-rose-500 animate-pulse shadow-md shadow-rose-500/20' 
-                    : 'bg-slate-50 border-slate-200 text-slate-500 hover:bg-slate-100 hover:text-slate-700'
+                    : 'bg-[#F7FAF8] border-slate-200 text-[#64748B] hover:bg-slate-100 hover:text-slate-700'
                 }`}
                 title={isListening ? "Stop listening" : "Dictate query"}
               >
@@ -349,7 +349,7 @@ const AgriBot = () => {
               onChange={(e) => setInput(e.target.value)}
               placeholder="Speak (tap mic) or type your query here..."
               disabled={loading}
-              className="flex-1 p-3.5 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none font-semibold text-slate-800 placeholder-slate-400 bg-white"
+              className="flex-1 p-3.5 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-[#16A34A] outline-none font-semibold text-[#17221D] placeholder-slate-400 bg-white"
             />
             
             <button
