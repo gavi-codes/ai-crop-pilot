@@ -26,4 +26,5 @@ class Config:
         'max_overflow': 30,
         'pool_timeout': 10,
         'pool_recycle': 120,
+        'connect_args': {'connect_timeout': 3}
     }

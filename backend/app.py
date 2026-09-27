@@ -30,9 +30,11 @@ def create_app(config_class=Config):
         except Exception as e:
             logger.warning(f"Could not parse database URI for logging: {e}")
 
+    import os
     with app.app_context():
         try:
-            db.create_all()
+            if os.environ.get('VERCEL') != '1':
+                db.create_all()
         except Exception:
             pass
 
