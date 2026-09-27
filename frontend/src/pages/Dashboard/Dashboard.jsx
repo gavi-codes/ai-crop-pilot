@@ -38,7 +38,8 @@ const Dashboard = () => {
         setError(res.message);
       }
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to fetch recommendation data');
+      console.error("Dashboard Recommendation Error:", err);
+      setError("Unable to load today's recommendation.");
     } finally {
       setLoading(false);
     }
@@ -188,8 +189,14 @@ const Dashboard = () => {
             <p className="text-sm font-semibold text-slate-500 animate-pulse">Running diagnostic checks...</p>
           </div>
         ) : error ? (
-          <div className="p-4 bg-rose-50 text-rose-600 rounded-2xl text-center text-sm border border-rose-100">
-            {error}
+          <div className="p-6 bg-rose-50 rounded-2xl text-center border border-rose-100 flex flex-col items-center justify-center gap-3">
+            <p className="text-rose-600 text-sm font-semibold">{error}</p>
+            <button 
+              onClick={fetchAdvisorData} 
+              className="px-4 py-2 bg-rose-600 text-white rounded-lg text-xs font-bold hover:bg-rose-700 transition-colors shadow-sm"
+            >
+              Retry
+            </button>
           </div>
         ) : recommendation ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
