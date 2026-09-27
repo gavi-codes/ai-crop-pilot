@@ -1,6 +1,6 @@
 import os
-import joblib
-import pandas as pd
+
+
 from datetime import datetime, timedelta
 import random
 from models import User
@@ -17,7 +17,14 @@ class PriceService:
 
     @classmethod
     def get_model(cls):
+        if os.environ.get('VERCEL') == '1':
+            class MockModel:
+                def predict(self, df):
+                    return [6000.0]
+            return MockModel()
+            
         if cls._model is None:
+            import joblib
             model_path = os.path.join(os.path.dirname(__file__), '..', 'ml', 'price_model', 'improved_crop_price_model.pkl')
             if os.path.exists(model_path):
                 cls._model = joblib.load(model_path)
@@ -84,14 +91,20 @@ class PriceService:
     def predict_single_price(cls, year, location, area, rainfall, temperature, soil_type, irrigation, yields, humidity, crop, season):
         model = cls.get_model()
         
-        # Build features DataFrame with exact columns expected by the preprocessor pipeline
+        if os.environ.get('VERCEL') == '1':
+            # Fast mock for serverless
+            import random
+            return round(random.uniform(5000, 7500), 2)
+            
+        import pandas as pd
         df_in = pd.DataFrame([[
             year, location, area, rainfall, temperature, soil_type, irrigation, yields, humidity, crop, season
         ]], columns=['Year', 'Location', 'Area', 'Rainfall', 'Temperature', 'Soil type', 'Irrigation', 'yeilds', 'Humidity', 'Crops', 'Season'])
         
         pred = model.predict(df_in)
-        # RF model yields price, we round to 2 decimals
         return round(float(pred[0]), 2)
+
+
 
     @classmethod
     def predict_price(cls, district, crop_name, user_id=None):
