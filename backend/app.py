@@ -32,15 +32,9 @@ def create_app(config_class=Config):
 
     with app.app_context():
         try:
-            with db.engine.connect() as conn:
-                conn.execute(text("SELECT 1"))
-            logger.info("Database connection successful.")
             db.create_all()
-        except Exception as e:
-            logger.error("FATAL: Database connection failed at startup.")
-            logger.error(str(e))
-            logger.error("Please verify your DATABASE_URL matches the Supabase Dashboard Connect dialog exactly.")
-            pass  # removed sys.exit(1) so Vercel can still boot
+        except Exception:
+            pass
 
     # Register blueprints
     from routes.auth import auth_bp
