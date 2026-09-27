@@ -90,23 +90,23 @@ const Register = () => {
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <InputWrapper icon={User} label="Full Name">
-                <input type="text" name="name" onChange={handleChange} className={inputClass} placeholder="John Doe" required />
+                <input type="text" name="name" value={formData.name} onChange={handleChange} className={inputClass} placeholder="John Doe" required />
               </InputWrapper>
               
               <InputWrapper icon={Phone} label="Mobile Number">
-                <input type="tel" name="mobile" onChange={handleChange} className={inputClass} placeholder="10-digit number" required />
+                <input type="tel" name="mobile" value={formData.mobile} onChange={handleChange} className={inputClass} placeholder="10-digit number" required />
               </InputWrapper>
 
               <InputWrapper icon={Lock} label="Password">
-                <input type="password" name="password" onChange={handleChange} className={inputClass} placeholder="••••••••" required />
+                <input type="password" name="password" value={formData.password} onChange={handleChange} className={inputClass} placeholder="••••••••" required />
               </InputWrapper>
 
               <InputWrapper icon={MapPin} label="District">
-                <input type="text" name="district" onChange={handleChange} className={inputClass} placeholder="e.g. Bangalore" required />
+                <input type="text" name="district" value={formData.district} onChange={handleChange} className={inputClass} placeholder="e.g. Bangalore" required />
               </InputWrapper>
 
               <InputWrapper icon={Pickaxe} label="Farmer Type">
-                <select name="farmer_type" onChange={handleChange} className={selectClass}>
+                <select name="farmer_type" value={formData.farmer_type} onChange={handleChange} className={selectClass}>
                   <option value="Individual">Individual Farmer</option>
                   <option value="FPO">FPO Member</option>
                   <option value="Commercial">Commercial/Corporate</option>
@@ -115,11 +115,11 @@ const Register = () => {
               </InputWrapper>
 
               <InputWrapper icon={Maximize} label="Land Size (Acres)">
-                <input type="number" step="0.1" name="land_size" onChange={handleChange} className={inputClass} placeholder="e.g. 2.5" required />
+                <input type="number" step="0.1" name="land_size" value={formData.land_size} onChange={handleChange} className={inputClass} placeholder="e.g. 2.5" required />
               </InputWrapper>
 
               <InputWrapper icon={Droplets} label="Primary Soil Type">
-                <select name="soil_type" onChange={handleChange} className={selectClass}>
+                <select name="soil_type" value={formData.soil_type} onChange={handleChange} className={selectClass}>
                   <option value="Red Soil">Red Soil</option>
                   <option value="Black Soil">Black Cotton Soil</option>
                   <option value="Alluvial Soil">Alluvial Soil</option>
