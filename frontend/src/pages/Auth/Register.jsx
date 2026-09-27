@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { authService } from '../../api/authService';
-import { Leaf, User, Lock, ArrowRight, ShieldCheck, Phone, MapPin, Pickaxe, Maximize, Droplets } from 'lucide-react';
+import { Leaf } from 'lucide-react';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -33,123 +33,92 @@ const Register = () => {
       }
     } catch (err) {
       const errorMsg = err.response?.data?.message || 
-                       `Connection Error: Could not reach the server. Please try again.`;
+                       'Connection Error: Could not reach the server. Please verify your database connection.';
       setError(errorMsg);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const InputWrapper = ({ icon: Icon, children, label }) => (
-    <div className="space-y-1.5">
-      <label className="text-sm font-semibold text-[#17221D] ml-1">{label}</label>
-      <div className="relative">
-        {Icon && (
-          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-            <Icon className="h-5 w-5 text-slate-400" />
-          </div>
-        )}
-        {children}
-      </div>
-    </div>
-  );
-
-  const inputClass = "w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 text-[#17221D] rounded-xl focus:ring-2 focus:ring-[#16A34A]/20 focus:border-[#16A34A] transition-all outline-none appearance-none";
-  const selectClass = "w-full pl-11 pr-10 py-3 bg-slate-50 border border-slate-200 text-[#17221D] rounded-xl focus:ring-2 focus:ring-[#16A34A]/20 focus:border-[#16A34A] transition-all outline-none appearance-none";
+  const inputClass = "bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500";
+  const labelClass = "block mb-2 text-sm font-medium text-gray-900 dark:text-white";
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#F7FAF8] p-4 py-12 relative overflow-hidden">
-      {/* Decorative background shapes */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none fixed">
-        <div className="absolute -top-[10%] -right-[5%] w-[50%] h-[50%] rounded-full bg-[#DCFCE7]/40 blur-3xl"></div>
-        <div className="absolute -bottom-[10%] -left-[5%] w-[40%] h-[40%] rounded-full bg-[#DCFCE7]/40 blur-3xl"></div>
-      </div>
+    <section className="bg-gray-50 dark:bg-gray-900 min-h-screen py-8">
+      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
+          <Link to="/" className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
+              <Leaf className="w-8 h-8 mr-2 text-green-600" />
+              AI CropPilot    
+          </Link>
+          <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-2xl xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+              <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+                  <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                      Create an account
+                  </h1>
+                  
+                  {error && (
+                    <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+                      {error}
+                    </div>
+                  )}
 
-      <div className="w-full max-w-3xl relative group">
-        
-        <div className="bg-white p-8 sm:p-12 rounded-[2.5rem] border border-slate-200 shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:shadow-[#16A34A]/10 transition-all duration-500 overflow-hidden relative">
-          
-          <div className="absolute top-0 right-0 w-40 h-40 bg-[#DCFCE7]/50 rounded-bl-full -z-10 transition-colors duration-500"></div>
+                  <form className="space-y-4 md:space-y-6" onSubmit={handleRegister}>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label htmlFor="name" className={labelClass}>Full Name</label>
+                            <input type="text" name="name" value={formData.name} onChange={handleChange} className={inputClass} placeholder="John Doe" required />
+                        </div>
+                        <div>
+                            <label htmlFor="mobile" className={labelClass}>Mobile Number</label>
+                            <input type="tel" name="mobile" value={formData.mobile} onChange={handleChange} className={inputClass} placeholder="10-digit number" required />
+                        </div>
+                        <div>
+                            <label htmlFor="password" className={labelClass}>Password</label>
+                            <input type="password" name="password" value={formData.password} onChange={handleChange} className={inputClass} placeholder="••••••••" required />
+                        </div>
+                        <div>
+                            <label htmlFor="district" className={labelClass}>District</label>
+                            <input type="text" name="district" value={formData.district} onChange={handleChange} className={inputClass} placeholder="e.g. Bangalore" required />
+                        </div>
+                        <div>
+                            <label htmlFor="farmer_type" className={labelClass}>Farmer Type</label>
+                            <select name="farmer_type" value={formData.farmer_type} onChange={handleChange} className={inputClass}>
+                              <option value="Individual">Individual Farmer</option>
+                              <option value="FPO">FPO Member</option>
+                              <option value="Commercial">Commercial/Corporate</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label htmlFor="land_size" className={labelClass}>Land Size (Acres)</label>
+                            <input type="number" step="0.1" name="land_size" value={formData.land_size} onChange={handleChange} className={inputClass} placeholder="e.g. 2.5" required />
+                        </div>
+                        <div className="md:col-span-2">
+                            <label htmlFor="soil_type" className={labelClass}>Primary Soil Type</label>
+                            <select name="soil_type" value={formData.soil_type} onChange={handleChange} className={inputClass}>
+                              <option value="Red Soil">Red Soil</option>
+                              <option value="Black Soil">Black Cotton Soil</option>
+                              <option value="Alluvial Soil">Alluvial Soil</option>
+                              <option value="Clayey Soil">Clayey Soil</option>
+                              <option value="Sandy Soil">Sandy Soil</option>
+                            </select>
+                        </div>
+                      </div>
 
-          <div className="text-center mb-10">
-            <div className="inline-flex items-center justify-center p-4 bg-[#DCFCE7] text-[#16A34A] rounded-2xl mb-4 group-hover:bg-[#16A34A] group-hover:text-white transition-colors duration-500 shadow-sm">
-              <Leaf className="w-10 h-10" />
-            </div>
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-[#0B3D2E] tracking-tight">Create Account</h1>
-            <p className="text-[#64748B] mt-2 font-medium">Join AI CropPilot for precision agricultural intelligence.</p>
+                      <button 
+                        type="submit" 
+                        disabled={isLoading}
+                        className="w-full text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 disabled:opacity-50"
+                      >
+                        {isLoading ? 'Creating Account...' : 'Create an account'}
+                      </button>
+                      <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                          Already have an account? <Link to="/login" className="font-medium text-green-600 hover:underline dark:text-green-500">Login here</Link>
+                      </p>
+                  </form>
+              </div>
           </div>
-          
-          {error && (
-            <div className="mb-8 p-4 bg-red-50 border border-red-100 text-red-600 rounded-xl text-sm font-medium flex items-center gap-2">
-              <ShieldCheck className="w-5 h-5 flex-shrink-0" />
-              <span>{error}</span>
-            </div>
-          )}
-
-          <form onSubmit={handleRegister} className="space-y-6">
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <InputWrapper icon={User} label="Full Name">
-                <input type="text" name="name" value={formData.name} onChange={handleChange} className={inputClass} placeholder="John Doe" required />
-              </InputWrapper>
-              
-              <InputWrapper icon={Phone} label="Mobile Number">
-                <input type="tel" name="mobile" value={formData.mobile} onChange={handleChange} className={inputClass} placeholder="10-digit number" required />
-              </InputWrapper>
-
-              <InputWrapper icon={Lock} label="Password">
-                <input type="password" name="password" value={formData.password} onChange={handleChange} className={inputClass} placeholder="••••••••" required />
-              </InputWrapper>
-
-              <InputWrapper icon={MapPin} label="District">
-                <input type="text" name="district" value={formData.district} onChange={handleChange} className={inputClass} placeholder="e.g. Bangalore" required />
-              </InputWrapper>
-
-              <InputWrapper icon={Pickaxe} label="Farmer Type">
-                <select name="farmer_type" value={formData.farmer_type} onChange={handleChange} className={selectClass}>
-                  <option value="Individual">Individual Farmer</option>
-                  <option value="FPO">FPO Member</option>
-                  <option value="Commercial">Commercial/Corporate</option>
-                  <option value="Contract">Contract Farmer</option>
-                </select>
-              </InputWrapper>
-
-              <InputWrapper icon={Maximize} label="Land Size (Acres)">
-                <input type="number" step="0.1" name="land_size" value={formData.land_size} onChange={handleChange} className={inputClass} placeholder="e.g. 2.5" required />
-              </InputWrapper>
-
-              <InputWrapper icon={Droplets} label="Primary Soil Type">
-                <select name="soil_type" value={formData.soil_type} onChange={handleChange} className={selectClass}>
-                  <option value="Red Soil">Red Soil</option>
-                  <option value="Black Soil">Black Cotton Soil</option>
-                  <option value="Alluvial Soil">Alluvial Soil</option>
-                  <option value="Clayey Soil">Clayey Soil</option>
-                  <option value="Sandy Soil">Sandy Soil</option>
-                </select>
-              </InputWrapper>
-            </div>
-
-            <div className="pt-4">
-              <button 
-                type="submit" 
-                disabled={isLoading}
-                className="w-full py-4 px-6 bg-[#0B3D2E] text-white font-bold text-lg rounded-xl hover:bg-[#16A34A] transition-all duration-300 flex items-center justify-center gap-2 shadow-xl shadow-[#0B3D2E]/20 hover:shadow-[#16A34A]/30 disabled:opacity-70 group/btn"
-              >
-                {isLoading ? 'Creating Account...' : 'Complete Registration'}
-                {!isLoading && <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />}
-              </button>
-            </div>
-          </form>
-
-          <p className="mt-8 text-center text-[#64748B] font-medium">
-            Already have an account?{' '}
-            <Link to="/login" className="text-[#16A34A] font-bold hover:text-[#0B3D2E] transition-colors">
-              Sign in securely
-            </Link>
-          </p>
-        </div>
       </div>
-    </div>
+    </section>
   );
 };
 
