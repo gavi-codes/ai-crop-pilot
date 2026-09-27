@@ -6,8 +6,13 @@ load_dotenv()
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY', 'super-secret-dev-key')
     
-    # Handle Supabase URLs (convert postgres:// to postgresql:// for SQLAlchemy)
-    database_url = os.environ.get('DATABASE_URL', 'sqlite:///crop_pilot.db')
+    database_url = os.environ.get('DATABASE_URL')
+    if not database_url:
+        if os.environ.get('VERCEL') == '1':
+            database_url = 'sqlite:////tmp/crop_pilot.db'
+        else:
+            database_url = 'sqlite:///crop_pilot.db'
+            
     if isinstance(database_url, str):
         database_url = database_url.strip()
     if database_url.startswith('postgres://'):
