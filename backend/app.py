@@ -1,7 +1,12 @@
-from flask import Flask
+from flask import Flask, jsonify
 from config import Config
 from extensions import db, migrate, jwt
 from flask_cors import CORS
+import os
+import logging
+
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
 
 def create_app(config_class=Config):
     app = Flask(__name__)
@@ -14,13 +19,7 @@ def create_app(config_class=Config):
 
     import models  # Important for Alembic to detect models
 
-    import logging
-    import sys
     from urllib.parse import urlparse
-    from sqlalchemy import text
-
-    logger = logging.getLogger(__name__)
-    logging.basicConfig(level=logging.INFO)
 
     db_uri = app.config.get('SQLALCHEMY_DATABASE_URI', '')
     if db_uri and not db_uri.startswith('sqlite'):
@@ -30,7 +29,6 @@ def create_app(config_class=Config):
         except Exception as e:
             logger.warning(f"Could not parse database URI for logging: {e}")
 
-    import os
     with app.app_context():
         try:
             if os.environ.get('VERCEL') != '1':
@@ -38,30 +36,36 @@ def create_app(config_class=Config):
         except Exception:
             pass
 
-    # Register blueprints
+    # ---- Register Blueprints ----
+    # Lightweight routes (always load)
     from routes.auth import auth_bp
-    from routes.soil import soil_bp
-    from routes.fertilizer import fertilizer_bp
-    from routes.weather import weather_bp
-    from routes.disease import disease_bp
-    from routes.price import price_bp
-    from routes.advisor import advisor_bp
-    from routes.chatbot import chatbot_bp
-    from routes.scheme import scheme_bp
-    from routes.maturity import maturity_bp
-    from routes.admin import admin_bp
-    
     app.register_blueprint(auth_bp, url_prefix='/api/v1/auth')
-    app.register_blueprint(soil_bp, url_prefix='/api/v1/soil')
-    app.register_blueprint(fertilizer_bp, url_prefix='/api/v1/fertilizer')
+
+    from routes.weather import weather_bp
     app.register_blueprint(weather_bp, url_prefix='/api/v1/weather')
-    app.register_blueprint(disease_bp, url_prefix='/api/v1/disease')
-    app.register_blueprint(price_bp, url_prefix='/api/v1/price')
-    app.register_blueprint(advisor_bp, url_prefix='/api/v1/advisor')
-    app.register_blueprint(chatbot_bp, url_prefix='/api/v1/chatbot')
+
+    from routes.scheme import scheme_bp
     app.register_blueprint(scheme_bp, url_prefix='/api/v1/schemes')
-    app.register_blueprint(maturity_bp, url_prefix='/api/v1/maturity')
-    app.register_blueprint(admin_bp, url_prefix='/api/v1/admin')
+
+    # Heavy routes that depend on pandas/sklearn/pillow - load gracefully
+    heavy_routes = [
+        ('routes.soil', 'soil_bp', '/api/v1/soil'),
+        ('routes.fertilizer', 'fertilizer_bp', '/api/v1/fertilizer'),
+        ('routes.disease', 'disease_bp', '/api/v1/disease'),
+        ('routes.price', 'price_bp', '/api/v1/price'),
+        ('routes.advisor', 'advisor_bp', '/api/v1/advisor'),
+        ('routes.chatbot', 'chatbot_bp', '/api/v1/chatbot'),
+        ('routes.maturity', 'maturity_bp', '/api/v1/maturity'),
+        ('routes.admin', 'admin_bp', '/api/v1/admin'),
+    ]
+
+    for module_name, bp_name, url_prefix in heavy_routes:
+        try:
+            module = __import__(module_name, fromlist=[bp_name])
+            bp = getattr(module, bp_name)
+            app.register_blueprint(bp, url_prefix=url_prefix)
+        except Exception as e:
+            logger.warning(f"Skipped {module_name}: {e}")
 
     @app.route('/api/health')
     def health_check():
