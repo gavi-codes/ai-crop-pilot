@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+// In production, VITE_API_URL points to the Render backend.
+// In development, it falls back to localhost.
 const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
 
 const api = axios.create({
