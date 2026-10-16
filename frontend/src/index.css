@@ -3,35 +3,105 @@
 @source "../node_modules/flowbite";
 
 @theme {
-  --color-field-light: #eef2f3;
-  --color-field-dark: #1e293b;
-  --color-field-accent: #10b981;
-  --color-field-ledger: #f8fafc;
-  --color-field-text: #334155;
+  --color-brand-primary: #06281E;
+  --color-brand-emerald: #0B3D2E;
+  --color-brand-accent: #10B981;
+  --color-brand-lime: #84CC16;
+  --color-brand-bg: #F8FAFC;
+  --color-brand-card: #FFFFFF;
+}
+
+:root {
+  color-scheme: light;
 }
 
 body {
-  @apply bg-field-light text-field-text;
-  font-family: 'Outfit', sans-serif;
+  background-color: #F8FAFC;
+  color: #0F172A;
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+/* Micro Dot Pattern Background for high-tech SaaS feel */
+.bg-dot-pattern {
+  background-image: radial-gradient(rgba(16, 185, 129, 0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Glassmorphism Surface Classes */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(226, 232, 240, 0.85);
+}
+
+.glass-panel-dark {
+  background: rgba(11, 61, 46, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+/* Modern Card Glow & Hover Lift */
+.card-hover {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.card-hover:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 32px -8px rgba(11, 61, 46, 0.08), 0 4px 12px -2px rgba(11, 61, 46, 0.04);
+}
+
+/* Holographic Laser Scan for AI Image Scanners */
 @keyframes laserScan {
   0% {
     top: 0%;
+    opacity: 0.8;
   }
   50% {
-    top: 100%;
+    top: 96%;
+    opacity: 1;
   }
   100% {
     top: 0%;
+    opacity: 0.8;
   }
 }
 
 .scanner-laser {
   position: absolute;
-  height: 4px;
+  height: 3px;
   width: 100%;
-  background: linear-gradient(to right, transparent, #10b981, transparent);
-  box-shadow: 0 0 10px #10b981, 0 0 20px #10b981;
-  animation: laserScan 2s linear infinite;
+  left: 0;
+  background: linear-gradient(90deg, transparent 0%, #10B981 50%, transparent 100%);
+  box-shadow: 0 0 14px 2px #10B981, 0 0 28px 4px rgba(132, 204, 22, 0.6);
+  animation: laserScan 2.4s ease-in-out infinite;
+  z-index: 20;
+}
+
+/* Waveform pulse for Voice Chatbot */
+@keyframes soundWave {
+  0%, 100% { height: 6px; }
+  50% { height: 28px; }
+}
+
+.soundwave-bar {
+  animation: soundWave 1.2s ease-in-out infinite;
+}
+
+/* Custom Sleek Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(15, 23, 42, 0.15);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(16, 185, 129, 0.4);
 }

@@ -13,7 +13,12 @@ import {
   ShieldCheck,
   ArrowLeft,
   Pill,
-  Tag
+  Tag,
+  Volume2,
+  VolumeX,
+  UploadCloud,
+  Camera,
+  RefreshCw
 } from 'lucide-react';
 
 const DiseaseForm = () => {
@@ -23,8 +28,9 @@ const DiseaseForm = () => {
   const [result, setResult] = useState(null);
   const [error, setError] = useState('');
   
-  // Multi-language selection state: 'English', 'Kannada', or 'Hindi'
+  // Multi-language selection: 'English', 'Kannada', or 'Hindi'
   const [activeLanguage, setActiveLanguage] = useState('English');
+  const [isSpeaking, setIsSpeaking] = useState(false);
   
   const fileInputRef = useRef(null);
 
@@ -59,44 +65,84 @@ const DiseaseForm = () => {
       const res = await diseaseService.predict(file);
       if (res.success) {
         setResult(res.data);
-        setActiveLanguage('English'); // Reset to default
+        setActiveLanguage('English');
       } else {
         setError(res.message);
       }
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to analyze image');
+      setError(err.response?.data?.message || 'Failed to analyze crop image');
     } finally {
       setLoading(false);
     }
   };
 
+  // Text to Speech for remedies
+  const handleSpeak = (text) => {
+    if (!('speechSynthesis' in window)) return;
+    window.speechSynthesis.cancel();
+    
+    if (isSpeaking) {
+      setIsSpeaking(false);
+      return;
+    }
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    if (activeLanguage === 'Kannada') utterance.lang = 'kn-IN';
+    else if (activeLanguage === 'Hindi') utterance.lang = 'hi-IN';
+    else utterance.lang = 'en-US';
+
+    utterance.onend = () => setIsSpeaking(false);
+    utterance.onerror = () => setIsSpeaking(false);
+
+    setIsSpeaking(true);
+    window.speechSynthesis.speak(utterance);
+  };
+
   return (
-    <div className="p-6 lg:p-8 max-w-4xl mx-auto space-y-8">
+    <div className="p-6 lg:p-10 max-w-6xl mx-auto space-y-8 font-sans">
+      
       {/* Header */}
-      <div className="flex items-center gap-4 mb-8">
-        <button 
-          onClick={() => window.history.back()}
-          className="p-2 hover:bg-slate-200 rounded-lg transition-colors text-[#64748B]"
-        >
-          <ArrowLeft className="h-5 w-5" />
-        </button>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold text-[#17221D] tracking-tight">AI Crop Disease Scan</h1>
-          <p className="text-sm text-[#64748B] mt-2">
-            Upload a clear photo of your affected crop leaves to analyze symptoms and get localized remedies in multiple languages.
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-100 text-rose-800 text-xs font-bold mb-2 border border-rose-200">
+            <Sparkles className="h-3.5 w-3.5 text-rose-600" />
+            <span>Multi-Spectral Computer Vision Diagnostics</span>
+          </div>
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            AI Crop Disease Scanner
+          </h1>
+          <p className="text-sm font-medium text-slate-500 mt-1 max-w-2xl">
+            Upload or capture high-resolution leaf photos to identify fungal, bacterial, or pest infections with multilingual remedies.
           </p>
         </div>
+
+        <button 
+          onClick={() => {
+            setFile(null);
+            setPreview(null);
+            setResult(null);
+          }}
+          className="self-start sm:self-auto px-4 py-2 bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 rounded-2xl text-xs font-bold transition-all shadow-2xs flex items-center gap-2 cursor-pointer"
+        >
+          <RefreshCw className="h-3.5 w-3.5" />
+          <span>New Scan</span>
+        </button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         
-        {/* Left Column: Upload Console */}
-        <div className="lg:col-span-2 space-y-6">
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between h-full">
+        {/* ================= LEFT COLUMN: UPLOAD VIEWFINDER ================= */}
+        <div className="lg:col-span-5">
+          <div className="bg-white p-6 sm:p-7 rounded-3xl border border-slate-200/90 shadow-sm flex flex-col justify-between h-full relative overflow-hidden">
+            
             <form onSubmit={handleSubmit} className="space-y-6">
+              
+              {/* Futuristic Viewfinder Dropzone */}
               <div 
-                className={`relative border-2 border-dashed rounded-2xl p-6 text-center cursor-pointer transition-all ${
-                  preview ? 'border-[#16A34A] bg-[#DCFCE7]/20' : 'border-slate-200 hover:bg-[#F7FAF8]/50'
+                className={`relative rounded-3xl p-6 text-center cursor-pointer transition-all border-2 border-dashed overflow-hidden ${
+                  preview 
+                    ? 'border-emerald-500 bg-emerald-50/20' 
+                    : 'border-slate-300 hover:border-emerald-500 bg-slate-50/50 hover:bg-emerald-50/10'
                 }`}
                 onDragOver={(e) => e.preventDefault()}
                 onDrop={handleDrop}
@@ -110,80 +156,101 @@ const DiseaseForm = () => {
                   className="hidden" 
                   capture="environment"
                 />
-                
+
                 {preview ? (
-                  <div className="relative flex flex-col items-center overflow-hidden rounded-xl">
-                    <img src={preview} alt="Leaf Preview" className="max-h-64 object-cover rounded-lg shadow-sm" />
+                  <div className="relative flex flex-col items-center">
                     
-                    {/* Pulsating Laser Line (Holographic Scanner) */}
+                    {/* Viewfinder Reticles */}
+                    <div className="absolute top-2 left-2 w-6 h-6 border-t-2 border-l-2 border-emerald-500 z-10" />
+                    <div className="absolute top-2 right-2 w-6 h-6 border-t-2 border-r-2 border-emerald-500 z-10" />
+                    <div className="absolute bottom-10 left-2 w-6 h-6 border-b-2 border-l-2 border-emerald-500 z-10" />
+                    <div className="absolute bottom-10 right-2 w-6 h-6 border-b-2 border-r-2 border-emerald-500 z-10" />
+
+                    <img 
+                      src={preview} 
+                      alt="Crop Leaf Telemetry" 
+                      className="max-h-72 w-full object-cover rounded-2xl shadow-sm border border-slate-200" 
+                    />
+                    
+                    {/* Holographic Laser Scan Line */}
                     {loading && <div className="scanner-laser"></div>}
                     
-                    <p className="text-xs text-[#0B3D2E] font-bold mt-3 hover:underline">Change Leaf Photo</p>
+                    <p className="text-xs text-emerald-700 font-extrabold mt-3 hover:underline flex items-center gap-1.5">
+                      <Camera className="h-4 w-4" />
+                      <span>Retake or Change Photo</span>
+                    </p>
                   </div>
                 ) : (
-                  <div className="py-10 flex flex-col items-center">
-                    <div className="p-3.5 bg-[#F7FAF8] rounded-2xl text-slate-400 group-hover:scale-110 transition-transform mb-3 border border-slate-100">
-                      <ImageIcon className="h-6 w-6 text-slate-400" />
+                  <div className="py-12 flex flex-col items-center">
+                    <div className="p-4 bg-emerald-50 rounded-2xl text-emerald-600 mb-3 border border-emerald-100 shadow-2xs group-hover:scale-110 transition-transform">
+                      <UploadCloud className="h-8 w-8" />
                     </div>
-                    <p className="text-sm font-bold text-[#17221D]">Drag and drop photo here</p>
-                    <p className="text-[10px] text-slate-400 font-medium mt-1">or browse files / take photo</p>
+                    <p className="text-base font-extrabold text-slate-900">Drag & drop leaf photo here</p>
+                    <p className="text-xs text-slate-500 font-medium mt-1">or browse files / take camera snapshot</p>
+                    <span className="mt-4 px-3 py-1 rounded-full bg-slate-100 text-slate-600 text-[11px] font-bold border border-slate-200">
+                      JPG, PNG, WebP up to 10MB
+                    </span>
                   </div>
                 )}
               </div>
-              
+
+              {/* Submit / Scan Button */}
               <button 
                 type="submit" 
                 disabled={!file || loading}
-                className={`w-full py-3.5 rounded-2xl font-bold transition-all flex items-center justify-center gap-2 ${
-                  !file ? 'bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-100' : 
-                  loading 
-                    ? 'bg-[#16A34A] text-white opacity-80 cursor-wait shadow-lg shadow-[#16A34A]/20' 
-                    : 'bg-[#16A34A] text-white hover:scale-[1.01] active:scale-[0.99] hover:shadow-lg hover:shadow-[#16A34A]/20'
+                className={`w-full py-4 rounded-2xl font-bold text-sm text-white transition-all flex items-center justify-center gap-2 shadow-lg cursor-pointer ${
+                  !file 
+                    ? 'bg-slate-200 text-slate-400 cursor-not-allowed shadow-none' 
+                    : loading
+                      ? 'bg-emerald-600 opacity-90 cursor-wait shadow-emerald-950/20'
+                      : 'bg-gradient-to-r from-[#0B3D2E] via-[#0D4D3A] to-[#10B981] hover:opacity-95 shadow-emerald-950/20 active:scale-[0.99]'
                 }`}
               >
                 {loading ? (
                   <>
-                    <div className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    <span>Analyzing Pathogen...</span>
+                    <div className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    <span>Processing Neural Diagnostics...</span>
                   </>
                 ) : (
                   <>
-                    <Scan className="h-5 w-5" />
-                    <span>Scan Leaf for Diseases</span>
+                    <Scan className="h-4.5 w-4.5" />
+                    <span>Run AI Disease Diagnosis</span>
                   </>
                 )}
               </button>
+
             </form>
-            
+
             {error && (
-              <div className="mt-4 p-3.5 bg-rose-50 text-rose-600 rounded-xl border border-rose-100 text-xs font-bold text-center">
+              <div className="mt-4 p-3.5 bg-rose-50 text-rose-700 rounded-xl border border-rose-200 text-xs font-bold text-center">
                 {error}
               </div>
             )}
+
           </div>
         </div>
 
-        {/* Right Column: Diagnostic Console (Results) */}
-        <div className="lg:col-span-3">
+        {/* ================= RIGHT COLUMN: DIAGNOSTIC CONSOLE ================= */}
+        <div className="lg:col-span-7">
           {result ? (
-            <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden animate-fadeIn">
+            <div className="bg-white rounded-3xl border border-slate-200/90 shadow-sm overflow-hidden animate-fadeIn space-y-0">
               
-              {/* Language Switcher header bar */}
-              <div className="p-4 bg-slate-900 text-white flex items-center justify-between gap-4 border-b border-slate-800">
-                <span className="inline-flex items-center gap-1 text-xs font-bold text-slate-400 uppercase tracking-wider">
+              {/* Language Switcher Bar */}
+              <div className="p-4 bg-slate-950 text-white flex flex-wrap items-center justify-between gap-3 border-b border-slate-800">
+                <div className="flex items-center gap-2">
                   <Languages className="h-4 w-4 text-emerald-400" />
-                  Select Language
-                </span>
+                  <span className="text-xs font-black uppercase tracking-wider text-slate-400">Diagnosis Language</span>
+                </div>
                 
-                <div className="flex gap-1">
+                <div className="flex gap-1.5">
                   {['English', 'Kannada', 'Hindi'].map((lang) => (
                     <button
                       key={lang}
                       onClick={() => setActiveLanguage(lang)}
-                      className={`px-3 py-1 rounded-xl text-xs font-bold transition-all ${
+                      className={`px-3.5 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer ${
                         activeLanguage === lang 
-                          ? 'bg-[#16A34A] text-white shadow shadow-[#16A34A]/30' 
-                          : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white'
+                          ? 'bg-[#10B981] text-white shadow-sm' 
+                          : 'bg-slate-900 text-slate-400 hover:bg-slate-800 hover:text-white'
                       }`}
                     >
                       {lang === 'Kannada' ? 'ಕನ್ನಡ' : lang === 'Hindi' ? 'हिन्दी' : 'English'}
@@ -193,86 +260,93 @@ const DiseaseForm = () => {
               </div>
 
               {/* Status Header */}
-              <div className="p-6 bg-[#F7FAF8] border-b border-slate-100">
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <span className="text-[10px] uppercase font-bold text-slate-400">Diagnosis Diagnosis</span>
-                    <h2 className="text-2xl font-black text-slate-950 mt-0.5">{result.disease_name}</h2>
-                  </div>
-                  <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold shadow-sm border ${
-                    result.confidence > 70 
-                      ? 'bg-[#DCFCE7] text-[#0B3D2E] border-emerald-100' 
-                      : 'bg-amber-50 text-amber-600 border-amber-100'
-                  }`}>
-                    <Sparkles className="h-4 w-4 animate-spin-slow" />
-                    <span>{result.confidence}% Match</span>
+              <div className="p-6 sm:p-7 bg-slate-50 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                  <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">Identified Pathogen</span>
+                  <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mt-0.5">{result.disease_name}</h2>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-100 border border-emerald-200 text-emerald-900 text-xs font-black">
+                    <Sparkles className="h-4 w-4 text-emerald-600" />
+                    <span>{result.confidence}% Confidence</span>
                   </span>
+
+                  {/* Audio Readout Button */}
+                  <button
+                    onClick={() => handleSpeak(
+                      result.treatment_json[activeLanguage] || result.treatment_json['English']
+                    )}
+                    className="p-2 bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 rounded-xl transition-colors cursor-pointer"
+                    title="Read aloud"
+                  >
+                    {isSpeaking ? <VolumeX className="h-4 w-4 text-rose-500 animate-pulse" /> : <Volume2 className="h-4 w-4 text-emerald-600" />}
+                  </button>
                 </div>
               </div>
 
-              {/* Diagnostic detailed tabs */}
-              <div className="p-6 space-y-6">
+              {/* Diagnostic Detail Panels */}
+              <div className="p-6 sm:p-7 space-y-6">
                 
-                {/* 1. Pathogen details */}
-                <div>
-                  <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2.5 flex items-center gap-2">
+                {/* 1. Pathogen Overview */}
+                <div className="space-y-2">
+                  <h3 className="text-xs font-extrabold text-slate-400 uppercase tracking-wider flex items-center gap-2">
                     <HelpCircle className="h-4 w-4 text-slate-400" />
-                    What is this Disease?
+                    <span>Symptom Description</span>
                   </h3>
-                  <p className="text-sm text-slate-650 leading-relaxed font-medium bg-[#F7FAF8] p-4 rounded-2xl border border-slate-100">
+                  <div className="text-sm text-slate-700 leading-relaxed font-medium bg-slate-50 p-4 rounded-2xl border border-slate-200/80">
                     {result.description_json[activeLanguage] || result.description_json['English']}
-                  </p>
+                  </div>
                 </div>
 
                 {/* 2. Treatment Solution */}
-                <div>
-                  <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2.5 flex items-center gap-2">
-                    <FlaskConical className="h-4 w-4 text-[#16A34A]" />
-                    Recommended Treatment Solution
+                <div className="space-y-2">
+                  <h3 className="text-xs font-extrabold text-slate-400 uppercase tracking-wider flex items-center gap-2">
+                    <FlaskConical className="h-4 w-4 text-emerald-600" />
+                    <span>Targeted Treatment & Cure</span>
                   </h3>
-                  <p className="text-sm text-[#17221D] leading-relaxed font-semibold bg-[#DCFCE7]/20 p-4 rounded-2xl border border-emerald-100/50">
+                  <div className="text-sm text-slate-900 leading-relaxed font-semibold bg-emerald-50/50 p-4 rounded-2xl border border-emerald-200/80">
                     {result.treatment_json[activeLanguage] || result.treatment_json['English']}
-                  </p>
+                  </div>
                 </div>
 
                 {/* 3. Recovery Fertilizer */}
-                <div>
-                  <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2.5 flex items-center gap-2">
-                    <Sprout className="h-4 w-4 text-indigo-500" />
-                    Immunity Recovery Fertilizer
+                <div className="space-y-2">
+                  <h3 className="text-xs font-extrabold text-slate-400 uppercase tracking-wider flex items-center gap-2">
+                    <Sprout className="h-4 w-4 text-indigo-600" />
+                    <span>Foliar Immunity Booster</span>
                   </h3>
-                  <p className="text-sm text-indigo-800 leading-relaxed font-bold bg-indigo-50/20 p-4 rounded-2xl border border-indigo-100/50">
+                  <div className="text-sm text-indigo-900 leading-relaxed font-bold bg-indigo-50/50 p-4 rounded-2xl border border-indigo-200/80">
                     {result.recovery_fertilizer_json[activeLanguage] || result.recovery_fertilizer_json['English']}
-                  </p>
+                  </div>
                 </div>
 
-                {/* 4. Recommended Medicine */}
+                {/* 4. Medicine / Chemical Product */}
                 {result.medicine && (
-                  <div className="mt-6 border-t border-slate-100 pt-6">
-                    <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+                  <div className="pt-2">
+                    <h3 className="text-xs font-extrabold text-slate-400 uppercase tracking-wider mb-3 flex items-center gap-2">
                       <Pill className="h-4 w-4 text-rose-500" />
-                      Recommended Medicine / Pesticide
+                      <span>Recommended Chemical / Fungicide</span>
                     </h3>
                     
-                    <div className="flex flex-col sm:flex-row gap-4 bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
-                      <div className="w-full sm:w-1/3 bg-[#F7FAF8] border-r border-slate-100 relative min-h-[140px]">
+                    <div className="flex flex-col sm:flex-row gap-4 bg-slate-50 border border-slate-200 rounded-2xl overflow-hidden p-4">
+                      <div className="w-full sm:w-28 h-28 rounded-xl bg-white border border-slate-200 overflow-hidden shrink-0 flex items-center justify-center">
                         <img 
                           src={result.medicine.photo_url || 'https://images.unsplash.com/photo-1585421514738-01798e348b17?w=500&q=80'} 
                           alt="Medicine" 
-                          className="absolute inset-0 w-full h-full object-cover"
+                          className="w-full h-full object-cover"
                           onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1585421514738-01798e348b17?w=500&q=80' }}
                         />
                       </div>
-                      <div className="p-4 sm:w-2/3 flex flex-col justify-center">
-                        <h4 className="text-lg font-black text-[#17221D] mb-1">{result.medicine.name}</h4>
-                        <div className="flex items-center gap-3 mt-2 text-sm">
-                          <div className="flex items-center gap-1.5 text-emerald-700 bg-[#DCFCE7] px-2 py-1 rounded-lg font-bold">
+                      <div className="flex-1 flex flex-col justify-center">
+                        <h4 className="text-base font-black text-slate-900">{result.medicine.name}</h4>
+                        <div className="flex flex-wrap items-center gap-3 mt-2 text-xs">
+                          <div className="flex items-center gap-1.5 text-emerald-800 bg-emerald-100 px-3 py-1 rounded-lg font-black">
                             <Tag className="h-3.5 w-3.5" />
-                            {result.medicine.price_estimate}
+                            <span>{result.medicine.price_estimate}</span>
                           </div>
-                          <div className="text-[#64748B] font-medium">
-                            <span className="text-xs text-slate-400 uppercase font-bold mr-1 block">Dosage</span>
-                            {result.medicine.quantity}
+                          <div className="text-slate-600 font-semibold bg-white px-3 py-1 rounded-lg border border-slate-200">
+                            <span>Dosage: {result.medicine.quantity}</span>
                           </div>
                         </div>
                       </div>
@@ -280,29 +354,33 @@ const DiseaseForm = () => {
                   </div>
                 )}
 
-                {/* 5. Prevention */}
-                <div className="pt-4 border-t border-slate-100 flex gap-2.5 items-start">
-                  <ShieldCheck className="h-5 w-5 text-slate-400 shrink-0 mt-0.5" />
+                {/* 5. Prevention Advisory */}
+                <div className="pt-4 border-t border-slate-200 flex gap-3 items-start">
+                  <ShieldCheck className="h-5 w-5 text-emerald-600 shrink-0 mt-0.5" />
                   <div>
-                    <span className="text-[10px] uppercase font-bold text-slate-400 block mb-0.5">Prevention Tip</span>
-                    <p className="text-xs text-[#64748B] leading-relaxed font-semibold">{result.prevention}</p>
+                    <span className="text-[10px] uppercase font-bold text-slate-400 block mb-0.5">Preventative Agronomy Protocol</span>
+                    <p className="text-xs text-slate-600 leading-relaxed font-semibold">{result.prevention}</p>
                   </div>
                 </div>
 
               </div>
+
             </div>
           ) : (
-            <div className="h-full bg-[#F7FAF8] border border-dashed border-slate-200 rounded-2xl flex flex-col items-center justify-center text-center p-12 text-slate-400">
-              <Scan className="h-12 w-12 text-slate-300 mb-3 animate-pulse" />
-              <p className="font-bold text-[#64748B] text-sm">Waiting for Scan Telemetry</p>
-              <p className="text-[10px] text-slate-400 font-medium max-w-xs mt-1 leading-relaxed">
-                Upload or drag a photo of the leaf on the left panel, then run diagnostic scans to display results here.
+            <div className="h-full bg-slate-50/70 border-2 border-dashed border-slate-200 rounded-3xl flex flex-col items-center justify-center text-center p-12 text-slate-400 min-h-[460px]">
+              <div className="p-4 bg-white rounded-2xl shadow-xs border border-slate-100 mb-4">
+                <Scan className="h-10 w-10 text-emerald-600" />
+              </div>
+              <p className="font-extrabold text-slate-800 text-base">Awaiting Leaf Photography</p>
+              <p className="text-xs text-slate-500 font-medium max-w-sm mt-1.5 leading-relaxed">
+                Take a close-up photo of the affected leaf showing lesions or discoloration, then click Run AI Disease Diagnosis.
               </p>
             </div>
           )}
         </div>
-        
+
       </div>
+
     </div>
   );
 };

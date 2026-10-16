@@ -14,14 +14,15 @@ import {
   MicOff,
   Volume2,
   VolumeX,
-  Volume1
+  Volume1,
+  Leaf
 } from 'lucide-react';
 
 const AgriBot = () => {
   const [messages, setMessages] = useState([
     {
       sender: 'bot',
-      text: 'Hello! I am Agri-bot, your personal AI agricultural assistant. 🌾\nHow can I help you manage your crops, check mandi wholesale prices, or analyze local weather today?',
+      text: 'Namaskara! I am AgriBot, your autonomous AI agricultural copilot. 🌾\nAsk me about mandi wholesale prices, regional weather advisories, soil NPK balancing, or fertilizer schedules in English, Kannada (ಕನ್ನಡ), or Hindi (हिन्दी).',
       language: 'English',
       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     }
@@ -33,6 +34,7 @@ const AgriBot = () => {
   const [isListening, setIsListening] = useState(false);
   const [voiceEnabled, setVoiceEnabled] = useState(true);
   const [speechSupported, setSpeechSupported] = useState(false);
+  const [currentlySpeakingIdx, setCurrentlySpeakingIdx] = useState(null);
   
   const messagesEndRef = useRef(null);
   const recognitionRef = useRef(null);
@@ -46,13 +48,8 @@ const AgriBot = () => {
       rec.continuous = false;
       rec.interimResults = false;
       
-      rec.onstart = () => {
-        setIsListening(true);
-      };
-      
-      rec.onend = () => {
-        setIsListening(false);
-      };
+      rec.onstart = () => setIsListening(true);
+      rec.onend = () => setIsListening(false);
       
       rec.onresult = (event) => {
         const transcript = event.results[0][0].transcript;
@@ -62,7 +59,6 @@ const AgriBot = () => {
       recognitionRef.current = rec;
     }
     
-    // Initialize voices
     if ('speechSynthesis' in window) {
       window.speechSynthesis.getVoices();
     }
@@ -77,25 +73,24 @@ const AgriBot = () => {
   }, [messages, loading]);
 
   const presetQueries = [
-    { label: '💰 Cotton Mandi Price', text: 'What is the price of Cotton?', icon: TrendingUp },
+    { label: '💰 Cotton Mandi Rate', text: 'What is the price of Cotton?', icon: TrendingUp },
     { label: '🌾 Paddy Rate (ಕನ್ನಡ)', text: 'ಭತ್ತದ ಬೆಲೆ ಎಷ್ಟು?', icon: Globe2 },
-    { label: '☁️ Weather Advisory', text: 'Show current weather advisory', icon: CloudSun },
-    { label: '🧪 Soil Fertilizer needed', text: 'What fertilizer does my soil need?', icon: Droplet },
+    { label: '☁️ Weather Advisory', text: 'Show current weather advisory for my district', icon: CloudSun },
+    { label: '🧪 Fertilizer Dosage', text: 'What fertilizer does my soil need for vegetative stage?', icon: Droplet },
   ];
 
-  // Helper to read out bot messages
-  const speakResponse = (text, language) => {
+  const speakResponse = (text, language, msgIdx = null) => {
     if (!('speechSynthesis' in window)) return;
-    
-    // Cancel current speech
     window.speechSynthesis.cancel();
     
-    // Clean text by stripping emojis
+    if (currentlySpeakingIdx === msgIdx && msgIdx !== null) {
+      setCurrentlySpeakingIdx(null);
+      return;
+    }
+
     const cleanText = text.replace(/[\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF]/g, "");
-    
     const utterance = new SpeechSynthesisUtterance(cleanText);
     
-    // Match voices by language tag
     let langCode = 'en-IN';
     if (language === 'Kannada') langCode = 'kn-IN';
     else if (language === 'Hindi') langCode = 'hi-IN';
@@ -104,10 +99,12 @@ const AgriBot = () => {
     
     const voices = window.speechSynthesis.getVoices();
     const voice = voices.find(v => v.lang.startsWith(langCode));
-    if (voice) {
-      utterance.voice = voice;
-    }
+    if (voice) utterance.voice = voice;
     
+    utterance.onend = () => setCurrentlySpeakingIdx(null);
+    utterance.onerror = () => setCurrentlySpeakingIdx(null);
+
+    setCurrentlySpeakingIdx(msgIdx);
     window.speechSynthesis.speak(utterance);
   };
 
@@ -127,7 +124,6 @@ const AgriBot = () => {
 
     const userLang = detectLanguage(text);
 
-    // Add user message
     const newMsg = {
       sender: 'user',
       text: text,
@@ -151,14 +147,13 @@ const AgriBot = () => {
         
         setMessages(prev => [...prev, botMsg]);
         
-        // Auto-read response if voice is enabled
         if (voiceEnabled) {
           speakResponse(res.response, botLang);
         }
       } else {
         setMessages(prev => [...prev, {
           sender: 'bot',
-          text: 'Oops! I encountered an error. Please try again.',
+          text: 'Oops! I encountered an error processing your inquiry. Please try again.',
           language: 'English',
           time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         }]);
@@ -166,7 +161,7 @@ const AgriBot = () => {
     } catch (err) {
       setMessages(prev => [...prev, {
         sender: 'bot',
-        text: 'Could not connect to the Agri-bot service. Make sure backend is running.',
+        text: 'Could not connect to the AgriBot service. Please verify server connection.',
         language: 'English',
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       }]);
@@ -175,14 +170,12 @@ const AgriBot = () => {
     }
   };
 
-  // Toggle dictation
   const toggleListening = () => {
     if (!recognitionRef.current) return;
     
     if (isListening) {
       recognitionRef.current.stop();
     } else {
-      // Determine language to configure dictation
       const langConfig = detectLanguage(input);
       recognitionRef.current.lang = langConfig === 'Kannada' ? 'kn-IN' : langConfig === 'Hindi' ? 'hi-IN' : 'en-IN';
       recognitionRef.current.start();
@@ -190,183 +183,211 @@ const AgriBot = () => {
   };
 
   return (
-    <div className="p-6 lg:p-8 max-w-4xl mx-auto space-y-6 h-[calc(100vh-120px)] flex flex-col justify-between">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-4xl mx-auto h-[calc(100vh-100px)] flex flex-col justify-between font-sans">
       
-      {/* Header with Voice Configuration */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-extrabold text-[#17221D] tracking-tight flex items-center gap-3">
-            <Bot className="h-8 w-8 text-[#16A34A]" />
-            Agri-bot Voice Assistant
-          </h1>
-          <p className="text-sm text-[#64748B] mt-2">
-            Speak or type to receive smart market suggestions and weather alerts dynamically read aloud.
-          </p>
+      {/* Top Header & Audio Toggle */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200 shrink-0">
+        <div className="flex items-center gap-3">
+          <div className="p-2.5 bg-gradient-to-tr from-[#10B981] to-[#0B3D2E] text-white rounded-2xl shadow-md ring-2 ring-emerald-500/20">
+            <Bot className="h-6 w-6" />
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+                AgriBot Copilot
+              </h1>
+              <span className="text-[10px] font-black uppercase tracking-wider bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full border border-emerald-200">
+                Voice AI
+              </span>
+            </div>
+            <p className="text-xs font-medium text-slate-500">Multilingual conversational agronomist supporting Kannada, Hindi, and English</p>
+          </div>
         </div>
 
-        {/* Audio controls */}
+        {/* Audio Autoplay Switch */}
         <button
           onClick={() => {
             setVoiceEnabled(!voiceEnabled);
             if (voiceEnabled) window.speechSynthesis.cancel();
           }}
-          className={`flex items-center gap-2 px-4 py-2 rounded-2xl text-xs font-bold transition-all shadow-sm border ${
+          className={`self-start sm:self-auto flex items-center gap-2 px-3.5 py-2 rounded-2xl text-xs font-bold transition-all border cursor-pointer ${
             voiceEnabled 
-              ? 'bg-[#DCFCE7] border-emerald-100 text-emerald-700' 
-              : 'bg-slate-100 border-slate-200 text-[#64748B]'
+              ? 'bg-emerald-50 border-emerald-200 text-emerald-800 shadow-2xs' 
+              : 'bg-slate-100 border-slate-200 text-slate-500'
           }`}
         >
           {voiceEnabled ? (
             <>
-              <Volume2 className="h-4.5 w-4.5 text-[#0B3D2E] animate-pulse" />
-              <span>Auto Readout: ON</span>
+              <Volume2 className="h-4 w-4 text-emerald-600 animate-pulse" />
+              <span>Voice Readout: On</span>
             </>
           ) : (
             <>
-              <VolumeX className="h-4.5 w-4.5" />
-              <span>Auto Readout: OFF</span>
+              <VolumeX className="h-4 w-4 text-slate-400" />
+              <span>Voice Readout: Mute</span>
             </>
           )}
         </button>
       </div>
 
-      {/* Main Conversational Window */}
-      <div className="flex-1 bg-white/95 border border-slate-100 shadow-sm border border-slate-200 rounded-2xl p-6 flex flex-col overflow-hidden justify-between border-t-4 border-t-[#16A34A]">
-        
-        {/* Messages transcript */}
-        <div className="flex-1 overflow-y-auto space-y-4 pr-2 mb-6 scrollbar-thin scrollbar-thumb-slate-200">
-          {messages.map((msg, idx) => {
-            const isBot = msg.sender === 'bot';
-            return (
-              <div 
-                key={idx} 
-                className={`flex gap-3 max-w-[85%] ${isBot ? 'self-start' : 'self-end flex-row-reverse ml-auto'}`}
-              >
-                {/* Avatar */}
-                <div className={`h-8.5 w-8.5 rounded-xl flex items-center justify-center shrink-0 shadow-sm border ${
-                  isBot 
-                    ? 'bg-[#DCFCE7] border-emerald-100 text-[#0B3D2E]' 
-                    : 'bg-indigo-50 border-indigo-100 text-indigo-600'
-                }`}>
-                  {isBot ? <Bot className="h-4.5 w-4.5" /> : <UserIcon className="h-4.5 w-4.5" />}
-                </div>
+      {/* Main Conversation Stream */}
+      <div className="flex-1 overflow-y-auto py-6 space-y-6 pr-2">
+        {messages.map((msg, index) => {
+          const isBot = msg.sender === 'bot';
+          const isSpeakingThis = currentlySpeakingIdx === index;
 
-                {/* Bubble */}
-                <div className={`relative p-4 rounded-2xl leading-relaxed text-sm ${
-                  isBot 
-                    ? 'bg-[#F7FAF8] text-[#17221D] rounded-tl-none border border-slate-100 font-medium' 
-                    : 'bg-[#16A34A] text-white rounded-tr-none font-bold shadow-md shadow-emerald-500/10'
-                }`}>
-                  {isBot && (
-                    <button 
-                      onClick={() => speakResponse(msg.text, msg.language)}
-                      className="absolute -right-3 -top-3 p-1.5 bg-white border border-slate-100 rounded-lg shadow-sm text-slate-400 hover:text-[#16A34A] active:scale-95 transition-all"
-                      title="Read Message Aloud"
-                    >
-                      <Volume1 className="h-3.5 w-3.5" />
-                    </button>
-                  )}
-                  <p className="whitespace-pre-line pr-2">{msg.text}</p>
-                  <span className={`text-[9px] block mt-1.5 text-right font-bold ${isBot ? 'text-slate-400' : 'text-emerald-100'}`}>
-                    {msg.time} • {msg.language}
+          return (
+            <div 
+              key={index}
+              className={`flex items-start gap-3.5 ${isBot ? 'justify-start' : 'justify-end'} animate-fadeIn`}
+            >
+              {isBot && (
+                <div className="h-9 w-9 rounded-2xl bg-gradient-to-tr from-[#0B3D2E] to-[#10B981] text-white flex items-center justify-center shrink-0 shadow-md">
+                  <Leaf className="h-4 w-4" />
+                </div>
+              )}
+
+              <div className={`max-w-[85%] sm:max-w-[75%] rounded-3xl p-5 shadow-xs transition-all ${
+                isBot 
+                  ? 'bg-white border border-slate-200/90 text-slate-800 rounded-tl-sm' 
+                  : 'bg-gradient-to-r from-[#0B3D2E] to-[#0D4D3A] text-white rounded-tr-sm shadow-md shadow-emerald-950/20'
+              }`}>
+                
+                {/* Header inside bubble */}
+                <div className="flex items-center justify-between gap-4 mb-2">
+                  <span className={`text-[10px] font-extrabold uppercase tracking-wider ${isBot ? 'text-emerald-700' : 'text-emerald-300'}`}>
+                    {isBot ? 'AgriBot Intelligence' : 'Field Operator'}
                   </span>
+                  
+                  <div className="flex items-center gap-2">
+                    <span className={`text-[10px] font-semibold ${isBot ? 'text-slate-400' : 'text-emerald-200/60'}`}>
+                      {msg.time}
+                    </span>
+
+                    {/* Bot speak button */}
+                    {isBot && (
+                      <button 
+                        onClick={() => speakResponse(msg.text, msg.language, index)}
+                        className={`p-1 rounded-lg transition-colors cursor-pointer ${
+                          isSpeakingThis ? 'bg-emerald-100 text-emerald-800' : 'text-slate-400 hover:text-slate-600'
+                        }`}
+                        title="Read aloud"
+                      >
+                        {isSpeakingThis ? <VolumeX className="h-3.5 w-3.5 animate-pulse text-emerald-600" /> : <Volume2 className="h-3.5 w-3.5" />}
+                      </button>
+                    )}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
 
-          {loading && (
-            <div className="flex gap-3 max-w-[80%] self-start">
-              <div className="h-8.5 w-8.5 rounded-xl bg-[#DCFCE7] border border-emerald-100 text-[#0B3D2E] flex items-center justify-center shrink-0">
-                <Bot className="h-4.5 w-4.5" />
+                {/* Message Body */}
+                <p className="text-sm leading-relaxed whitespace-pre-line font-medium">
+                  {msg.text}
+                </p>
+
+                {/* Language Tag */}
+                {msg.language && (
+                  <div className="mt-2.5 pt-2 border-t border-slate-100/50 flex items-center justify-end">
+                    <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full ${
+                      isBot ? 'bg-slate-100 text-slate-500' : 'bg-white/10 text-emerald-200'
+                    }`}>
+                      {msg.language}
+                    </span>
+                  </div>
+                )}
               </div>
-              <div className="bg-[#F7FAF8] border border-slate-100 p-4 rounded-2xl rounded-tl-none flex items-center gap-2">
-                <span className="h-2 w-2 bg-[#16A34A] rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                <span className="h-2 w-2 bg-[#16A34A] rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                <span className="h-2 w-2 bg-[#16A34A] rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
-              </div>
+
+              {!isBot && (
+                <div className="h-9 w-9 rounded-2xl bg-slate-900 text-white flex items-center justify-center shrink-0 shadow-md">
+                  <UserIcon className="h-4 w-4" />
+                </div>
+              )}
             </div>
-          )}
-          <div ref={messagesEndRef} />
-        </div>
+          );
+        })}
 
-        {/* Recording ripple indicator if listening */}
-        {isListening && (
-          <div className="flex items-center gap-3 p-3 bg-rose-50 border border-rose-100 text-rose-600 rounded-2xl text-xs font-bold animate-pulse mb-3 justify-center">
-            <div className="h-2 w-2 bg-rose-500 rounded-full animate-ping" />
-            <span>Voice Assistant is Listening... Speak now!</span>
+        {loading && (
+          <div className="flex items-center gap-3 animate-fadeIn">
+            <div className="h-9 w-9 rounded-2xl bg-emerald-700 text-white flex items-center justify-center shrink-0 shadow-md">
+              <Leaf className="h-4 w-4" />
+            </div>
+            <div className="bg-white border border-slate-200 p-4 rounded-3xl rounded-tl-sm shadow-xs flex items-center gap-2">
+              <div className="flex gap-1.5 items-center px-1">
+                <span className="h-2 w-2 rounded-full bg-emerald-500 animate-bounce" style={{ animationDelay: '0ms' }} />
+                <span className="h-2 w-2 rounded-full bg-emerald-500 animate-bounce" style={{ animationDelay: '150ms' }} />
+                <span className="h-2 w-2 rounded-full bg-emerald-500 animate-bounce" style={{ animationDelay: '300ms' }} />
+              </div>
+              <span className="text-xs font-bold text-slate-500">AgriBot is analyzing crop data...</span>
+            </div>
           </div>
         )}
 
-        {/* Preset suggestions & input */}
-        <div className="space-y-4 pt-4 border-t border-slate-100">
-          
-          {/* Presets */}
-          <div className="flex flex-wrap gap-2">
-            {presetQueries.map((preset, idx) => {
-              const Icon = preset.icon;
-              return (
-                <button
-                  key={idx}
-                  onClick={() => handleSend(preset.text)}
-                  disabled={loading}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#F7FAF8] border border-slate-100 rounded-xl text-xs font-bold text-slate-650 hover:bg-[#DCFCE7] hover:text-[#0B3D2E] hover:border-[#16A34A]/20 transition-all cursor-pointer select-none"
-                >
-                  <Icon className="h-3.5 w-3.5" />
-                  <span>{preset.label}</span>
-                </button>
-              );
-            })}
-          </div>
+        <div ref={messagesEndRef} />
+      </div>
 
-          {/* Form input with speech Recognition */}
-          <form 
-            onSubmit={(e) => {
-              e.preventDefault();
-              handleSend();
-            }} 
-            className="flex gap-3 items-center"
-          >
-            {speechSupported && (
+      {/* Preset Suggestions & Input Console */}
+      <div className="pt-3 border-t border-slate-200 shrink-0 space-y-3">
+        
+        {/* Preset Chips */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
+          {presetQueries.map((pq, idx) => {
+            const Icon = pq.icon;
+            return (
               <button
-                type="button"
-                onClick={toggleListening}
+                key={idx}
+                onClick={() => handleSend(pq.text)}
                 disabled={loading}
-                className={`p-3.5 rounded-2xl border transition-all flex items-center justify-center ${
-                  isListening 
-                    ? 'bg-rose-500 text-white border-rose-500 animate-pulse shadow-md shadow-rose-500/20' 
-                    : 'bg-[#F7FAF8] border-slate-200 text-[#64748B] hover:bg-slate-100 hover:text-slate-700'
-                }`}
-                title={isListening ? "Stop listening" : "Dictate query"}
+                className="whitespace-nowrap flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-white border border-slate-200 text-slate-700 hover:border-emerald-400 hover:text-emerald-800 text-xs font-bold transition-all shadow-2xs hover:shadow-xs cursor-pointer disabled:opacity-50"
               >
-                {isListening ? <MicOff className="h-5 w-5" /> : <Mic className="h-5 w-5 animate-pulse" />}
+                <Icon className="h-3.5 w-3.5 text-emerald-600" />
+                <span>{pq.label}</span>
               </button>
-            )}
+            );
+          })}
+        </div>
 
-            <input
-              type="text"
+        {/* Input Bar with Microphone */}
+        <div className="relative flex items-center gap-2">
+          
+          {/* Voice Microphone Button */}
+          {speechSupported && (
+            <button
+              onClick={toggleListening}
+              className={`h-12 w-12 rounded-2xl flex items-center justify-center shrink-0 transition-all cursor-pointer shadow-sm ${
+                isListening 
+                  ? 'bg-rose-500 text-white animate-pulse shadow-rose-500/30 ring-4 ring-rose-200' 
+                  : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 hover:text-emerald-700'
+              }`}
+              title={isListening ? 'Listening... click to stop' : 'Click to speak'}
+            >
+              {isListening ? <Mic className="h-5 w-5 animate-bounce" /> : <Mic className="h-5 w-5" />}
+            </button>
+          )}
+
+          {/* Text Input */}
+          <div className="relative flex-1">
+            <input 
+              type="text" 
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Speak (tap mic) or type your query here..."
+              onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+              placeholder={isListening ? 'Listening to your voice... speak now' : 'Ask about mandi prices, fertilizer, weather, or crop disease...'}
               disabled={loading}
-              className="flex-1 p-3.5 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-[#16A34A] outline-none font-semibold text-[#17221D] placeholder-slate-400 bg-white"
+              className="w-full pl-5 pr-12 py-3.5 bg-white border border-slate-200 rounded-2xl text-slate-900 font-medium text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all shadow-xs"
             />
             
-            <button
-              type="submit"
+            <button 
+              onClick={() => handleSend()}
               disabled={loading || !input.trim()}
-              className={`p-3.5 rounded-2xl flex items-center justify-center transition-all ${
-                !input.trim() || loading
-                  ? 'bg-slate-100 text-slate-350 border border-slate-100 cursor-not-allowed'
-                  : 'bg-slate-900 text-white hover:bg-slate-800 active:scale-95 shadow shadow-slate-900/10'
-              }`}
+              className="absolute right-2 top-2 h-9 w-9 bg-gradient-to-tr from-[#0B3D2E] to-[#10B981] hover:opacity-95 text-white rounded-xl flex items-center justify-center transition-all disabled:opacity-30 cursor-pointer shadow-xs"
             >
-              <Send className="h-5 w-5" />
+              <Send className="h-4 w-4" />
             </button>
-          </form>
+          </div>
+
         </div>
 
       </div>
+
     </div>
   );
 };
