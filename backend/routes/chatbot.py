@@ -5,6 +5,7 @@ from services.chatbot_service import ChatbotService
 chatbot_bp = Blueprint('chatbot', __name__)
 
 @chatbot_bp.route('/query', methods=['POST'])
+@chatbot_bp.route('/message', methods=['POST'])
 @jwt_required()
 def query_bot():
     data = request.get_json() or {}

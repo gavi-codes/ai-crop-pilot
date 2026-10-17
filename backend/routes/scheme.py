@@ -5,6 +5,7 @@ from services.scheme_service import SchemeService
 scheme_bp = Blueprint('scheme', __name__)
 
 @scheme_bp.route('/eligible', methods=['GET'])
+@scheme_bp.route('/list', methods=['GET'])
 @jwt_required()
 def get_eligible_schemes():
     user_id = get_jwt_identity()

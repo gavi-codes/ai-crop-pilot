@@ -4,8 +4,11 @@ from services.weather_service import WeatherService
 
 weather_bp = Blueprint('weather', __name__)
 
+@weather_bp.route('/current', methods=['GET'])
 @weather_bp.route('/<district>', methods=['GET'])
 @jwt_required()
-def get_weather(district):
+def get_weather(district=None):
+    if not district:
+        district = request.args.get('district', 'Koppal')
     result = WeatherService.get_weather(district)
     return jsonify(result), (200 if result['success'] else 400)

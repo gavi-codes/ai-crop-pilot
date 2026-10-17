@@ -4,6 +4,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+# Ensure AI key is accessible in serverless environment
+os.environ.setdefault('GEMINI_API_KEY', 'AIzaSyDUu8YqVRzZhZTCrZDSLPUJke7nF5V5vXw')
+
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY', 'super-secret-dev-key')
     

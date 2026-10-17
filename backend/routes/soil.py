@@ -5,6 +5,7 @@ from services.soil_service import SoilService
 soil_bp = Blueprint('soil', __name__)
 
 @soil_bp.route('/analyze', methods=['POST'])
+@soil_bp.route('/predict', methods=['POST'])
 @jwt_required()
 def analyze():
     user_id = get_jwt_identity()

@@ -5,6 +5,7 @@ from services.fertilizer_service import FertilizerService
 fertilizer_bp = Blueprint('fertilizer', __name__)
 
 @fertilizer_bp.route('/recommend', methods=['POST'])
+@fertilizer_bp.route('/predict', methods=['POST'])
 @jwt_required()
 def recommend():
     user_id = get_jwt_identity()
