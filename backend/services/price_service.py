@@ -134,16 +134,17 @@ class PriceService:
                     break
 
             # 2. Get Weather parameters for the district
-            today_weather = WeatherLog.query.filter_by(district=district).order_by(WeatherLog.date.desc()).first()
-            if today_weather:
-                base_temp = today_weather.temperature
-                base_humidity = today_weather.humidity
-                base_rainfall = today_weather.rainfall
-            else:
-                # Sensible Karnataka standard averages
-                base_temp = 28.0
-                base_humidity = 65.0
-                base_rainfall = 15.0
+            base_temp = 28.0
+            base_humidity = 65.0
+            base_rainfall = 15.0
+            try:
+                today_weather = WeatherLog.query.filter_by(district=district).order_by(WeatherLog.date.desc()).first()
+                if today_weather:
+                    base_temp = today_weather.temperature
+                    base_humidity = today_weather.humidity
+                    base_rainfall = today_weather.rainfall
+            except Exception as we:
+                db.session.rollback()
 
             # 3. Predict current price
             now = datetime.now()
