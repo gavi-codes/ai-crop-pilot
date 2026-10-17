@@ -29,9 +29,13 @@ class MaturityService:
             import tempfile
             upload_dir = tempfile.gettempdir()
             
-            filename = f"maturity_{uuid.uuid4()}_{file.filename}"
+            filename = f"maturity_{uuid.uuid4()}_{getattr(file, 'filename', 'upload.jpg')}"
             file_path = os.path.join(upload_dir, filename)
-            file.save(file_path)
+            if hasattr(file, 'save'):
+                file.save(file_path)
+            else:
+                with open(file_path, 'wb') as f:
+                    f.write(file.read() if hasattr(file, 'read') else b'')
             
             prediction = None
             try:
