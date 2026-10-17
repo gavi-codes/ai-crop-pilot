@@ -4,6 +4,7 @@ from extensions import db, migrate, jwt
 from flask_cors import CORS
 import os
 import logging
+from urllib.parse import urlparse
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
@@ -13,28 +14,48 @@ def create_app(config_class=Config):
     app.config.from_object(config_class)
 
     CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
-    db.init_app(app)
-    migrate.init_app(app, db)
-    jwt.init_app(app)
-
-    import models  # Important for Alembic to detect models
-
-    from urllib.parse import urlparse
 
     db_uri = app.config.get('SQLALCHEMY_DATABASE_URI', '')
     if db_uri and not db_uri.startswith('sqlite'):
         try:
             parsed = urlparse(db_uri)
             logger.info(f"Startup Check -> Host: {parsed.hostname} | Port: {parsed.port} | User: {parsed.username}")
+            # Fast pre-flight check with 2s timeout
+            import psycopg2
+            conn = psycopg2.connect(db_uri, connect_timeout=2)
+            conn.close()
+            logger.info("Primary database connection verified successfully!")
         except Exception as e:
-            logger.warning(f"Could not parse database URI for logging: {e}")
+            logger.warning(f"Primary database connection failed ({e}). Switching to self-healing SQLite database.")
+            sqlite_path = '/tmp/crop_pilot.db' if os.environ.get('VERCEL') == '1' else 'crop_pilot.db'
+            app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{sqlite_path}'
+            app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {}
+
+    db.init_app(app)
+    migrate.init_app(app, db)
+    jwt.init_app(app)
+
+    import models
 
     with app.app_context():
         try:
-            if os.environ.get('VERCEL') != '1':
-                db.create_all()
-        except Exception:
-            pass
+            db.create_all()
+            from models import User
+            if not User.query.filter_by(mobile="9876543210").first():
+                demo = User(
+                    name="Ramesh Patil",
+                    mobile="9876543210",
+                    district="Koppal",
+                    farmer_type="Individual",
+                    land_size=2.5,
+                    soil_type="Red Soil"
+                )
+                demo.set_password("Password123!")
+                db.session.add(demo)
+                db.session.commit()
+                logger.info("Demo farmer account (9876543210 / Password123!) ready.")
+        except Exception as se:
+            logger.warning(f"Database table initialization notice: {se}")
 
     # ---- Register Blueprints ----
     # Lightweight routes (always load)
