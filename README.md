@@ -40,14 +40,24 @@ AI CropPilot aims to make agricultural information more accessible and support d
 - Government scheme recommendations
 - AI chatbot and voice assistant
 - Mobile application
+- ## 📊 Dataset and Data Sources
+
+AI CropPilot uses agricultural datasets obtained from [Kaggle](https://www.kaggle.com/) to support the development and evaluation of its crop price prediction model.
+
+- **Data period:** 2024, 2025, and 2026
+- **Source:** Kaggle
+- **Purpose:** Agricultural data analysis, data preprocessing, and machine learning model development.
+- **Usage:** The data is used to explore crop price patterns and develop price prediction capabilities for agricultural markets in Karnataka.
+
+The datasets are cleaned and processed before being used for model training and evaluation. Dataset coverage and prediction performance depend on the available data and its quality.
+
+**Dataset attribution:** Individual Kaggle dataset links and original dataset authors should be credited here.
 
 ## 👨‍💻 Developer
 
 **Gavisiddappa Desayi**
 
 - GitHub: [gavi-codes](https://github.com/gavi-codes)
-
----
 
 ⭐ If you find this project interesting, consider starring the repository.
 
