@@ -50,27 +50,87 @@ class PriceService:
 
     @staticmethod
     def map_location(district):
+        if not district:
+            return 'Bangalore'
         d_lower = district.lower().strip()
         # Direct case-insensitive match
         for loc in DATASET_LOCATIONS:
             if loc.lower() == d_lower:
                 return loc
         
-        # Region-based logical mappings for other Karnataka districts
+        # Region-based agro-climatic hub mappings for all 31 Karnataka districts
         mappings = {
+            # Kalyan Karnataka (Northeast) -> Raichur & Gulbarga hubs
             'koppal': 'Raichur',
             'bellary': 'Raichur',
+            'ballari': 'Raichur',
+            'raichur': 'Raichur',
+            'vijayanagara': 'Raichur',
+            'hospet': 'Raichur',
+            'gulbarga': 'Gulbarga',
+            'kalaburagi': 'Gulbarga',
+            'bidar': 'Gulbarga',
+            'yadgir': 'Gulbarga',
+            'yadgiri': 'Gulbarga',
+            
+            # Kittur Karnataka & Central -> Davangere hub
+            'davangere': 'Davangere',
+            'davanagere': 'Davangere',
             'gadag': 'Davangere',
             'dharwad': 'Davangere',
+            'hubballi': 'Davangere',
+            'hubli': 'Davangere',
             'belagavi': 'Davangere',
-            'kolar': 'Bangalore',
-            'chikkaballapur': 'Bangalore',
-            'mandya': 'Mysuru',
-            'chamarajanagar': 'Mysuru',
+            'belgaum': 'Davangere',
+            'bagalkot': 'Davangere',
+            'bagalkote': 'Davangere',
+            'haveri': 'Davangere',
+            'chitradurga': 'Davangere',
+            'vijayapura': 'Gulbarga',
+            'bijapur': 'Gulbarga',
+
+            # Malnad & Western Ghats -> Chikmangaluru & Kodagu/Hassan hubs
+            'chikmangaluru': 'Chikmangaluru',
+            'chikkamagaluru': 'Chikmangaluru',
+            'chikmagalur': 'Chikmangaluru',
+            'shimoga': 'Chikmangaluru',
+            'shivamogga': 'Chikmangaluru',
+            'hassan': 'Hassan',
+            'kodagu': 'Kodagu',
+            'coorg': 'Kodagu',
+            'madikeri': 'Madikeri',
+
+            # Coastal Karnataka -> Mangalore & Kasaragodu hubs
+            'mangalore': 'Mangalore',
+            'mangaluru': 'Mangalore',
             'dakshina kannada': 'Mangalore',
             'udupi': 'Mangalore',
             'uttara kannada': 'Mangalore',
-            'shimoga': 'Chikmangaluru',
+            'karwar': 'Mangalore',
+            'kasaragodu': 'Kasaragodu',
+            'kasaragod': 'Kasaragodu',
+
+            # South Karnataka & Mysore Region -> Mysuru hub
+            'mysuru': 'Mysuru',
+            'mysore': 'Mysuru',
+            'mandya': 'Mysuru',
+            'chamarajanagar': 'Mysuru',
+            'chamarajanagara': 'Mysuru',
+
+            # Bangalore Division & Southeast -> Bangalore hub
+            'bangalore': 'Bangalore',
+            'bengaluru': 'Bangalore',
+            'bangalore urban': 'Bangalore',
+            'bangalore rural': 'Bangalore',
+            'bengaluru urban': 'Bangalore',
+            'bengaluru rural': 'Bangalore',
+            'kolar': 'Bangalore',
+            'chikkaballapur': 'Bangalore',
+            'chikkaballapura': 'Bangalore',
+            'tumkur': 'Bangalore',
+            'tumakuru': 'Bangalore',
+            'ramanagara': 'Bangalore',
+            'ramanagar': 'Bangalore',
         }
         return mappings.get(d_lower, 'Bangalore')
 
