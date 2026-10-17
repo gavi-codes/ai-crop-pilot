@@ -20,13 +20,34 @@ def create_app(config_class=Config):
         try:
             parsed = urlparse(db_uri)
             logger.info(f"Startup Check -> Host: {parsed.hostname} | Port: {parsed.port} | User: {parsed.username}")
-            # Fast pre-flight check with 2s timeout
             import psycopg2
-            conn = psycopg2.connect(db_uri, connect_timeout=2)
-            conn.close()
-            logger.info("Primary database connection verified successfully!")
+            import threading
+
+            is_connected = [False]
+            conn_error = [None]
+
+            def _test_conn():
+                try:
+                    conn = psycopg2.connect(db_uri, connect_timeout=2)
+                    conn.close()
+                    is_connected[0] = True
+                except Exception as e:
+                    conn_error[0] = str(e)
+
+            thread = threading.Thread(target=_test_conn, daemon=True)
+            thread.start()
+            thread.join(timeout=2.0)
+
+            if is_connected[0]:
+                logger.info("Primary database connection verified successfully!")
+            else:
+                reason = conn_error[0] if conn_error[0] else "Connection timed out after 2s"
+                logger.warning(f"Primary database connection unavailable ({reason}). Switching to self-healing SQLite database.")
+                sqlite_path = '/tmp/crop_pilot.db' if os.environ.get('VERCEL') == '1' else 'crop_pilot.db'
+                app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{sqlite_path}'
+                app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {}
         except Exception as e:
-            logger.warning(f"Primary database connection failed ({e}). Switching to self-healing SQLite database.")
+            logger.warning(f"Database pre-flight check error ({e}). Switching to self-healing SQLite database.")
             sqlite_path = '/tmp/crop_pilot.db' if os.environ.get('VERCEL') == '1' else 'crop_pilot.db'
             app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{sqlite_path}'
             app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {}

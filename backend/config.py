@@ -37,11 +37,14 @@ class Config:
 
     SQLALCHEMY_DATABASE_URI = database_url
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY', 'jwt-super-secret')
-    SQLALCHEMY_ENGINE_OPTIONS = {
-        'pool_size': 5,
-        'max_overflow': 10,
-        'pool_timeout': 4,
-        'pool_recycle': 120,
-        'connect_args': {'connect_timeout': 3}
-    }
+    JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY', 'jwt-super-secret-production-key-32chars!!')
+    if database_url.startswith('sqlite'):
+        SQLALCHEMY_ENGINE_OPTIONS = {}
+    else:
+        SQLALCHEMY_ENGINE_OPTIONS = {
+            'pool_size': 5,
+            'max_overflow': 10,
+            'pool_timeout': 4,
+            'pool_recycle': 120,
+            'connect_args': {'connect_timeout': 3}
+        }

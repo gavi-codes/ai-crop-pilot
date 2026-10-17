@@ -185,6 +185,30 @@ const Login = () => {
             </div>
           )}
 
+          {/* Quick Demo Access Bar */}
+          <div className="p-3.5 bg-emerald-50/80 border border-emerald-200/70 rounded-2xl flex items-center justify-between gap-3">
+            <div className="flex items-center gap-2.5">
+              <div className="h-8 w-8 rounded-xl bg-emerald-600/10 flex items-center justify-center text-emerald-700">
+                <Sparkles className="h-4 w-4" />
+              </div>
+              <div>
+                <p className="text-xs font-bold text-slate-800">Demo Account Available</p>
+                <p className="text-[11px] font-medium text-slate-500">9876543210 &bull; Password123!</p>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                setMobile('9876543210');
+                setPassword('Password123!');
+                setError('');
+              }}
+              className="px-3 py-1.5 text-xs font-bold text-emerald-700 bg-emerald-100 hover:bg-emerald-200 rounded-xl transition-colors cursor-pointer"
+            >
+              Fill Demo
+            </button>
+          </div>
+
           {/* Form */}
           <form onSubmit={handleLogin} className="space-y-5">
             
