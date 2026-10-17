@@ -32,7 +32,7 @@ FALLBACK_DIAGNOSES = [
             "name": "Mancozeb 75% WP (Indofil M-45)",
             "price_estimate": "₹ 380 per 500g",
             "quantity": "2.5 grams per liter of water",
-            "photo_url": "https://images.unsplash.com/photo-1585421514738-01798e348b17?w=500&q=80"
+            "photo_url": "https://images.unsplash.com/photo-1592982537447-7440770cbfc9?w=500&q=80"
         })
     }
 ]
@@ -52,14 +52,18 @@ class DiseaseService:
                 with open(file_path, 'wb') as f:
                     f.write(file.read() if hasattr(file, 'read') else b'')
             
-            # 2. Run ML prediction with graceful fallback
+            # 2. Run ML prediction with graceful fallback to computer vision
             prediction = None
             try:
                 from ml.disease_model.predict import predict_disease
                 prediction = predict_disease(file_path)
             except Exception as ml_err:
-                logger.warning(f"Notice: Gemini ML vision fallback activated: {ml_err}")
-                prediction = FALLBACK_DIAGNOSES[0]
+                logger.warning(f"Notice: ML vision fallback activated: {ml_err}")
+                from ml.disease_model.predict import cv_analyze_leaf
+                try:
+                    prediction = cv_analyze_leaf(file_path)
+                except Exception:
+                    prediction = FALLBACK_DIAGNOSES[0]
 
             # 3. Assemble report data
             report_dict = {
@@ -92,7 +96,10 @@ class DiseaseService:
                 report_dict = report.to_dict()
             except Exception as dbe:
                 logger.warning(f"Notice: Database write bypassed for disease report: {dbe}")
-                db.session.rollback()
+                try:
+                    db.session.rollback()
+                except Exception:
+                    pass
 
             try:
                 report_dict['medicine'] = json.loads(prediction.get('medicine', '{}'))

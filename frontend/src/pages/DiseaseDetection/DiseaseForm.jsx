@@ -321,22 +321,32 @@ const DiseaseForm = () => {
                   </div>
                 </div>
 
-                {/* 4. Medicine / Chemical Product */}
+                {/* 4. Medicine / Agrochemical Product */}
                 {result.medicine && (
                   <div className="pt-2">
                     <h3 className="text-xs font-extrabold text-slate-400 uppercase tracking-wider mb-3 flex items-center gap-2">
-                      <Pill className="h-4 w-4 text-rose-500" />
-                      <span>Recommended Chemical / Fungicide</span>
+                      <FlaskConical className="h-4 w-4 text-emerald-600" />
+                      <span>{result.disease_name?.toLowerCase().includes('healthy') ? 'Foliar Nutrient / Plant Care' : 'Recommended Agrochemical / Fungicide'}</span>
                     </h3>
                     
                     <div className="flex flex-col sm:flex-row gap-4 bg-slate-50 border border-slate-200 rounded-2xl overflow-hidden p-4">
-                      <div className="w-full sm:w-28 h-28 rounded-xl bg-white border border-slate-200 overflow-hidden shrink-0 flex items-center justify-center">
-                        <img 
-                          src={result.medicine.photo_url || 'https://images.unsplash.com/photo-1585421514738-01798e348b17?w=500&q=80'} 
-                          alt="Medicine" 
-                          className="w-full h-full object-cover"
-                          onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1585421514738-01798e348b17?w=500&q=80' }}
-                        />
+                      <div className="w-full sm:w-28 h-28 rounded-xl bg-white border border-slate-200 overflow-hidden shrink-0 flex items-center justify-center relative">
+                        {(() => {
+                          const rawUrl = result.medicine.photo_url;
+                          const safeUrl = (!rawUrl || rawUrl.includes('1585421514738')) 
+                            ? 'https://images.unsplash.com/photo-1628352081506-83c43123ed6d?w=500&q=80' 
+                            : rawUrl;
+                          return (
+                            <img 
+                              src={safeUrl} 
+                              alt="Crop Protection Formulation" 
+                              className="w-full h-full object-cover"
+                              onError={(e) => { 
+                                e.target.src = 'https://images.unsplash.com/photo-1628352081506-83c43123ed6d?w=500&q=80'; 
+                              }}
+                            />
+                          );
+                        })()}
                       </div>
                       <div className="flex-1 flex flex-col justify-center">
                         <h4 className="text-base font-black text-slate-900">{result.medicine.name}</h4>
