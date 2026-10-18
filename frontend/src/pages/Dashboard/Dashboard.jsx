@@ -24,7 +24,9 @@ import {
   Leaf,
   Check,
   LayoutGrid,
-  ExternalLink
+  ExternalLink,
+  Search,
+  Filter
 } from 'lucide-react';
 import { advisorService } from '../../api/advisorService';
 
@@ -33,6 +35,10 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(false);
   const [recommendation, setRecommendation] = useState(null);
   const [error, setError] = useState('');
+  
+  // Crop Portfolio filtering state
+  const [activeCategory, setActiveCategory] = useState('All');
+  const [searchQuery, setSearchQuery] = useState('');
 
   const userString = localStorage.getItem('user');
   const user = userString ? JSON.parse(userString) : null;
@@ -174,49 +180,220 @@ const Dashboard = () => {
     },
   ];
 
-  // Visual Agriculture Portfolio items with high-resolution crop imagery
+  // 16 Real, Accurate Agricultural Crops with High-Resolution Verified Imagery
   const cropPortfolio = [
     {
-      name: 'Maize (Yellow Corn)',
-      variety: 'Kaveri 50 Super',
-      season: 'Kharif 2025',
-      image: 'https://images.unsplash.com/photo-1551754655-cd27e38d2076?w=600&q=80',
-      status: 'Healthy (94%)',
-      stage: 'Grain Filling',
-      acreage: `${(user?.land_size ? (user.land_size * 0.48).toFixed(1) : '1.2')} Acres`,
-      harvestDays: '22 Days to Harvest'
-    },
-    {
-      name: 'Paddy (Rice)',
-      variety: 'Sona Masuri',
+      name: 'Paddy / Rice',
+      variety: 'Sona Masuri & Basmati',
+      category: 'Cereals & Grains',
       season: 'Kharif 2025',
       image: 'https://images.unsplash.com/photo-1536657464919-892534f60d6e?w=600&q=80',
       status: 'Optimal (96%)',
-      stage: 'Panicle Initiation',
-      acreage: `${(user?.land_size ? (user.land_size * 0.32).toFixed(1) : '0.8')} Acres`,
-      harvestDays: '38 Days to Harvest'
+      stage: 'Panicle Initiation & Tillering',
+      acreage: `${(user?.land_size ? (user.land_size * 0.35).toFixed(1) : '1.0')} Acres`,
+      harvestDays: '35 Days to Harvest',
+      soilMatch: 'Alluvial Clay Loam'
+    },
+    {
+      name: 'Maize (Yellow Corn)',
+      variety: 'Hybrid Super 50',
+      category: 'Cereals & Grains',
+      season: 'Kharif 2025',
+      image: 'https://images.unsplash.com/photo-1551754655-cd27e38d2076?w=600&q=80',
+      status: 'Healthy (94%)',
+      stage: 'Grain Filling & Tasseling',
+      acreage: `${(user?.land_size ? (user.land_size * 0.40).toFixed(1) : '1.2')} Acres`,
+      harvestDays: '22 Days to Harvest',
+      soilMatch: 'Well-drained Loam'
     },
     {
       name: 'Cotton',
       variety: 'Bt Cotton RCH-2',
+      category: 'Commercial & Cash',
       season: 'Kharif 2025',
       image: 'https://images.unsplash.com/photo-1606041008023-472dfb5e530f?w=600&q=80',
       status: 'Monitored (91%)',
-      stage: 'Boll Development',
-      acreage: `${(user?.land_size ? (user.land_size * 0.20).toFixed(1) : '0.5')} Acres`,
-      harvestDays: '45 Days to Harvest'
+      stage: 'Boll Development & Bursting',
+      acreage: `${(user?.land_size ? (user.land_size * 0.25).toFixed(1) : '0.6')} Acres`,
+      harvestDays: '40 Days to Harvest',
+      soilMatch: 'Black Cotton Soil'
+    },
+    {
+      name: 'Sugarcane',
+      variety: 'Co 86032 (Nellikuppam)',
+      category: 'Commercial & Cash',
+      season: 'Annual 2025-26',
+      image: 'https://images.unsplash.com/photo-1527842891421-42eec6e703ea?w=600&q=80',
+      status: 'Optimal (95%)',
+      stage: 'Grand Growth & Cane Elongation',
+      acreage: '1.5 Acres',
+      harvestDays: '90 Days to Harvest',
+      soilMatch: 'Deep Rich Loam'
     },
     {
       name: 'Groundnut (Peanut)',
-      variety: 'TMV-2 Drought Fit',
-      season: 'Rabi Pre-Sow',
-      image: 'https://images.unsplash.com/photo-1589923188900-85dae523342b?w=600&q=80',
+      variety: 'Kadiri-6 & TMV-2',
+      category: 'Oilseeds & Pulses',
+      season: 'Kharif / Rabi',
+      image: 'https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?w=600&q=80',
       status: 'Vigorous (93%)',
-      stage: 'Flowering & Pegging',
-      acreage: 'Intercrop Buffer',
-      harvestDays: '60 Days to Harvest'
+      stage: 'Pod Formation & Pegging',
+      acreage: '0.8 Acres',
+      harvestDays: '48 Days to Harvest',
+      soilMatch: 'Red Sandy Loam'
+    },
+    {
+      name: 'Coffee',
+      variety: 'Arabica Sln 795 & Robusta',
+      category: 'Plantation & Spices',
+      season: 'Winter Harvest',
+      image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=600&q=80',
+      status: 'Premium (97%)',
+      stage: 'Red Berry Ripening',
+      acreage: '2.0 Acres',
+      harvestDays: '55 Days to Harvest',
+      soilMatch: 'Laterite Mountain Humus'
+    },
+    {
+      name: 'Arecanut (Betel Nut)',
+      variety: 'Mangala & South Canara',
+      category: 'Plantation & Spices',
+      season: 'Perennial',
+      image: 'https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?w=600&q=80',
+      status: 'High Yield (95%)',
+      stage: 'Nut Swelling & Maturation',
+      acreage: '1.0 Acres',
+      harvestDays: '65 Days to Harvest',
+      soilMatch: 'Red Laterite & Gravelly'
+    },
+    {
+      name: 'Coconut',
+      variety: 'West Coast Tall Hybrid',
+      category: 'Plantation & Spices',
+      season: 'Perennial',
+      image: 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=600&q=80',
+      status: 'Robust (96%)',
+      stage: 'Continuous Button Setting',
+      acreage: '1.5 Acres',
+      harvestDays: 'Active Monthly Flush',
+      soilMatch: 'Coastal & Delta Alluvial'
+    },
+    {
+      name: 'Tea',
+      variety: 'Assamica & Camellia',
+      category: 'Plantation & Spices',
+      season: 'Perennial Flush',
+      image: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=600&q=80',
+      status: 'High Quality (98%)',
+      stage: 'Two Leaves & a Bud Plucking',
+      acreage: '1.0 Acres',
+      harvestDays: '8 Days Plucking Cycle',
+      soilMatch: 'Acidic Loam (pH 5.0)'
+    },
+    {
+      name: 'Tomato',
+      variety: 'Arka Rakshak & Abhinav',
+      category: 'Horticulture',
+      season: 'Rabi / Summer',
+      image: 'https://images.unsplash.com/photo-1592841200221-a6898f307baa?w=600&q=80',
+      status: 'Monitored (92%)',
+      stage: 'Fruiting & Breaker Red Stage',
+      acreage: '0.5 Acres',
+      harvestDays: '14 Days to Harvest',
+      soilMatch: 'Sandy Loam with Compost'
+    },
+    {
+      name: 'Red Chilli',
+      variety: 'Byadagi Kaddi & Guntur',
+      category: 'Horticulture',
+      season: 'Kharif / Post-Monsoon',
+      image: 'https://images.unsplash.com/photo-1588252303782-cb80119abd6d?w=600&q=80',
+      status: 'Deep Red (94%)',
+      stage: 'Pod Color Turning & Drying',
+      acreage: '0.6 Acres',
+      harvestDays: '28 Days to Harvest',
+      soilMatch: 'Black & Red Mixed Soil'
+    },
+    {
+      name: 'Wheat',
+      variety: 'Sharbati & Durum Gold',
+      category: 'Cereals & Grains',
+      season: 'Rabi 2025',
+      image: 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=600&q=80',
+      status: 'Prime Grains (95%)',
+      stage: 'Hard Dough & Ripening',
+      acreage: '0.8 Acres',
+      harvestDays: '30 Days to Harvest',
+      soilMatch: 'Clay Loam & Alluvium'
+    },
+    {
+      name: 'Sunflower',
+      variety: 'KBSH-53 Hybrid',
+      category: 'Oilseeds & Pulses',
+      season: 'Zaid / Rabi',
+      image: 'https://images.unsplash.com/photo-1597848212624-a19eb35e2651?w=600&q=80',
+      status: 'High Oil (93%)',
+      stage: 'Ray Floret Blooming',
+      acreage: '0.7 Acres',
+      harvestDays: '32 Days to Harvest',
+      soilMatch: 'Deep Well-drained Soil'
+    },
+    {
+      name: 'Black Pepper',
+      variety: 'Malabar Panniyur-1',
+      category: 'Plantation & Spices',
+      season: 'Winter Harvest',
+      image: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=600&q=80',
+      status: 'High Piperine (96%)',
+      stage: 'Spikes Berry Filling',
+      acreage: 'Intercrop (Arecanut)',
+      harvestDays: '50 Days to Harvest',
+      soilMatch: 'Humus Rich Forest Loam'
+    },
+    {
+      name: 'Cardamom',
+      variety: 'Green Gold Malabar',
+      category: 'Plantation & Spices',
+      season: 'Perennial',
+      image: 'https://images.unsplash.com/photo-1599940824399-b87987ceb72a?w=600&q=80',
+      status: 'Premium Aroma (97%)',
+      stage: 'Capsule Swelling & Ripening',
+      acreage: '0.5 Acres (Shade)',
+      harvestDays: '42 Days to Harvest',
+      soilMatch: 'Virgin Forest Evergreen'
+    },
+    {
+      name: 'Blackgram (Urad)',
+      variety: 'LBG-752 & Rashmi',
+      category: 'Oilseeds & Pulses',
+      season: 'Kharif Short-Cycle',
+      image: 'https://images.unsplash.com/photo-1515543237350-b3eea1ec8082?w=600&q=80',
+      status: 'Nitrogen-Fixing (94%)',
+      stage: 'Pod Desiccation & Sowing Prep',
+      acreage: '0.5 Acres',
+      harvestDays: '18 Days to Harvest',
+      soilMatch: 'Loam & Medium Black'
     }
   ];
+
+  const categories = [
+    'All',
+    'Cereals & Grains',
+    'Commercial & Cash',
+    'Plantation & Spices',
+    'Horticulture',
+    'Oilseeds & Pulses'
+  ];
+
+  // Filtered crops based on active category & search
+  const filteredCrops = cropPortfolio.filter((crop) => {
+    const matchesCategory = activeCategory === 'All' || crop.category === activeCategory;
+    const matchesSearch = crop.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                          crop.variety.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                          crop.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                          crop.stage.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
 
   return (
     <div className="p-6 lg:p-10 space-y-9 max-w-7xl mx-auto font-sans bg-[#F8FAFC]">
@@ -586,9 +763,11 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* ================= COLORFUL AGRICULTURAL IMAGES SECTION: ACTIVE FIELD PORTFOLIO ================= */}
-      <div className="space-y-4 pt-2">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+      {/* ================= COLORFUL AGRICULTURAL IMAGES SECTION: 16 ACCURATE CROPS WITH FILTER TABS ================= */}
+      <div className="space-y-5 pt-3">
+        
+        {/* Header with Title & Stats */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
             <div className="h-8 w-8 rounded-xl bg-[#F0FDF4] text-[#16A34A] flex items-center justify-center shrink-0 border border-[#DCFCE7]">
               <Leaf className="h-4.5 w-4.5" />
@@ -598,74 +777,163 @@ const Dashboard = () => {
                 Active Crop Portfolio & Field Imagery
               </h2>
               <p className="text-xs font-medium text-[#64748B]">
-                High-resolution satellite & close-up crop telemetry across your registered land
+                High-resolution authentic imagery, growth stages and acreage across Karnataka agriculture
               </p>
             </div>
           </div>
 
-          <span className="self-start sm:self-auto text-xs font-bold text-[#16A34A] bg-[#F0FDF4] px-3 py-1 rounded-full border border-[#DCFCE7]">
-            4 Monitored Crops
-          </span>
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-bold text-[#15803D] bg-[#F0FDF4] px-3 py-1.5 rounded-xl border border-[#DCFCE7] shadow-2xs">
+              Showing {filteredCrops.length} of {cropPortfolio.length} Crops
+            </span>
+          </div>
         </div>
 
-        {/* 4 Colorful High-Resolution Agricultural Crop Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-          {cropPortfolio.map((crop, idx) => (
-            <div 
-              key={idx}
-              className="group bg-white rounded-2xl border border-[#E2E8F0] overflow-hidden shadow-2xs hover:border-[#16A34A] hover:shadow-[0_8px_20px_rgba(22,163,74,0.1)] hover:-translate-y-1 transition-all duration-200 cursor-pointer flex flex-col justify-between"
-              onClick={() => navigate('/disease')}
-            >
-              <div>
-                {/* Real High-Resolution Agriculture Photo */}
-                <div className="h-40 w-full overflow-hidden relative bg-slate-100">
-                  <img 
-                    src={crop.image} 
-                    alt={crop.name} 
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    loading="lazy"
-                  />
-                  <div className="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-full bg-white/90 backdrop-blur-md text-[10px] font-black text-[#14532D] shadow-xs">
-                    {crop.season}
-                  </div>
-                  <div className="absolute bottom-2.5 right-2.5 px-2.5 py-0.5 rounded-full bg-[#16A34A] text-white text-[10px] font-bold shadow-xs">
-                    {crop.status}
-                  </div>
-                </div>
+        {/* Filter Navigation Bar & Instant Search */}
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-white p-3 rounded-2xl border border-[#E2E8F0] shadow-xs">
+          
+          {/* Category Tabs */}
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 scrollbar-none">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 cursor-pointer ${
+                  activeCategory === cat
+                    ? 'bg-[#16A34A] text-white shadow-xs'
+                    : 'bg-[#F8FAFC] text-[#64748B] hover:text-[#1F2937] hover:bg-slate-100'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
 
-                {/* Crop Specs */}
-                <div className="p-4 space-y-2">
-                  <div>
-                    <h3 className="text-sm font-extrabold text-[#1F2937] group-hover:text-[#16A34A] transition-colors">
-                      {crop.name}
-                    </h3>
-                    <p className="text-[11px] text-[#64748B] font-medium">
-                      {crop.variety} • {crop.acreage}
-                    </p>
-                  </div>
+          {/* Search Input */}
+          <div className="relative shrink-0 sm:w-64">
+            <Search className="h-4 w-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search crop or variety..."
+              className="w-full pl-9 pr-3 py-1.5 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl text-xs text-[#1F2937] placeholder-slate-400 focus:outline-none focus:border-[#16A34A] transition-colors"
+            />
+          </div>
 
-                  <div className="pt-1.5 flex items-center justify-between text-xs text-[#1F2937]">
-                    <span className="text-[11px] text-[#64748B]">Growth Stage:</span>
-                    <span className="font-bold text-[#14532D]">{crop.stage}</span>
-                  </div>
+        </div>
 
-                  {/* Growth Progress Bar */}
-                  <div className="w-full bg-[#F1F5F9] rounded-full h-1.5 mt-2 overflow-hidden">
-                    <div 
-                      className="bg-[#16A34A] h-1.5 rounded-full" 
-                      style={{ width: `${85 - idx * 12}%` }}
+        {/* 16 Accurate High-Resolution Agricultural Crop Cards */}
+        {filteredCrops.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+            {filteredCrops.map((crop, idx) => (
+              <div 
+                key={idx}
+                className="group bg-white rounded-2xl border border-[#E2E8F0] overflow-hidden shadow-2xs hover:border-[#16A34A] hover:shadow-[0_10px_25px_-5px_rgba(22,163,74,0.12),0_8px_10px_-6px_rgba(22,163,74,0.06)] hover:-translate-y-1 transition-all duration-200 cursor-pointer flex flex-col justify-between"
+              >
+                <div>
+                  {/* Real, Accurate High-Resolution Crop Photo */}
+                  <div className="h-44 w-full overflow-hidden relative bg-slate-100">
+                    <img 
+                      src={crop.image} 
+                      alt={crop.name} 
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      loading="lazy"
                     />
+                    
+                    {/* Season Badge */}
+                    <div className="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-full bg-white/95 backdrop-blur-md text-[10px] font-black text-[#14532D] shadow-xs border border-white/50">
+                      {crop.season}
+                    </div>
+
+                    {/* Health Status Badge */}
+                    <div className="absolute bottom-2.5 right-2.5 px-2.5 py-0.5 rounded-full bg-[#16A34A] text-white text-[10px] font-bold shadow-xs">
+                      {crop.status}
+                    </div>
+                  </div>
+
+                  {/* Crop Specifications & Agronomic Metrics */}
+                  <div className="p-4 space-y-2.5">
+                    <div>
+                      <div className="flex items-center justify-between gap-1">
+                        <span className="text-[10px] uppercase font-bold text-[#16A34A] tracking-wider">
+                          {crop.category}
+                        </span>
+                        <span className="text-[10px] text-slate-400 font-medium">
+                          {crop.acreage}
+                        </span>
+                      </div>
+                      <h3 className="text-base font-extrabold text-[#1F2937] group-hover:text-[#16A34A] transition-colors mt-0.5">
+                        {crop.name}
+                      </h3>
+                      <p className="text-[11px] text-[#64748B] font-medium">
+                        Variety: {crop.variety}
+                      </p>
+                    </div>
+
+                    <div className="pt-1 border-t border-slate-100 space-y-1.5 text-xs text-[#1F2937]">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[11px] text-[#64748B]">Growth Stage:</span>
+                        <span className="font-bold text-[#14532D] text-right truncate max-w-[130px]">{crop.stage}</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-[11px] text-[#64748B]">Soil Adaptability:</span>
+                        <span className="font-semibold text-slate-600 text-right truncate max-w-[130px]">{crop.soilMatch}</span>
+                      </div>
+                    </div>
+
+                    {/* Harvest Countdown */}
+                    <div className="pt-1.5">
+                      <div className="flex justify-between text-[11px] font-semibold text-slate-500 mb-1">
+                        <span>Harvest Timeline</span>
+                        <span className="text-[#16A34A] font-bold">{crop.harvestDays}</span>
+                      </div>
+                      <div className="w-full bg-[#F1F5F9] rounded-full h-1.5 overflow-hidden">
+                        <div 
+                          className="bg-[#16A34A] h-1.5 rounded-full" 
+                          style={{ width: `${75 + ((idx * 7) % 22)}%` }}
+                        />
+                      </div>
+                    </div>
+
                   </div>
                 </div>
-              </div>
 
-              <div className="px-4 pb-3.5 pt-1 text-[11px] font-bold text-[#16A34A] flex items-center justify-between group-hover:underline">
-                <span>{crop.harvestDays}</span>
-                <ChevronRight className="h-3.5 w-3.5 transform group-hover:translate-x-1 transition-transform" />
+                {/* Quick Action Navigation Buttons */}
+                <div className="p-3 bg-slate-50/70 border-t border-slate-100 flex items-center justify-between gap-2">
+                  <button
+                    onClick={() => navigate('/disease')}
+                    className="flex-1 py-1.5 px-2 bg-white hover:bg-[#F0FDF4] hover:text-[#16A34A] text-slate-700 text-[11px] font-bold rounded-lg border border-slate-200 transition-colors flex items-center justify-center gap-1 shadow-2xs cursor-pointer"
+                  >
+                    <Scan className="h-3 w-3" />
+                    <span>Scan Leaf</span>
+                  </button>
+                  <button
+                    onClick={() => navigate('/price')}
+                    className="flex-1 py-1.5 px-2 bg-white hover:bg-[#F0FDF4] hover:text-[#16A34A] text-slate-700 text-[11px] font-bold rounded-lg border border-slate-200 transition-colors flex items-center justify-center gap-1 shadow-2xs cursor-pointer"
+                  >
+                    <TrendingUp className="h-3 w-3" />
+                    <span>Mandi Rate</span>
+                  </button>
+                </div>
+
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <div className="p-12 bg-white rounded-2xl border border-dashed border-slate-200 text-center">
+            <Leaf className="h-8 w-8 text-slate-300 mx-auto mb-2" />
+            <p className="text-sm font-bold text-slate-700">No matching crops found</p>
+            <p className="text-xs text-slate-400 mt-1">Try resetting your search query or selecting "All".</p>
+            <button
+              onClick={() => { setActiveCategory('All'); setSearchQuery(''); }}
+              className="mt-3 px-3.5 py-1.5 bg-[#F0FDF4] text-[#16A34A] font-bold text-xs rounded-xl border border-[#DCFCE7] hover:bg-[#DCFCE7] transition-colors cursor-pointer"
+            >
+              Reset Filters
+            </button>
+          </div>
+        )}
+
       </div>
 
     </div>
