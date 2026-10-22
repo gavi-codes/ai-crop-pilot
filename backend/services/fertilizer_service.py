@@ -109,7 +109,10 @@ class FertilizerService:
                 rec_dict['notes'] = note
             except Exception as dbe:
                 logger.warning(f"Notice: Database write bypassed for fertilizer: {dbe}")
-                db.session.rollback()
+                try:
+                    db.session.rollback()
+                except Exception:
+                    pass
 
             return {
                 'success': True,

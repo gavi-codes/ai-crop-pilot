@@ -86,7 +86,10 @@ class SoilService:
                 report_dict = report.to_dict()
             except Exception as dbe:
                 logger.warning(f"Notice: Database write bypassed for soil report: {dbe}")
-                db.session.rollback()
+                try:
+                    db.session.rollback()
+                except Exception:
+                    pass
 
             return {
                 'success': True,
